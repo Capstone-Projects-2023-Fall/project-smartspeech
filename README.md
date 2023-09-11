@@ -12,29 +12,44 @@
 
 ## Keywords
 
-Section #, as well as any words that quickly give your peers insights into the application like programming language, development platform, type of application, etc.
+AI / ML, Web Development, AAC,  Accessible technology, Cloud Computing
 
 ## Project Abstract
+AAC (augmentative and alternative communication) apps are alternative communication interfaces that allow non-verbal individuals to express themselves via TTS (text-to-speech).  Many of these tools are hard to use and it takes significant training to do so including having a Speech-Language Pathologist (SLP) on-site. Some tools are so hard to use that SLPs have to model the actions to the AAC tool User[^1]. This proposal presents a revamp of the standard AAC tool which has users navigate through nested menus to find a word. This revamp presents an ML image recognition where users can draw on a web canvas to help them find the word they are looking for in their AAC menu. An optional extension to the app would include the device cameras to suggest words that relate to the objects around them.    
 
-This document proposes a novel application of a text message (SMS or Email) read-out and hands-free call interacted between an Android Smartphone and an infotainment platform (headunit) in a car environment. When a phone receives an SMS or Email, the text message is transferred from the phone to the headunit through a Bluetooth connection. On the headunit, user can control which and when the received SMS or E-mail to be read out through the in-vehicle audio system. The user may press one button on the headunit to activate the hands-free feature to call back the SMS sender.
+## High-Level Requirement
 
-## High Level Requirement
+Foundationally, this app should be able to intake a user drawing and use that drawing to query the words stored in the app's word dictionary. After the user draws their image and submits it, a few words that relate to or represent the drawing should appear as AAC speech suggestions. This web app will need to be a PWA to offer an integrated experience for anyone using it due to the target audience. Optionally, the app can feature a camera capture machine learning (ML) model that can suggest words that are contextually relevant to their surroundings. If drawing or camera suggestions, are not fitting the context, users should be able to simply search the directory for words to express themselves manually.
 
-Describe the requirements – i.e., what the product does and how it does it from a user point of view – at a high level.
+Since the audience we are targeting may have learning disabilities the image translation and word suggestions must be instantaneous so we can help them learn the cause-and-effect relation between drawing and word suggestions.
 
 ## Conceptual Design
 
-Describe the initial design concept: Hardware/software architecture, programming language, operating system, etc.
+The frontend will be built on Next.js so there will be no delay on page rendering, unlike standard React.js pages. Next.js will also allow the creation of edge functions to safely contact our backend service without exposing them to the outside world. Given the need for machine learning a Python backend will probably be required. This backend will be hosted likely on AWS or some other cloud provider with other backends on standby in case the server load exceeds computation power or a node goes down. The backends will likely run a pre-trained model so only a low number of computations are required, this way the backend nodes can be lightweight and cost-effective. 
+
 
 ## Background
 
-The background will contain a more detailed description of the product and a comparison to existing similar projects/products. A literature search should be conducted and the results listed. Proper citation of sources is required. If there are similar open-source products, you should state whether existing source will be used and to what extent. If there are similar closed-source/proprietary products, you should state how the proposed product will be similar and different.
+This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and AssistiveWare[^3] are focused on adding more symbols and expressions but do not integrate intelligence into their AAC app like *SpeechSmart*. Something else we would like to improve is the cost of these apps. Most other competitor apps are very expensive with many being nearly three hundred dollars[^4]. 
 
 ## Required Resources
 
-Discuss what you need to develop this project. This includes background information you will need to acquire, hardware resources, and software resources. If these are not part of the standard Computer Science Department lab resources, these must be identified early and discussed with the instructor.
++ Machine Powerful enough for Image Related ML Tasks
++ NEXT.js (React.js)
++ Some backend framework that can interface with ML Models
++ Terraform (Infrastructure as Code Tool)
++ AWS Suite -- Services that will be used but are not limited to:
+	+ AWS S3 (Object Storage)
+	+ AWS Polly (TTS Service)
+	+ AWS EC2 (Virtual Machines)
+	+ AWS Networking Resources (VPC)
+	+ Possible use of AWS Lambda (Serverless Functions) and AWS DynamoDB (NoSQL DB)
+	+ Possible use of AWS Fargate or AWS EKS in place of EC2 VMs
 
-## Collaborators
+ 
+### Software Requirements
+
+### Collaborators
 
 [//]: # ( readme: collaborators -start )
 <table>
@@ -56,3 +71,8 @@ Discuss what you need to develop this project. This includes background informat
 </table>
 
 [//]: # ( readme: collaborators -end )
+
+[^1]: What is AAC Modeling? www.assistiveware.com/learn-aac/start-modeling
+[^2]: Competitor - Fluent AAC: https://www.fluentaac.com/
+[^3]: Competitor - AssistiveWare AAC: https://www.assistiveware.com/products
+[^4]: AAC Pricing - https://www.speechandlanguagekids.com/aac-apps-review/
