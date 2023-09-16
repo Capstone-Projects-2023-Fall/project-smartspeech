@@ -16,7 +16,7 @@ The frontend will be built on Next.js so there will be no delay in page renderin
 
 ## Background
 
-This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and AssistiveWare[^3] are focused on adding more symbols and expressions but do not integrate intelligence into their AAC app like *SpeechSmart*. Most other competitor apps are very expensive with many being nearly three hundred dollars[^4]. In short, *SmartSpeech* aims to differentiate itself from alternative AAC Apps by taking an open-source approach of utilizing drawing and image recognition to help users utilize their AAC devices.  
+This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and AssistiveWare[^3] are focused on adding more symbols and expressions but do not integrate intelligence into their AAC app like *SmartSpeech*. Most other competitor apps are very expensive with many being nearly three hundred dollars[^4]. In short, *SmartSpeech* aims to differentiate itself from alternative AAC Apps by taking an open-source approach of utilizing drawing and image recognition to help users utilize their AAC devices.  
 
 [^1]: https://ussaac.org/speakup/articles/key-aac-issues/
 [^2]: Competitor - Fluent AAC: https://www.fluentaac.com/
