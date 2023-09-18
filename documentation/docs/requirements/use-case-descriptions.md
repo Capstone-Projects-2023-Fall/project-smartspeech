@@ -7,8 +7,8 @@ sidebar_position: 5
 ## Use Case 1
 ### User wants to draw a picture to help them communicate, but it is not recognized.
 1. The user opens the app on their device
-2. The user draws a picture of what they want to say on the drawing pad
-3. The user is prompted with a list of suggestions describing their drawing
+2. The user draws the picture of what they want to say on the drawing pad
+3. The user is prompted with list of suggestions describing their drawing
 4. If the generated suggestions are incorrect, the user clicks the button to redraw the picture
 5. The user redraws the picture
 6. The user is prompted with a list of suggestions describing their drawing
@@ -53,7 +53,7 @@ sidebar_position: 5
 ## Use Case 6
 ### User loses wifi during use of the app
 1. The user opens the app
-2. The user begins to draw what they want to say but loses connection to the internet
+2. The user begins to draw what they want to say but lose connection to the internet
 3. Once the drawing board disconnects, the user then navigates the tile board to the tile they want
 4. The user selects the tile they want
 5. Word is spoken using the speaker on the device
