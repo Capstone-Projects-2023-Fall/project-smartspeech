@@ -1,0 +1,17 @@
+{
+    "name": "SmartSpeech",
+    "short_name": "SmartSpeech",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/ico",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "landscape"
+}

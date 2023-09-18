@@ -41,3 +41,9 @@ next-env.d.ts
 .env.development.local
 .env.test.local
 .env.production.local
+
+# service worker outputs
+frontend/public/sw.js
+frontend/public/sw.js.map
+frontend/public/workbox-*.js
+frontend/public/workbox-*.js.map
