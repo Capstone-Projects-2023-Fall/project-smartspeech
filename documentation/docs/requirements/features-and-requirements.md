@@ -22,3 +22,6 @@ sidebar_position: 4
 	- Recognizing that certain users may have limitations, the process can be facilitated with the assistance of a caregiver. 
 	- The user will illustrate the object and assign a label, enabling the system to identity it in future interactions.
 	- This feature is exclusive to users with created accounts, ensuring consistent reference across different devices. 
+
+- If a user permits camera usage, the system can recognize objects through the devices camera.
+	- The user has the option to disable this setting.
