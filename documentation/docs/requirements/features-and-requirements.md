@@ -43,3 +43,5 @@ sidebar_position: 4
   - Account Creation/Account Logins/Custom Tile Creation/Tile Navigation will all be popups that appear overtop of the main screen, ensuring the app is not confusing to navigate.
 
 - The image recognition feature will be performant with respect to the users internet connection- a user can expect a result in 4-5 seconds.
+
+- When a user presses a tile for audio output, the audio will play slowly and clearly. It is important for this audio to be understandable for users with varying levels of language mastery.
