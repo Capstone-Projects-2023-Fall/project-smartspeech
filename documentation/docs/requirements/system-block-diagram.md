@@ -6,6 +6,8 @@ sidebar_position: 2
 
 ![system_block_diagram](/img/SmartSpeech_High-Level_System_Diagram.png)
 
+Figure 1: In this image, calls going into the the AWS Network (to backend servers) have blue arrows. Any traffic with an egress or returning destination is labeled a shade of orange. User inputs have black arrows. This image shows a drawing recognition request to backend. The backend will suggest a list of symbols to use.
+
 <!--
 > In this image, calls going into the the AWS Network (to backend servers) have orange arrows. Any traffic with an egress destination is labeled a shade of blue. User inputs have black arrows.
 
