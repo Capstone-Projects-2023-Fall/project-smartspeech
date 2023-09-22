@@ -11,7 +11,7 @@ coverage
 out
 
 # production
-build
+build/*
 
 # misc
 .DS_Store
@@ -47,3 +47,6 @@ frontend/public/sw.js
 frontend/public/sw.js.map
 frontend/public/workbox-*.js
 frontend/public/workbox-*.js.map
+
+# docs - obsidian
+.obsidian
