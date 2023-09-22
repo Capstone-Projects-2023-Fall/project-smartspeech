@@ -1,24 +1,36 @@
-# Dependencies
+# dependencies
 node_modules
+.pnp
+.pnp.js
 
-# Production
-/build
+# testing
+coverage
 
-# Generated files
-../.docusaurus
-.cache-loader
+# next.js
+.next
+out
 
-# Misc
+# production
+build/*
+
+# misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.pem
 
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # Generated files
 .docusaurus
@@ -29,5 +41,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# service worker outputs
+frontend/public/sw.js
+frontend/public/sw.js.map
+frontend/public/workbox-*.js
+frontend/public/workbox-*.js.map
+
+# docs - obsidian
 .obsidian
-.next
