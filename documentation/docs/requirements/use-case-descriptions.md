@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Use-case descriptions
 
-## Use Case 1: Image is Recognized
+## Use Case 1: *Image Recognition* - Image is Recognized
 **User wants to draw a picture to help them communicate, and it is recognized in the top options.**
 1. User opens the app on their device
 2. User draws a picture of what they want to say on the drawing pad
@@ -12,7 +12,7 @@ sidebar_position: 5
 5. Drawing is correctly recognized, so User taps the corresponding tile on the screen
 6. Word is spoken using the speaker on the device
 
-## Use Case 2: Image is not Recognized
+## Use Case 2: *Image Recognition* - Image is not Recognized
 **User wants to draw a picture to help them communicate, but it is not recognized.**
 1. User opens the app on their device
 2. User draws a picture of what they want to say on the drawing pad
@@ -23,7 +23,7 @@ sidebar_position: 5
 7. Drawing is correctly recognized, so User taps the corresponding tile on the screen
 8. Word is spoken using the speaker on the device
 
-## Use Case 3: Edit Drawing
+## Use Case 3: *Image Drawing* - Edit Drawing
 **User wants to draw a picture to help them communicate, but then changes their drawing after they come up with a different way to draw it.**
 1. User opens the app on their device
 2. User begins to draw a picture of what they want to say on the drawing pad
@@ -33,7 +33,7 @@ sidebar_position: 5
 6. Drawing is correctly recognized, so User taps the corresponding tile on the screen
 7. Word is spoken using the speaker on the device
 
-## Use Case 4: Add Custom Tiles
+## Use Case 4: *AAC Board* - Add Custom Tiles
 **User wants to add custom tile to their tile board.**
 1. User opens the app on their device
 2. User logs in to their account
@@ -43,14 +43,14 @@ sidebar_position: 5
 6. User enters a voice recording to go with the tile
 7. User presses the save button to save their new custom tile
  
-## Use Case 5: Use Tile Board
+## Use Case 5: *AAC Board* - Use Tile Board
 **User knows where to locate their word on the tile board, so they switch to that page.**
 1. User presses the tile board button on the main screen
 2. User taps the category their word belongs to 
 3. User taps the tile corresponding to their word on the screen
 4. Word is spoken using the speaker on the device
 
-## Use Case 6: Draw Rather Than Using Tiles
+## Use Case 6: *Image Recognition & Drawing* - Draw Rather Than Using Tiles
 **User does not know where to locate their word on the tile board, so they draw it instead.**
 1. User presses tile board button on the main screen
 2. User taps the category they think their word belongs to 
@@ -76,7 +76,7 @@ sidebar_position: 5
 5. User selects create account
 6. User's account is created, and they are logged into their new account where they can create their own tiles and save configurations
 
-## Use Case 9: View Custom Tiles
+## Use Case 9: *AAC Board* - View Custom Tiles
 **User wants to login to view tiles**
 1. User opens the app
 2. User selects the login button
@@ -84,7 +84,7 @@ sidebar_position: 5
 4. User selects login
 5. User is logged into their account where they can create their own tiles and save configurations
 
-## Use Case 10: Connection Lost
+## Use Case 10: *PWA* - Connection Lost
 **User loses Wi-Fi during use of the app**
 1. User opens the app
 2. User begins to draw what they want to say but lose connection to the internet
