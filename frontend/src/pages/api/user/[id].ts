@@ -9,5 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<respon
   if(id != undefined){
     const response = { user_id: id };
     res.status(200).json(response);
+  } else{
+    res.status(400);
   }
 }
