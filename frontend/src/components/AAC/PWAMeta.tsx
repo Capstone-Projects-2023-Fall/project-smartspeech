@@ -6,21 +6,24 @@ export default function PWAMeta() {
       {/* https://stackoverflow.com/a/6771584 */}
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="application-name" content="SmartSpeech" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="apple-mobile-web-app-title" content="SmartSpeech" />
       <meta
         name="description"
         content="The user-friendly AAC app that works by drawing"
       />
       {/* https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html */}
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="apple-mobile-web-app-title" content="SmartSpeech" />
       <meta name="format-detection" content="telephone=no" />
       <meta name="mobile-web-app-capable" content="yes" />
       {/* https://webmasters.stackexchange.com/a/131437 */}
-      {/* <meta name="msapplication-config" content="/icons/browserconfig.xml" />
-                    <meta name="msapplication-TileColor" content="#2B5797" />
-                    <meta name="msapplication-tap-highlight" content="no" />
-                    <meta name="theme-color" content="#000000" /> */}
+      <meta name="msapplication-config" content="/browserconfig.xml" />
+      {/* https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/dn255024(v=vs.85) */}
+      <meta name="msapplication-TileColor" content="#2B5797" />
+      {/* https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/dev-guides/bg182645(v=vs.85)?redirectedfrom=MSDN#link-highlighting */}
+      <meta name="msapplication-tap-highlight" content="no" />
+      {/* https://learn.microsoft.com/en-us/microsoft-edge/progressive-web-apps-chromium/how-to/icon-theme-color */}
+      <meta name="theme-color" content="#000000" />
 
       {/* https://developer.chrome.com/en/docs/lighthouse/pwa/apple-touch-icon/ */}
       {/* <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
