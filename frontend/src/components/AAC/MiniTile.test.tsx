@@ -8,9 +8,11 @@ describe("MiniTile", () => {
         const text = "ChatGPT";
 
         render(<MiniTile image={imagePath} text={text} />);
-        // check if all components are rendered
+
         expect(screen.getByTestId("mini-tile-container")).toBeInTheDocument();
         expect(screen.getByTestId("mini-tile-test")).toBeInTheDocument();
+        expect(screen.getByTestId("mini-tile-image")).toBeInTheDocument();
+
         expect(screen.getByTestId("mini-tile-test").textContent).toBe(text);
     });
 });
