@@ -21,6 +21,18 @@ const data: TileAssets = {
         sound: "good",
         tileColor: "green",
     },
+    bad: {
+        image: "/AAC_assets/img/standard/bad.png",
+        text: "Bad",
+        sound: "Bad",
+        tileColor: "red",
+    },
+    stop: {
+        image: "/AAC_assets/img/standard/stop.png",
+        text: "Stop",
+        sound: "Stop",
+        tileColor: "red",
+    },
 };
 
 export default data;
