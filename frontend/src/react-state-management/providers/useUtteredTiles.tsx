@@ -32,11 +32,10 @@ export interface UtteredTilesProvider {
 export default function UtteredTilesProvider({ children }: UtteredTilesProvider) {
     const [tiles, dispatchTileState] = useReducer(stackReducer<TileData>, []);
 
-    console.log(tiles);
-
     const clear = () => {
         dispatchTileState({ type: "clear" });
     };
+    
     const addTile = (item: TileData) => {
         dispatchTileState({
             type: "add",
