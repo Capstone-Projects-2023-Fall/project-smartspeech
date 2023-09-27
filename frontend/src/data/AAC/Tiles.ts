@@ -2,6 +2,8 @@ import { TileAssets } from "@/components/AAC/TileTypes";
 import colors, { COLOR_TILES_COLOR } from "./colors/colors";
 import shapes from "./shapes/shapes";
 import foods from "./foods/foods";
+import locations from "./locations/locations";
+import clothes from "./clothes/clothes";
 
 const data: TileAssets = {
     colors: {
@@ -61,7 +63,20 @@ const data: TileAssets = {
         tileColor: "green",
         subTiles: foods,
     },
-    
+    go: {
+        image: "/AAC_assets/img/locations/go.png",
+        text: "Go",
+        sound: "Go",
+        tileColor: "yellow",
+        subTiles: locations,
+    },
+    clothing: {
+        image: "/AAC_assets/img/clothes/clothes.png",
+        text: "Clothes",
+        sound: "Clothes",
+        tileColor: "purple",
+        subTiles: clothes,
+    },
 };
 
 export default data;
