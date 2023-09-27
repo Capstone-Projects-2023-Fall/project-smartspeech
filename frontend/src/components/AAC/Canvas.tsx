@@ -1,10 +1,8 @@
 'use-client'
 import { FC, useState } from 'react'
 import { useDraw } from '../../util/hooks/useDraw'
-import { ChromePicker } from 'react-color'
 
 interface pageProps {}
-
 
 const page: FC<pageProps> = ({}) => {
     const [color, setColor] = useState<string>('#000')
@@ -37,13 +35,15 @@ const page: FC<pageProps> = ({}) => {
                 Clear canvas
             </button>
             </div>
-            <canvas
-            ref={canvasRef}
-            onMouseDown={onMouseDown}
-            width={window.innerWidth}
-            height={window.innerHeight}
-            className='border border-black rounded-md'
-            />
+                if (typeof window !== 'undefined') {
+                    <canvas
+                    ref={canvasRef}
+                    onMouseDown={onMouseDown}
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    className='border border-black rounded-md'
+                    />
+                }
         </div>
         )
     }
