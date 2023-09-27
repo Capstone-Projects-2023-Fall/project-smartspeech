@@ -1,5 +1,7 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
 import colors, { COLOR_TILES_COLOR } from "./colors/colors";
+import shapes from "./shapes/shapes";
+import foods from "./foods/foods";
 
 const data: TileAssets = {
     colors: {
@@ -33,6 +35,33 @@ const data: TileAssets = {
         sound: "Stop",
         tileColor: "red",
     },
+    shapes: {
+        image: "/AAC_assets/img/shapes/shape.png",
+        text: "Shape",
+        sound: "Shape",
+        tileColor: "yellow",
+        subTiles: shapes,
+    },
+    self: {
+        image: "/AAC_assets/img/standard/self.png",
+        text: "I",
+        sound: "I",
+        tileColor: "blue",
+    },
+    you: {
+        image: "/AAC_assets/img/standard/you.png",
+        text: "You",
+        sound: "You",
+        tileColor: "green",
+    },
+    eat: {
+        image: "/AAC_assets/img/food/eat.png",
+        text: "Eat",
+        sound: "Eat",
+        tileColor: "green",
+        subTiles: foods,
+    },
+    
 };
 
 export default data;
