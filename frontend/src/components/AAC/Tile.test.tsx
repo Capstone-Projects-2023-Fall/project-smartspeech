@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Tile, { TileProps } from "./Tile";
+import Tile, { TileProps, computeTileContainerName } from "./Tile";
 import * as SpeechModuleMock from "../../util/AAC/Speech";
 
 // mock the import and the internal function
@@ -24,7 +24,7 @@ describe("Tile", () => {
 
         render(<Tile image={image} text={text} sound={sound} tileColor={tileColor} />);
 
-        const tileContainer = screen.getByTestId("tile-container");
+        const tileContainer = screen.getByTestId(computeTileContainerName(text));
 
         expect(tileContainer).toBeInTheDocument();
         expect(screen.getByTestId("tile-image")).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe("Tile", () => {
 
         render(<Tile image={image} text={text} tileColor={tileColor} />);
 
-        const tileContainer = screen.getByTestId("tile-container");
+        const tileContainer = screen.getByTestId(computeTileContainerName(text));
 
         expect(tileContainer).toBeInTheDocument();
         expect(screen.getByTestId("tile-image")).toBeInTheDocument();

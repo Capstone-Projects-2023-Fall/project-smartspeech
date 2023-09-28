@@ -10,6 +10,10 @@ export interface TileProps {
     tileColor: "red" | "purple" | "orange" | "yellow" | "green" | "blue";
 }
 
+export function computeTileContainerName(text: string) {
+    return `tile-container-${text.replace(" ", "_")}`;
+}
+
 /**
  * @returns Component which will display a tile with `text` and onclick use the WebSpeech API to play `sound`.
  */
@@ -20,7 +24,6 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
         // tiles that are just covers are soundless since they are
         if (!sound) return;
 
-        console.log("speaking:", sound, text);
         speakViaWebSpeechAPI(sound);
 
         if (!addTile) return;
@@ -37,7 +40,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
         <div
             className={`bg-${tileColor}-300 w-44 h-44 flex flex-col justify-center items-center rounded-lg shadow-lg hover:shadow-xl hover:cursor-pointer p-4`}
             onClick={handleTileClick}
-            data-testid="tile-container"
+            data-testid={computeTileContainerName(text)}
         >
             <h2 className="font-bold text-2xl" data-testid="tile-text">
                 {text}

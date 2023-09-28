@@ -1,11 +1,13 @@
 import React, { useEffect, useReducer, useState } from "react";
-import Tile, { TileProps } from "./Tile";
-import getAACAssets from "@/util/AAC/getAACAssets";
+import Tile from "./Tile";
+import { getAACAssets } from "../../util/AAC/getAACAssets";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { TileAssets } from "./TileTypes";
 
+export const BACK_BTN_TEXT = "back";
+
 /**
- * 
+ *
  * @returns Component which will fetch tiles and display them
  */
 export default function Tiles() {
@@ -15,6 +17,7 @@ export default function Tiles() {
 
     useEffect(() => {
         const tileAssets = getAACAssets();
+        console.log("tileAssets: ", tileAssets);
         setData(tileAssets);
     }, []);
 
@@ -34,7 +37,7 @@ export default function Tiles() {
     }, [data, dataLocation]);
 
     return (
-        <div className="grid grid-cols-8">
+        <div className="grid grid-cols-8" data-testid="tiles-container">
             {Object.keys(currentFrame).map((key) => {
                 const tileData = currentFrame[key];
                 const { image, text, sound, tileColor, subTiles } = tileData;
@@ -58,7 +61,7 @@ export default function Tiles() {
             })}
             {dataLocation.length > 0 && (
                 <div onClick={() => dispatch({ type: "remove" })}>
-                    <Tile image="/AAC_assets/img/standard/back_arrow.png" text="back" tileColor="green" />
+                    <Tile image="/AAC_assets/img/standard/back_arrow.png" text={BACK_BTN_TEXT} tileColor="green" />
                 </div>
             )}
         </div>
