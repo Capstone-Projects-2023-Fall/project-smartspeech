@@ -17,7 +17,6 @@ export default function Tiles() {
 
     useEffect(() => {
         const tileAssets = getAACAssets();
-        console.log("tileAssets: ", tileAssets);
         setData(tileAssets);
     }, []);
 
