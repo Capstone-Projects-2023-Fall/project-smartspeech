@@ -55,6 +55,18 @@ const sampleData: TileAssets = {
         tileColor: "yellow",
         subTiles: sampleColors,
     },
+    good: {
+        image: "/AAC_assets/img/standard/good.png",
+        text: "Good",
+        sound: "good",
+        tileColor: "green",
+    },
+    ai: {
+        image: "/AAC_assets/img/ai/ChatGPT.png",
+        text: "ChatGPT",
+        sound: "Chat G P T",
+        tileColor: "red",
+    },
 };
 
 export default sampleData;

@@ -35,9 +35,6 @@ const sampleTileProps: TileProps = {
 describe("Tile", () => {
     it("Correctly renders MiniTile component with sound", () => {
         const { image, text, sound, tileColor } = sampleTileProps;
-
-        console.log(UtteredTilesProvider, Tile);
-
         render(
             <UtteredTilesProvider>
                 <Tile image={image} text={text} sound={sound} tileColor={tileColor} />

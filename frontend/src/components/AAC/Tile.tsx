@@ -26,8 +26,6 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
 
         speakViaWebSpeechAPI(sound);
 
-        if (!addTile) return;
-
         addTile({
             image,
             sound,
