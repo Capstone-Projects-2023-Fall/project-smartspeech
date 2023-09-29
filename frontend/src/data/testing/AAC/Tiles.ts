@@ -1,8 +1,8 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
 
-export const COLOR_TILES_COLOR = "orange";
+const COLOR_TILES_COLOR = "yellow";
 
-const colors: TileAssets = {
+const sampleColors: TileAssets = {
     blue: {
         image: "/AAC_assets/img/colors/blue.png",
         text: "Blue",
@@ -47,4 +47,14 @@ const colors: TileAssets = {
     },
 };
 
-export default colors;
+const sampleData: TileAssets = {
+    colors: {
+        image: "/AAC_assets/img/colors/colorwheel.png",
+        text: "Colors",
+        sound: "colors",
+        tileColor: "yellow",
+        subTiles: sampleColors,
+    },
+};
+
+export default sampleData;
