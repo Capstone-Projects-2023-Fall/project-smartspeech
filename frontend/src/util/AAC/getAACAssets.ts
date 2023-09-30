@@ -1,5 +1,5 @@
 import data from "@/data/AAC/Tiles";
 
-export default function getAACAssets() {
+export function getAACAssets() {
     return data;
 }

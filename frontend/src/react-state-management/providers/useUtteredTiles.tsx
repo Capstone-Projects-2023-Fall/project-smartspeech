@@ -20,7 +20,7 @@ export const useUtteredTiles = () => {
     return useContext(UtteredTiles);
 };
 
-export interface UtteredTilesProvider {
+export interface UtteredTilesProviderProps {
     children: React.ReactNode;
 }
 
@@ -29,14 +29,13 @@ export interface UtteredTilesProvider {
  * @param children Components which require this provider should be used like:  `<UtteredTilesProvider>...</UtteredTilesProvider>`
  * @returns Component which provides a shared state of type `UtteredTilesState` to any `children`
  */
-export default function UtteredTilesProvider({ children }: UtteredTilesProvider) {
+export default function UtteredTilesProvider({ children }: UtteredTilesProviderProps) {
     const [tiles, dispatchTileState] = useReducer(stackReducer<TileData>, []);
-
-    console.log(tiles);
 
     const clear = () => {
         dispatchTileState({ type: "clear" });
     };
+    
     const addTile = (item: TileData) => {
         dispatchTileState({
             type: "add",

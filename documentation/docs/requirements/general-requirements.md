@@ -9,7 +9,6 @@ sidebar_position: 3
 + Terraform (Infrastructure as Code Tool)
 + AWS Suite -- Services that will be used but are not limited to:
 	+ AWS S3 (Object Storage)
-	+ AWS Polly (TTS Service)
 	+ AWS EC2 (Virtual Machines)
 	+ AWS Networking Resources (VPC)
 	+ Possible use of AWS Lambda (Serverless Functions) and AWS DynamoDB (NoSQL DB)

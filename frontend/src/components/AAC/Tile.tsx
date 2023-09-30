@@ -10,6 +10,10 @@ export interface TileProps {
     tileColor: "red" | "purple" | "orange" | "yellow" | "green" | "blue";
 }
 
+export function computeTileContainerName(text: string) {
+    return `tile-container-${text.replace(" ", "_")}`;
+}
+
 /**
  * @returns Component which will display a tile with `text` and onclick use the WebSpeech API to play `sound`.
  */
@@ -21,8 +25,6 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
         if (!sound) return;
 
         speakViaWebSpeechAPI(sound);
-
-        if (!addTile) return;
 
         addTile({
             image,
@@ -36,9 +38,12 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
         <div
             className={`bg-${tileColor}-300 w-44 h-44 flex flex-col justify-center items-center rounded-lg shadow-lg hover:shadow-xl hover:cursor-pointer p-4`}
             onClick={handleTileClick}
+            data-testid={computeTileContainerName(text)}
         >
-            <h2 className="font-bold text-2xl">{text}</h2>
-            <Image src={image} alt={text} width={176} height={176} className="w-auto h-32 object-cover" />
+            <h2 className="font-bold text-2xl" data-testid="tile-text">
+                {text}
+            </h2>
+            <Image src={image} alt={text} width={176} height={176} className="w-auto h-32 object-cover" data-testid="tile-image" />
         </div>
     );
 }
