@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Use-case descriptions
 
-## Use Case 1: *Image Recognition* - Image is Recognized
+## Use Case 1: *Drawing Recognition* - Drawing is Recognized
 **User wants to draw a picture to help them communicate, and it is recognized in the top options.**
 1. User opens the app on their device
 2. User draws a picture of what they want to say on the drawing pad
@@ -12,7 +12,7 @@ sidebar_position: 5
 5. Drawing is correctly recognized, so User taps the corresponding tile on the screen
 6. Word is spoken using the speaker on the device
 
-## Use Case 2: *Image Recognition* - Image is not Recognized
+## Use Case 2: *Drawing Recognition* - Drawing is not Recognized
 **User wants to draw a picture to help them communicate, but it is not recognized.**
 1. User opens the app on their device
 2. User draws a picture of what they want to say on the drawing pad
@@ -85,9 +85,11 @@ sidebar_position: 5
 5. User is logged into their account where they can create their own tiles and save configurations
 
 ## Use Case 10: *PWA* - Connection Lost
-**User loses Wi-Fi during use of the app**
+**User loses Wi-Fi connection during use of the app**
 1. User opens the app
 2. User begins to draw what they want to say but lose connection to the internet
-3. Drawing board disconnects, and User then navigates the tile board to the tile they want
-4. User selects the tile they want
-5. Word is spoken using the speaker on the device
+3. User is notified of the disconnection by an icon, and the drawing board disconnects
+4. User navigates the manual tile board 
+5. User taps the category their word belongs to 
+6. User taps the tile corresponding to their word on the screen
+7. Word is spoken using the speaker on the device
