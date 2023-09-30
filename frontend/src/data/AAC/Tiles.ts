@@ -1,4 +1,4 @@
-import { TileAssets } from "@/components/AAC/Tiles";
+import { TileAssets } from "@/components/AAC/TileTypes";
 import colors, { COLOR_TILES_COLOR } from "./colors/colors";
 
 const data: TileAssets = {
@@ -14,6 +14,12 @@ const data: TileAssets = {
         text: "ChatGPT",
         sound: "Chat G P T",
         tileColor: "red",
+    },
+    good: {
+        image: "/AAC_assets/img/standard/good.png",
+        text: "Good",
+        sound: "good",
+        tileColor: "green",
     },
 };
 

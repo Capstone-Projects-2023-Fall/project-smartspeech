@@ -1,18 +1,16 @@
 import React, { useEffect, useReducer, useState } from "react";
 import Tile, { TileProps } from "./Tile";
 import getAACAssets from "@/util/AAC/getAACAssets";
-import { StringStackReducer } from "@/react-helpers/reducers/StringStack";
-import { EMPTY_FUNCTION } from "@/util/constants";
+import { stackReducer } from "@/react-state-management/reducers/stackReducer";
+import { TileAssets } from "./TileTypes";
 
-type TileData = TileProps & { subTiles?: TileAssets };
-
-export type TileAssets = {
-    [key: string]: TileData;
-};
-
+/**
+ * 
+ * @returns Component which will fetch tiles and display them
+ */
 export default function Tiles() {
     const [data, setData] = useState<TileAssets>({});
-    const [dataLocation, dispatch] = useReducer(StringStackReducer, []);
+    const [dataLocation, dispatch] = useReducer(stackReducer<string>, []);
     const [currentFrame, setCurrentFrame] = useState<TileAssets>({});
 
     useEffect(() => {
@@ -40,16 +38,17 @@ export default function Tiles() {
             {Object.keys(currentFrame).map((key) => {
                 const tileData = currentFrame[key];
                 const { image, text, sound, tileColor, subTiles } = tileData;
-                const renderedTile = <Tile image={image} text={text} sound={sound} tileColor={tileColor} />;
+                const renderedTile = <Tile image={image} text={text} sound={subTiles ? "" : sound} tileColor={tileColor} />;
 
-                // attach navigator if subtiles exist
                 const clickHandler = subTiles
-                    ? () =>
+                    ? // attach navigator if subtiles exist
+                      () =>
                           dispatch({
                               type: "add",
                               payload: key,
                           })
-                    : EMPTY_FUNCTION;
+                    : // go back to main menu if button clicked
+                      () => dispatch({ type: "clear" });
 
                 return (
                     <div key={key} onClick={clickHandler}>
