@@ -10,7 +10,7 @@ Deployment[^2] stems from the `main` branch of the repository. The main branch i
 
 ![branch-protection](/img/screenshots/branch-protection.png)
 
-Additionally, a workflow will be established where only code with a $$ or higher code coverage will be merged in with the `main` branch.  
+Additionally, a workflow will be established where only code with a 80% or higher code coverage will be merged in with the `main` branch.  
 
 
 
