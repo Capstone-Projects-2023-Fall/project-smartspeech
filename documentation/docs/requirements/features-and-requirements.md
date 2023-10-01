@@ -6,20 +6,19 @@ sidebar_position: 4
 
 ## Functional Requirements
 
-- Upon first launch, the system will allow the user to sign up for an account.
-	- The system must allow users to login by entering their email and password.
-	- An external identity provider service will store and maintain user identity information while also providing security for personal information.
-	- The user has the option to not create an account, however this may limit functionality and personalization.
+- Users must be able to login using their email and password.
+	- Users are not required to create an account.
+	- Accounts will save user data that can be accessed across devices.
 
-- After account setup (regardless of whether an account was created), the system will present the primary interface, enabling the user to instantly access key functionalities.
-	- The user can draw an object, prompting the system to display tiles that resemble the perceived object based on the drawing.
-	- If a tile correctly represents the drawn object, users can select it, causing the system to audibly announce the object's name.
-	- If the system fails to recognize the user input or the user doesn't identify a correct tile, they have options to partially erase their drawing or restart from scratch.
+- The user will see the primary interface upon opening the app.
+	- The user must be able to draw an object, and the system must be able to recognize drawings and provide tiles of words that resemble the perceived object based on the drawing.
+	- If a tile correctly represents the drawn object, users must be able to select it, causing the system to audibly announce the object's name.
+	- If the system fails to recognize the user input or the user doesn't identify a correct tile, the user must have options to either partially erase their drawing or restart from scratch.
 
-- If a tile is not in the system's database, users have the capability to manually add it.
+- The system must allow the addition of custom word tiles.
 	- Recognizing that certain users may have limitations, the process can be facilitated with the assistance of a caregiver. 
 	- The user will illustrate the object and assign a label, enabling the system to identity it in future interactions.
-	- This feature is exclusive to users that created accounts, ensuring consistent reference across different devices. 
+	- Users with accounts must be able to re-access additional tiles across devices.
 
 - If a user permits camera usage, the system can recognize objects through the devices camera.
 	- The user has the option to disable this setting.

@@ -2,26 +2,9 @@
 sidebar_position: 1
 ---
 
-**Purpose**
 
-The Design Document - Part I Architecture describes the software architecture and how the requirements are mapped into the design. This document will be a combination of diagrams and text that describes what the diagrams are showing.
+## Algorithms
 
-**Requirements**
+An obvious algorithm required for this project is an image classification model. This is accomplished with the help of deep learning. While a custom model could be built, it would be difficult and expensive to find training data and to have sufficient hardware to effectively host this model. To solve this problem, a few different resources can be utilized. The first is Digital Ink Recognition by Google, which is a free model built specifically to recognize hand-drawn sketches. The problem with this model is that it would be difficult to implement into a PWA. Another option is OFA, which is a visual question-answering system. It takes an image and a text prompt as input and outputs text answering the question. Other API services for image recognition exist; however, they are costly and trained on images different from what we will be using. 
 
-In addition to the general requirements the Design Document - Part I Architecture will contain:
-
-A description the different components and their interfaces. For example: client, server, database.
-
-For each component provide class diagrams showing the classes to be developed (or used) and their relationship.
-
-Sequence diagrams showing the data flow for _all_ use cases. One sequence diagram corresponds to one use case and different use cases should have different corresponding sequence diagrams.
-
-Describe algorithms employed in your project, e.g. neural network paradigm, training and training data set, etc.
-
-If there is a database:
-
-Entity-relation diagram.
-
-Table design.
-
-A check list for architecture design is attached here [architecture\_design\_checklist.pdf](https://templeu.instructure.com/courses/106563/files/16928870/download?wrap=1 "architecture_design_checklist.pdf")  and should be used as a guidance.
+In AAC, one image could represent a few different (but similar) words. For example, if someone drew a circle, we would want the system to suggest tiles such as 'circle', 'shape', or even 'ball'. Our image classification model may not always capture all of these possibilities. To get around this, we need to implement some type of natural language processing (NLP) to capture context and similarly related words. This is not a trivial task; however, we can use FastText from Facebook Research to achieve this goal. FastText works by first preparing a dataset (which will be the dictionary of all AAC words), training the model, and then using the model. The model essentially converts words into embedded vectors. Cosine similarity can be used between vectors to extract similar words.
