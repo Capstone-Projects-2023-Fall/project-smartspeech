@@ -1,5 +1,3 @@
-
-import MiniTile from "@/components/AAC/MiniTile";
 import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
 import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
