@@ -13,4 +13,20 @@
 
 FastAPI recommends the use of uvicorn for development servers, so for now we will be using it.
 
-``
+`uvicorn src.main:app --reload` will run the development server locally.
+
+#### Docker
+
+Setting up the docker requires a few steps.
+
+First, if the docker daemon is not running, open a new terminal and run `dockerd`. This will run the docker application so that you can use commands like `docker build` or `docker run`.
+
+Next, we have to build the image that we will be running. The command `docker build -t myimage:version` will build the image with the name 'myimage' and version 'version' (for example testing:0.1.0).
+
+Now that we have an image, we have to run the image with the command `docker run --name mycontainer -p 80:80 myimage`. This creates and runs a container named 'mycontainer' based off the image 'myimage', mapping the external port 80 to port 80 inside the container. 
+
+
+
+To access the app, go to '127.0.0.1', and you should see the hello world message. The reason the terminal output says "Uvicorn running on http://0.0.0.0:80" Is because that is the internal address- the external access is docker's default host, which is 127.0.0.1.
+
+A super cool feature of FastAPI is their automatic documentation, accessed at http://127.0.0.1/docs. 
