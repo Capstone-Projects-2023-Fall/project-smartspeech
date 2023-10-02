@@ -1,4 +1,4 @@
-import { TileAssets } from "@/components/AAC/Tiles";
+import { TileAssets } from "@/components/AAC/TileTypes";
 
 export const COLOR_TILES_COLOR = "orange";
 

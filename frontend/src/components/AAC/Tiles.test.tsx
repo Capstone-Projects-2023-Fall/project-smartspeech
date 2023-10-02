@@ -1,0 +1,143 @@
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { TileAssets } from "./TileTypes";
+import Tiles, { BACK_BTN_TEXT } from "./Tiles";
+import { getAACAssets } from "@/util/AAC/getAACAssets";
+import { computeTileContainerName } from "./Tile";
+import sampleData from "@/data/testing/AAC/Tiles";
+
+jest.mock("../../util/AAC/getAACAssets");
+
+describe("Tiles", () => {
+    it("should render properly with initial state", () => {
+        // Set up data mock returns
+        (getAACAssets as jest.Mock).mockReturnValue(sampleData);
+
+        // Set up vars
+        render(<Tiles />);
+
+        const container = screen.getByTestId("tiles-container");
+        const colorTileContainer = screen.getByTestId(computeTileContainerName(sampleData.colors.text));
+
+        // assert
+        expect(container).toBeInTheDocument();
+        expect(colorTileContainer).toBeInTheDocument();
+    });
+
+    it("should render properly with a tile with a sub menu is clicked", () => {
+        // Set up data mock returns
+        (getAACAssets as jest.Mock).mockReturnValue(sampleData);
+
+        // Set up vars
+        render(<Tiles />);
+
+        const container = screen.getByTestId("tiles-container");
+        const colorTileContainer = screen.getByTestId(computeTileContainerName(sampleData.colors.text));
+
+        // assert
+        expect(container).toBeInTheDocument();
+        expect(colorTileContainer).toBeInTheDocument();
+
+        // "explore" color subtiles:
+        fireEvent.click(colorTileContainer);
+
+        // collect what each tile should be
+        const subtiles = sampleData.colors.subTiles;
+
+        if (!subtiles) throw new Error("error: sampleData.colors.subTiles undefined");
+
+        // ensure each tile exists
+        Object.keys(subtiles).forEach((colorName) => {
+            const { text } = subtiles[colorName];
+            const colorTileContainerName = computeTileContainerName(text);
+            const colorTile = screen.getByTestId(colorTileContainerName);
+
+            expect(colorTile).toBeInTheDocument();
+        });
+    });
+
+    it("should render properly with a tile with a sub menu is clicked", () => {
+        // Set up data mock returns
+        (getAACAssets as jest.Mock).mockReturnValue(sampleData);
+
+        // Set up vars
+        render(<Tiles />);
+
+        const container = screen.getByTestId("tiles-container");
+        const colorTileContainer = screen.getByTestId(computeTileContainerName(sampleData.colors.text));
+
+        // assert
+        expect(container).toBeInTheDocument();
+        expect(colorTileContainer).toBeInTheDocument();
+
+        // "explore" color subtiles:
+        fireEvent.click(colorTileContainer);
+
+        // collect what each tile should be
+        const subtiles = sampleData.colors.subTiles;
+
+        if (!subtiles) throw new Error("error: sampleData.colors.subTiles undefined");
+
+        const backBtn = screen.getByTestId(computeTileContainerName(BACK_BTN_TEXT));
+        expect(backBtn).toBeInTheDocument();
+
+        fireEvent.click(backBtn);
+
+        // ensure each subtile DOES NOT exists anymore
+        Object.keys(subtiles).forEach((colorName) => {
+            const { text } = subtiles[colorName];
+            const colorTileContainerName = computeTileContainerName(text);
+            const colorTile = screen.queryByTestId(colorTileContainerName);
+
+            expect(colorTile).not.toBeInTheDocument();
+        });
+    });
+
+    it("should snap back to main menu when a submenu is opened and an element is clicked", () => {
+        // Set up data mock returns
+        (getAACAssets as jest.Mock).mockReturnValue(sampleData);
+
+        // Set up vars
+        render(<Tiles />);
+
+        const container = screen.getByTestId("tiles-container");
+        const colorTileContainer = screen.getByTestId(computeTileContainerName(sampleData.colors.text));
+
+        // assert
+        expect(container).toBeInTheDocument();
+        expect(colorTileContainer).toBeInTheDocument();
+
+        // "explore" color subtiles:
+        fireEvent.click(colorTileContainer);
+
+        // collect what each tile should be
+        const subtiles = sampleData.colors.subTiles;
+
+        if (!subtiles) throw new Error("error: sampleData.colors.subTiles undefined");
+
+        // when submenu spawns check for a back button
+        const backBtnInSubMenu = screen.getByTestId(computeTileContainerName(BACK_BTN_TEXT));
+        expect(backBtnInSubMenu).toBeInTheDocument();
+
+        // select random tile
+        const randomColorTile = subtiles[Object.keys(subtiles)[0]];
+
+        const randomColorTileContainer = screen.getByTestId(computeTileContainerName(randomColorTile.text));
+        expect(randomColorTileContainer).toBeInTheDocument();
+
+        // click it!
+        fireEvent.click(randomColorTileContainer);
+
+        // ensure we are back to the main menu
+        const backBtnInMainMenu = screen.queryByTestId(computeTileContainerName(BACK_BTN_TEXT));
+        expect(backBtnInMainMenu).not.toBeInTheDocument();
+
+        // check if our main menu tiles have respawned
+        const colorTileContainerInMainMenu = screen.getByTestId(computeTileContainerName(sampleData.colors.text));
+        expect(colorTileContainerInMainMenu).toBeInTheDocument();
+
+        // ensure our color submenu has despawned
+        const randomColorTileContainerInMainMenu = screen.queryByTestId(computeTileContainerName(randomColorTile.text));
+        expect(randomColorTileContainerInMainMenu).not.toBeInTheDocument();
+    });
+});
