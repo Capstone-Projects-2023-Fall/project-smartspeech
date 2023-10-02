@@ -50,3 +50,7 @@ frontend/public/workbox-*.js.map
 
 # docs - obsidian
 .obsidian
+
+# python
+venv/
+__pycache__
