@@ -4,6 +4,10 @@ import shapes from "./shapes/shapes";
 import foods from "./foods/foods";
 import locations from "./locations/locations";
 import clothes from "./clothes/clothes";
+import feelings from "./feelings/feelings";
+import things from "./things/things";
+import tell from "./tell/tell";
+import these from "./these/these";
 
 const data: TileAssets = {
     colors: {
@@ -76,6 +80,34 @@ const data: TileAssets = {
         sound: "Clothes",
         tileColor: "purple",
         subTiles: clothes,
+    },
+    feelings: {
+        image: "/AAC_assets/img/feelings/feelings.png",
+        text: "Feelings",
+        sound: "Feelings",
+        tileColor: "blue",
+        subTiles: feelings,
+    },
+    things: {
+        image: "/AAC_assets/img/things/things.png",
+        text: "Things",
+        sound: "Things",
+        tileColor: "red",
+        subTiles: things,
+    },
+    tell: {
+        image: "/AAC_assets/img/tell/tell.png",
+        text: "Tell",
+        sound: "Tell",
+        tileColor: "yellow",
+        subTiles: tell,
+    },
+    these: {
+        image:"/AAC_assets/img/this/this.png",
+        text: "This",
+        sound: "This",
+        tileColor: "green",
+        subTiles: these,
     },
 };
 
