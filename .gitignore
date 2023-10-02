@@ -51,3 +51,7 @@ frontend/.swc
 
 # docs - obsidian
 .obsidian
+
+# python
+venv/
+__pycache__
