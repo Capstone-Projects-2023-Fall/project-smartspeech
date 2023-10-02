@@ -4,33 +4,8 @@ sidebar_position: 3
 
 # Frontend UML
 
-
 ```mermaid
 classDiagram
-    App *-- Home
-    App *-- PWAMeta
-
-    Home *-- SelectedTilesActionBar
-    Home *-- Tiles
-    Home *-- Canvas
-
-    SelectedTilesActionBar --> UtteredTilesProvider
-    SelectedTilesActionBar --> MiniTile
-
-    Tiles --> UtteredTilesProvider
-    Tiles *-- TileAssets
-
-    UtteredTilesProvider *-- UtteredTilesState
-
-    UtteredTilesState *-- TileData
-
-    TileData *-- TileProps
-    TileData *-- TileAssets
-
-    TileAssets *-- TileData
-
-    Canvas --> Point
-
     class App{
 
     }
@@ -71,7 +46,11 @@ classDiagram
     }
 
     class TileData{
-        
+        image: string
+        sound: string?
+        text: string
+        tileColor: string
+        subTiles: TileAssets?
     }
 
     class TileProps {
@@ -79,6 +58,15 @@ classDiagram
         sound: string?
         text: string
         tileColor: string
+    }
+
+    class Tile {
+        props: TileProps
+    }
+
+
+    class TileAssets {
+        [key: string]: TileData
     }
 
     class Point {
@@ -89,6 +77,25 @@ classDiagram
     class MiniTile {
         MiniTile(image: string, text: string)
     }
+
+    note for TileAssets "Self Referential data type"
+
+    SelectedTilesActionBar --> MiniTile: uses to display selected tiles
+    Tiles --> Tile: uses to display tiles that can be hit
+
+    SelectedTilesActionBar ..> UtteredTilesProvider: reads selected tiles from
+    Tile ..> UtteredTilesProvider: writes selected tiles to
+
+    App *-- Home: uses
+    App --> PWAMeta: uses
+    Home --> UtteredTilesProvider: instantiates
+    Home --> SelectedTilesActionBar: instantiates
+    Home --> Tiles: instantiates
+    Home --> Canvas: instantiates
 ```
 
-Our frontend is a Next.js app built using React features. Many classes in the above diagram inherit from React.JSX.Element, including App, Home, SelectedTilesActionBar, Tiles, Canvas, and PWAMeta. App is usually a Next.js internal class, but we add headers through PWAMeta to enable PWA features for our app.
+> Classes with no relationships are used as datatypes.
+
+Our frontend is a Next.js app built using React features. Many classes in the above diagram inherit from React.JSX.Element, including App, Home, SelectedTilesActionBar, Tiles, Canvas, and PWAMeta. App is a Next.js internal class as the entry point into our application and page router, but we add headers through PWAMeta to enable PWA features for our app.
+
+
