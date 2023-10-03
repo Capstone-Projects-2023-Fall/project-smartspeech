@@ -61,6 +61,16 @@ resource "aws_security_group" "allow_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  dynamic "ingress" {
+    for_each = var.exposed_ecs_ports
+    content {
+      description = "${ingress.value} (ECS) from anywhere"
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"] # Allow traffic from anywhere, consider restricting as needed
+    }
+  }
 
   egress {
     from_port   = 0

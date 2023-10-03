@@ -10,9 +10,14 @@ variable "default_labels" {
 variable "vpc_info" {
   type = map(any)
   default = {
-    "vpc_name" = "core_vpc"
+    "vpc_name" = "ss_primary_vpc"
     "vpc_cidr" = "10.0.0.0/16"
   }
+}
+
+variable "exposed_ecs_ports" {
+  type    = list(number)
+  default = [3000]
 }
 
 variable "vpc_subnet_info" {
