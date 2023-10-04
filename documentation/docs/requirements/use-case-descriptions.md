@@ -82,3 +82,11 @@ sidebar_position: 5
 5. User taps the category their word belongs to 
 6. User taps the tile corresponding to their word on the screen
 7. Word is spoken using the speaker on the device
+
+## Use Case 10: Camera Recogntion
+**User wants to communicate an object in the room, so they point their camera at it**
+1. User opens the app on their device
+2. User points their camera at the object in the room
+3. User is prompted with a list of suggestions describing the objects in the camera
+4. Object is correctly recognized, so User taps the corresponding tile on the screen
+5. Word is spoken using the speaker on the device

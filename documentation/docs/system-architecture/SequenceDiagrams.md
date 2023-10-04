@@ -451,3 +451,42 @@ This sequence diagram displays how SmartSpeech will adapt to the loss of its dra
 6. User taps the tile corresponding to their word on the screen
 7. Word is spoken using the speaker on the device
 ```
+
+## Use Case 10: Camera Recogntion
+**User wants to communicate an object in the room, so they point their camera at it**
+
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant D as Device
+    participant S as SmartSpeech
+    participant M as Model
+
+    U->>D: Open SmartSpeech app
+    activate D
+    D->>S: Start instance
+    activate S
+    S-->>D: Display Home
+    
+    U->>D: Takes picture
+    D->>S: Sends picture
+    S->>+M: Sends picture
+    M->>M: Recognize objects in image
+    M-->>-S: Suggest objects
+    S-->>D: Display suggestions
+
+    U->>D: Presses suggestion
+    D->>S: Sends tile request
+    S-->>D: Return tile request    
+    D-->>U: Speaks word
+
+    deactivate D
+    deactivate S
+```
+```
+1. User opens the app on their device
+2. User points their camera at the object in the room
+3. User is prompted with a list of suggestions describing the objects in the camera
+4. Object is correctly recognized, so User taps the corresponding tile on the screen
+5. Word is spoken using the speaker on the device
+```
