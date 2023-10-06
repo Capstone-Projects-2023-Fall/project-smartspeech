@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-const options = {
+export const authOptions = {
     providers: [
         Providers.Github({
             clientID: "", 
@@ -22,5 +22,7 @@ const options = {
              },
              form: "",
         }) 
-    ]
+    ],
 }
+
+export default NextAuth(authOptions)
