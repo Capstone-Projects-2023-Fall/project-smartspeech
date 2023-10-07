@@ -29,12 +29,12 @@ module "ecs" {
     FARGATE = {
       default_capacity_provider_strategy = {
         base   = 20
-        weight = 50
+        weight = 40
       }
     }
     FARGATE_SPOT = {
       default_capacity_provider_strategy = {
-        weight = 50
+        weight = 60
       }
     }
   }
