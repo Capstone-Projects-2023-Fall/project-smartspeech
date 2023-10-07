@@ -49,6 +49,13 @@ variable "ecs_backend_container_info" {
 variable "docker_image_info" {
   type = map(string)
   default = {
-    "name" = "parth099/smart-speech:0.0.1"
+    "name" = "parth099/smart-speech:0.0.2"
+  }
+}
+
+variable "backend_service_info" {
+  type = map(string)
+  default = {
+    "name" = "smart-speech-backend-service"
   }
 }

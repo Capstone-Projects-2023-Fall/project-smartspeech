@@ -7,9 +7,60 @@ data "aws_iam_role" "ecs_task_execution_role" {
 }
 
 data "docker_image" "ss_backend_image" {
-  name = "parth099/smart-speech:0.0.1"
+  name = var.docker_image_info.name
 }
 
+locals {
+  alb_name = "ss-backend-service-alb"
+  tg_name  = "ss-backend-tg"
+}
+
+module "alb" {
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 8.4.0"
+
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.allow_web_sg.id]
+  subnets            = module.vpc.public_subnets # drop ALB in public subnet
+  vpc_id             = module.vpc.vpc_id
+
+  name = local.alb_name
+
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0
+    }
+  ]
+
+  target_groups = [
+    {
+      backend_port     = var.ecs_backend_container_info.container_port
+      backend_protocol = "HTTP"
+      target_type      = "ip"
+      health_check = {
+        enabled             = true
+        interval            = 60
+        path                = "/health-check" # check for 2XX on this route
+        port                = var.ecs_backend_container_info.container_port
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-299"
+      }
+    }
+  ]
+
+  tags = merge(var.default_labels, {
+    Name : local.alb_name
+  })
+
+  target_group_tags = merge(var.default_labels, {
+    Name : local.tg_name
+  })
+}
 
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
@@ -58,11 +109,39 @@ resource "aws_ecs_task_definition" "backend_task_def" {
       }
     ],
   }])
-  cpu                      = 512
+  cpu                      = 512 # 1024 CPU units = 1 vCPU
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = data.aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = data.aws_iam_role.ecs_task_execution_role.arn # will be diff if we attach external perms
   family                   = "ss-backend-tasks"
-  memory                   = 1024
+  memory                   = 1024 # in mib
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
+
+}
+
+resource "aws_ecs_service" "ss_backend_service" {
+  cluster         = module.ecs.cluster_id
+  desired_count   = 1
+  launch_type     = "FARGATE"
+  name            = var.backend_service_info.name
+  task_definition = aws_ecs_task_definition.backend_task_def.arn
+
+  lifecycle {
+    ignore_changes = [desired_count] # Allow external changes to happen without Terraform conflicts, particularly around auto-scaling.
+  }
+
+  load_balancer {
+    container_name   = var.ecs_backend_container_info.container_name
+    container_port   = var.ecs_backend_container_info.container_port
+    target_group_arn = module.alb.target_group_arns[0]
+  }
+
+  network_configuration {
+    security_groups = [aws_security_group.allow_web_sg.id]
+    subnets         = module.vpc.private_subnets # drop service in priv subnet for security
+  }
+}
+
+output "url" {
+  value = "http://${module.alb.lb_dns_name}"
 }

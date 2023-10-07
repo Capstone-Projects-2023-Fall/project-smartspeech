@@ -16,14 +16,14 @@ module "vpc" {
   public_subnets  = var.vpc_subnet_info.public_subnet_blocks
 
   map_public_ip_on_launch = true
-  #   enable_nat_gateway      = true
+  enable_nat_gateway      = true
 
-  #   nat_eip_tags = merge(var.default_labels, {
-  #     "Name" = "SS-nat-eip"
-  #   })
-  #   nat_gateway_tags = merge(var.default_labels, {
-  #     "Name" = "SS-natgw"
-  #   })
+  nat_eip_tags = merge(var.default_labels, {
+    "Name" = "SS-nat-eip"
+  })
+  nat_gateway_tags = merge(var.default_labels, {
+    "Name" = "SS-natgw"
+  })
 
   create_igw = true
   igw_tags = merge(var.default_labels, {
