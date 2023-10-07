@@ -1,0 +1,14 @@
+{
+    "out": "../documentation/static/typedoc/",
+    "entryPoints": [
+        "src/pages/index.tsx", 
+        "src/components/AAC/*.tsx", 
+        "src/components/AAC/*.ts",
+        "src/data/AAC/Tiles.ts",
+        "src/react-helpers/hooks/*.ts",
+        "src/react-state-management/providers/**/*",
+        "src/util/**/*"
+    ],
+    "exclude": ["src/components/AAC/*.test.tsx"],
+    "entryPointStrategy": "expand"
+}

@@ -52,6 +52,9 @@ frontend/.swc
 # docs - obsidian
 .obsidian
 
+# docs - typedoc
+documentation/static/typedoc
+
 # python
 venv/
 __pycache__
