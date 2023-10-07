@@ -59,3 +59,11 @@ variable "backend_service_info" {
     "name" = "smart-speech-backend-service"
   }
 }
+
+variable "r53_domain_info" {
+  type = map(string)
+  default = {
+    cert_domain = "smart-speech.backend-aws.com"
+    domain      = "backend-aws.com"
+  }
+}

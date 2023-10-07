@@ -10,6 +10,16 @@ data "docker_image" "ss_backend_image" {
   name = var.docker_image_info.name
 }
 
+data "aws_acm_certificate" "backend_https_cert" {
+  domain   = var.r53_domain_info.cert_domain
+  statuses = ["ISSUED"]
+}
+
+data "aws_route53_zone" "backend_zone" {
+  name         = var.r53_domain_info.domain
+  private_zone = false
+}
+
 locals {
   alb_name = "ss-backend-service-alb"
   tg_name  = "ss-backend-tg"
@@ -26,10 +36,12 @@ module "alb" {
 
   name = local.alb_name
 
-  http_tcp_listeners = [
+  # allows for TLS off loading where our internal traffic within AWS is insecure yet external traffic is HTTPS
+  https_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = data.aws_acm_certificate.backend_https_cert.id
       target_group_index = 0
     }
   ]
@@ -142,6 +154,19 @@ resource "aws_ecs_service" "ss_backend_service" {
   }
 }
 
-output "url" {
+resource "aws_route53_record" "backend_mapping" {
+  zone_id = data.aws_route53_zone.backend_zone.zone_id
+  name    = var.r53_domain_info.cert_domain
+  type    = "CNAME"
+  ttl     = 300
+  records = [module.alb.lb_dns_name]
+}
+
+output "url_with_out_https" {
   value = "http://${module.alb.lb_dns_name}"
 }
+
+output "url_with_https" {
+  value = "https://${var.r53_domain_info.cert_domain}"
+}
+
