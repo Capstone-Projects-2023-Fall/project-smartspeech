@@ -4,6 +4,10 @@ import UtteredTilesProvider from "@/react-state-management/providers/useUtteredT
 import Canvas from "@/components/AAC/Canvas";
 
 
+/**
+ * 
+ * @returns the homepage for this app
+ */
 export default function Home() {
     return (
         <section className="font-inter">

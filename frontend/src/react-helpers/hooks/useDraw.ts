@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
+/**
+ * useDraw provides functionality for drawing on an html canvas
+ * @param onDraw whenever the user makes a stroke, a reference to the canvas
+ * context, the point the stroke ended at, and the point the stroke started at
+ * will be passed to this function
+ * @returns a reference to the html canvas, a function that should be called
+ * the user presses, and a function for clearning the canvas
+ */
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
   const [mouseDown, setMouseDown] = useState(false)
 
