@@ -8,6 +8,14 @@
 3. Install the dependencies with `pip install -r requirements.txt`
     MAKE SURE YOU HAVE ENABLED THE VIRTUAL ENVIRONMENT BEFORE INSTALLING DEPENDENCIES
 
+### Install Deps
+
+```shell
+pip install -r requirements.txt
+```
+
+From the `/backend` you can run the above command to install all dependencies.
+
 
 ### Running the dev server
 
