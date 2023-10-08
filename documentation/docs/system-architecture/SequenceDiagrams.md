@@ -10,33 +10,30 @@ sidebar_position: 4
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
-    participant M as Model
+    participant C as Canvas
+    participant T as Tiles
+    participant RH as RecognizeHandler
+    participant AR as Amazon Rekognition
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
+    activate C
+    activate T
     
     loop while drawing
-        U->>D: Draws
-        D->>S: Sends drawing
-        S->>+M: Sends drawing
-        M->>M: Recognize drawing
-        M-->>-S: Suggest object
-        S-->>D: Display suggestions
+        U->>C: Draws
+        C->>RH: Automatically Sends drawing
+        activate RH
+        RH->>+AR: Sends drawing
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
+        deactivate RH
     end
-
     
-    U->>D: Presses suggestion
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
+    U->>T: Presses suggestion
+    T-->>U: Speaks word
 
-    deactivate D
-    deactivate S
+    deactivate C
+    deactivate T
 ```
 
 This sequence diagram details the process of a user drawing what they want to speak and then SmartSpeech recognizing and speaking the word through the device. This is the main functionality of SmartSpeech.
@@ -55,47 +52,43 @@ This sequence diagram details the process of a user drawing what they want to sp
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
-    participant M as Model
+    participant C as Canvas
+    participant T as Tiles
+    participant RH as RecognizeHandler
+    participant AR as Amazon Rekognition
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
+    activate C
+    activate T
     
     loop while drawing
-        U->>D: Draws
-        D->>S: Sends drawing
-        S->>+M: Sends drawing
-        M->>M: Recognize drawing
-        M-->>-S: Suggest object
-        S-->>D: Display suggestions
+        U->>C: Draws
+        C->>RH: Automatically Sends drawing
+        activate RH
+        RH->>+AR: Sends drawing
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
+        deactivate RH
     end
 
-    U->>D: Presses clear canvas
-    D->>S: Sends clear canvas request
-    S-->>D: Displays clear canvas
-
+    U->>C: Presses clear canvas
 
     loop while drawing
-        U->>D: Draws
-        D->>S: Sends drawing
-        S->>+M: Sends drawing
-        M->>M: Recognize drawing
-        M-->>-S: Suggest object
-        S-->>D: Display suggestions
+        U->>C: Draws
+        C->>RH: Automatically Sends drawing
+        activate RH
+        RH->>+AR: Sends drawing
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
+        deactivate RH
     end
-
     
-    U->>D: Presses suggestion
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
+    U->>T: Presses suggestion
+    T-->>U: Speaks word
 
-    deactivate D
-    deactivate S
+    deactivate C
+    deactivate T
 ```
 
 This sequence diagram details the process of clearing the drawing pad when the word the user wants to speak is either not recognized or they want to portray it in a different way. This showcases the clear drawing pad function.
@@ -116,43 +109,46 @@ This sequence diagram details the process of clearing the drawing pad when the w
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
+    participant H as Home
+    participant TB as TileBoard
+    participant C as Canvas
+    participant T as TileData
+    participant TH as TilesHandler
+    participant A as AuthenticationService
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
-    U->>D: Presses login button
-    D->>S: Requests login menu
-    S-->>D: Displays login menu
-   
-    U->>D: Enters username
-    D->>S: Sends username
-    U->>D: Enters password
-    D->>S: Sends password
-    S-->>S: Verifies credentials and logs user in
-    S-->>D: Displays home
+    activate H
 
-     U->>D: Presses tile board button
-    D->>S: Requests tile board
-    S-->>D: Display tile board
+    U->>H: Enters username and password
+    U->>H: Presses login
+    H->>A: Verify credentials
+    activate A
+    A->>H: 200 OK
+    deactivate A
+    U->>TB: Navigates to tile board
+    activate TB
+    deactivate H
+    U->>TB: Presses custom tile button
+    TB->>C: Instantiate Canvas
+    activate C
+    U->>C: Draws image or uploads pictures
+    C->>T: Registers image
+    activate T
 
-    U->>D: Selectes create tile
-    D->>S: Requests custom tile creation UI
-    S-->>D: Displays UI
+    U->>TB: Records sound
+    TB->>T: Registers sound
 
-    U->>D: Enters a drawing or picture
-    D->>S: Sends drawing or picture
-    U->>D: Enters voice recording
-    D->>S: Sends voice recording
-    S-->>S: Saves data
-    S-->>D: Displays home
-    
+    U->>TB: Presses save
+    TB->>T: Saves tile
 
-    deactivate D
-    deactivate S
+    T->>TH: Upload data
+    activate TH
+    TH->>TH: Write to Database
+    TH->>T: 200 OK
+
+    deactivate TH
+    deactivate TB
+    deactivate T
+    deactivate C
 ```
 
 This sequence diagram details the process of adding a custom tile to a user's SmartSpeech account. Custom tiles are helpful in increasing the efficacy of AAC solutions.
@@ -173,32 +169,32 @@ This sequence diagram details the process of adding a custom tile to a user's Sm
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
+    participant H as Home
+    participant TB as TileBoard
+    participant T as Tile
+    participant A as AuthenticationService
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
+    U->>H: Enters username and password
+    activate H
+
+    U->>H: Presses login
+    H->>A: Verify credentials
+    activate A
+    A->>H: 200 OK
+    deactivate A
+    U->>TB: Navigates to tile board
+    deactivate H
+    activate TB
     
-    U->>D: Presses tile board button
-    D->>S: Requests tile board
-    S-->>D: Display tile board
-
-    U->>D: Selectes tile category
-    D->>S: requests tile subcategory
-    S-->>U: Displays subcategory
+    U->>TB: Presses category word belongs to
+    TB->>T: Displays Tile
+    activate T
     
+    U->>T: Presses tile
+    T->>U: Word is spoken
+    deactivate T
 
-    
-    U->>D: Presses tile
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
-
-    deactivate D
-    deactivate S
+    deactivate TB
 ```
 
 This sequence diagram details the process of a user searching through the tile board in order to find the word they want to speak. This function is designed as a back up to the drawing pad.
@@ -216,52 +212,56 @@ This sequence diagram details the process of a user searching through the tile b
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
-    participant M as Model
+    participant H as Home
+    participant TB as TileBoard
+    participant A as AuthenticationService
+    participant C as Canvas
+    participant T as Tiles
+    participant RH as RecognizeHandler
+    participant AR as Amazon Rekognition
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
-    U->>D: Presses login button
-    D->>S: Requests login menu
-    S-->>D: Displays login menu
-   
-    U->>D: Enters username
-    D->>S: Sends username
-    U->>D: Enters password
-    D->>S: Sends password
-    S-->>S: Verifies credentials and logs user in
-    S-->>D: Displays home
+    U->>H: Enters username and password
+    activate H
 
-    U->>D: Presses tile board button
-    D->>S: Requests tile board
-    S-->>D: Display tile board
+    U->>H: Presses login
+    H->>A: Verify credentials
+    activate A
+    A->>H: 200 OK
+    deactivate A
+    U->>TB: Navigates to tile board
+    deactivate H
+    activate TB
+    
+    U->>TB: Presses category word belongs to
 
-    U->>D: Selectes tile category
-    D->>S: requests tile subcategory
-    S-->>D: Displays subcategory
-    U->>U: unable to locate tile
+    U->>H: Returns to home
+    activate H
+
+    H->>C: Instantiates Canvas
+
+    activate C
+    activate T
     
     loop while drawing
-        U->>D: Draws
-        D->>S: Sends drawing
-        S->>+M: Sends drawing
-        M->>M: Recognize drawing
-        M-->>-S: Suggest object
-        S-->>D: Display suggestions
+        U->>C: Draws
+        C->>RH: Automatically Sends drawing
+        activate RH
+        RH->>+AR: Sends drawing
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
+        deactivate RH
     end
-
     
-    U->>D: Presses suggestion
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
+    U->>T: Presses suggestion
+    T-->>U: Speaks word
 
-    deactivate D
-    deactivate S
+    deactivate C
+    deactivate T
+
+    deactivate H
+
+    deactivate TB
 ```
 
 This sequence diagram details and highlights the intuitive function of a user drawing what they want to speak on SmartSpeech instead of finding the word in the tile menues. This highlights the defining function of SmartSpeech compared to current AAC solutions that require the use of tile menues.
@@ -281,29 +281,27 @@ This sequence diagram details and highlights the intuitive function of a user dr
 
 ```mermaid
 sequenceDiagram
-    actor User
-    participant Device
-    participant SmartSpeech
+    actor U as User
+    participant WB as Web Browser
+    participant H as Home
+    participant D as Device
 
-    User->>+Device: Opens SmartSpeech app in browser
-    activate Device
-    Device->>+SmartSpeech: Instance of SmartSpeech started
-    activate SmartSpeech
-    SmartSpeech-->>Device: Displays app
-    User->>Device: Navigates to settings tab
-    Device->>SmartSpeech: requests settings tab
-    SmartSpeech-->>Device: Displays settings tab
-    User->>Device: Presses install button
-    Device->>SmartSpeech: requests install
-    SmartSpeech-->>Device: Installs SmartSpeech (PWA)
-    deactivate SmartSpeech
-    User->>Device: User locally opens the app on device
-    
-    Device->>+SmartSpeech: Instance of SmartSpeech started
-    activate SmartSpeech
-    SmartSpeech-->>Device: Displays app
-    deactivate SmartSpeech
-    deactivate Device
+    activate WB
+
+    WB->>H: Opens SmartSpeech
+    activate H
+
+    U->>WB: Navigates to settings
+    U->>WB: Presses install button
+
+    WB->>D: Installs PWA to device
+    activate D
+
+    deactivate H
+    deactivate WB
+
+    U->>D: Opens SmartSpeech PWA
+    deactivate D
 ```
 
 This sequence diagram details how a user would download SmartSpeech to their device to have it more available when there is either poor or unavailable internet connection.
@@ -321,35 +319,32 @@ This sequence diagram details how a user would download SmartSpeech to their dev
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
+    participant H as Home
+    participant CA as CreateAccountPage
+    participant A as AuthenticationService
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
-    U->>D: Presses login button
-    D->>S: Requests login menu
-    S-->>D: Displays login menu
-    U->>D: Presses create account button
-    D->>S: Requests account creation menu
-    S->>S: Check account does not exist
-    
-    S-->>D: Requests new username
-    U->>D: Enters new username
-    D->>S: Sends username
-    S-->>D: Requests new password
-    U->>D: Enters new password
-    D->>S: Sends Password
-    U->>D: Presses create account
-    D->>S: Create accoutn and login request
-    S-->>S: Creates and saves account, logs user in
-    S-->>D: Display home
-    
+    activate H
 
-    deactivate D
-    deactivate S
+    U->>H: Presses create account button
+    
+    U->>CA: Enters username and password
+    activate CA
+
+    CA->>A: Submit new account
+    activate A
+    A->>CA: Requests new username
+    deactivate A
+    U->>CA: Enters username and password
+
+    CA->>A: Submit new account
+    activate A
+    A->>CA: 200 OK
+    deactivate A
+
+    CA->>H: Login user and return to Home
+    deactivate CA
+
+    deactivate H
 ```
 
 This sequence diagram details how a user would create an account.
@@ -369,28 +364,29 @@ This sequence diagram details how a user would create an account.
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
+    participant H as Home
+    participant TB as TileBoard
+    participant A as AuthenticationService
+    participant TH as TilesHandler
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
-    U->>D: Presses login button
-    D->>S: Requests login menu
-    S-->>D: Displays login menu
-   
-   
-    U->>D: Enters username
-    D->>S: Sends username
-    U->>D: Enters password
-    D->>S: Sends password
-    S-->>S: Verifies credentials and logs user in
-    S-->>D: Displays home
+    U->>H: Enters username and password
+    activate H
 
-    deactivate D
-    deactivate S
+    U->>H: Presses login
+    H->>A: Verify credentials
+    activate A
+    A->>H: 200 OK
+    deactivate A
+    U->>TB: Navigates to tile board
+    deactivate H
+    activate TB
+
+    TB->>TH: Requests users' tiles
+    activate TH
+    TH->>TB: Returns users custom tile data
+    deactivate TH
+
+    deactivate TB
 ```
 
 This sequence diagram displays how a user will log in to SmartSpeech to access additional functionalities like custom tiles.
@@ -409,36 +405,35 @@ This sequence diagram displays how a user will log in to SmartSpeech to access a
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
-    participant I as Internet
+    participant H as Home
+    participant A as AuthenticationService
+    participant TB as TileBoard
+    participant T as Tile
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S->>I: Connect
-    activate I
-    S-->>D: Display Home
-    U->>D: Draws
-    D->>S: Sends drawing
+    U->>H: Enters username and password
+    activate H
 
-    I->>S: Disconnect
-    deactivate I
-    S->>S: Disable drawing pad
-    S-->>D: Displays disconnect icon
-   
-   
-    U->>D: Presses manual mode tile
-    D->>S: Sends tile request (category)
-    S-->>D: Return tile request (category)
-    U->>D: Presses tile
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
+    U->>H: Presses login
+    H->>A: Verify credentials
+    activate A
+    A->>H: No connection
+    deactivate A
 
-    deactivate D
-    deactivate S
+    H->>U: Tells user connection is lost
+
+    U->>TB: Navigates to tile board
+    deactivate H
+    activate TB
+    
+    U->>TB: Presses category word belongs to
+    TB->>T: Displays Tile
+    activate T
+    
+    U->>T: Presses tile
+    T->>U: Word is spoken
+    deactivate T
+
+    deactivate TB
 ```
 
 This sequence diagram displays how SmartSpeech will adapt to the loss of its drawing recognition model accessed through internet connection.

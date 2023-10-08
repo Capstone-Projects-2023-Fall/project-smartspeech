@@ -88,6 +88,7 @@ classDiagram
 
     SelectedTilesActionBar ..> UtteredTilesProvider: reads selected tiles from
     Tile ..> UtteredTilesProvider: writes selected tiles to
+    Tile ..> SpeechSynthesisUtterance: uses the browser's Web Speech API to convert text to audio
 
     App *-- Home: uses
     App --> PWAMeta: uses
