@@ -23,9 +23,9 @@ sequenceDiagram
         C->>RH: Automatically Sends drawing
         activate RH
         RH->>+AR: Sends drawing
-        AR->>AR: Recognize drawing
-        AR-->>-RH: Suggest objects
-        RH-->>T: Display suggestions
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
         deactivate RH
     end
     
@@ -65,9 +65,9 @@ sequenceDiagram
         C->>RH: Automatically Sends drawing
         activate RH
         RH->>+AR: Sends drawing
-        AR->>AR: Recognize drawing
-        AR-->>-RH: Suggest objects
-        RH-->>T: Display suggestions
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
         deactivate RH
     end
 
@@ -78,9 +78,9 @@ sequenceDiagram
         C->>RH: Automatically Sends drawing
         activate RH
         RH->>+AR: Sends drawing
-        AR->>AR: Recognize drawing
-        AR-->>-RH: Suggest objects
-        RH-->>T: Display suggestions
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
         deactivate RH
     end
     
@@ -247,9 +247,9 @@ sequenceDiagram
         C->>RH: Automatically Sends drawing
         activate RH
         RH->>+AR: Sends drawing
-        AR->>AR: Recognize drawing
-        AR-->>-RH: Suggest objects
-        RH-->>T: Display suggestions
+        AR->>AR: Recognizes drawing
+        AR-->>-RH: Suggests objects
+        RH-->>T: Displays suggestions
         deactivate RH
     end
     
