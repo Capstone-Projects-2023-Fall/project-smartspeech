@@ -1,3 +1,6 @@
+/**
+ * Uses the Web Speech API to synthesise the text contained in sound
+ */
 export function speakViaWebSpeechAPI(sound: string) {
     if (!("speechSynthesis" in window)) {
         return;

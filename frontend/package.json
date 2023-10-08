@@ -68,7 +68,7 @@
 
         "jest-environment-jsdom": "^29.7.0",
 
-        "typedoc": "^0.25.0",
+        "typedoc": "0.25.0",
 
         "typedoc-plugin-rename-defaults": "^0.6.6"
 

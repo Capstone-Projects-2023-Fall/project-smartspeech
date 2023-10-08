@@ -13,6 +13,10 @@ export const actionBarDataTestIds = {
     clearBtn: "actionbar-clear-btn",
 };
 
+/**
+ * Displays a list of tiles currently selected, a button to speak the tiles,
+ * and a button the clear the list of tiles.
+ */
 export default function SelectedTilesActionBar() {
     const { tiles, clear } = useUtteredTiles();
 
