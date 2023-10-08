@@ -66,11 +66,11 @@ module "alb" {
   ]
 
   tags = merge(var.default_labels, {
-    Name : local.alb_name
+    Name = local.alb_name
   })
 
   target_group_tags = merge(var.default_labels, {
-    Name : local.tg_name
+    Name = local.tg_name
   })
 }
 
