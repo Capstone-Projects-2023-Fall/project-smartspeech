@@ -458,35 +458,36 @@ This sequence diagram displays how SmartSpeech will adapt to the loss of its dra
 ```mermaid
 sequenceDiagram
     actor U as User
-    participant D as Device
-    participant S as SmartSpeech
-    participant M as Model
+    participant H as Home
+    participant T as Tiles
+    participant RH as RecognizeHandler
+    participant AR as Amazon Rekognition
 
-    U->>D: Open SmartSpeech app
-    activate D
-    D->>S: Start instance
-    activate S
-    S-->>D: Display Home
-    
-    U->>D: Takes picture
-    D->>S: Sends picture
-    S->>+M: Sends picture
-    M->>M: Recognize objects in image
-    M-->>-S: Suggest objects
-    S-->>D: Display suggestions
+    activate H
+    activate T
 
-    U->>D: Presses suggestion
-    D->>S: Sends tile request
-    S-->>D: Return tile request    
-    D-->>U: Speaks word
+    H->>H: Takes picture of environment
 
-    deactivate D
-    deactivate S
+    H->>RH: Sends picture
+    activate RH
+
+    RH->>AR: Sends picture
+    activate AR
+    AR->>AR: Recognizes object in picture
+    AR->>RH: Suggests objects
+    deactivate AR
+    RH->>T: Displays suggestions
+    deactivate RH
+
+    U->>T: Presses suggestion
+    T-->>U: Speaks word
+
+    deactivate T
+    deactivate H
 ```
-```
+
 1. User opens the app on their device
 2. User points their camera at the object in the room
 3. User is prompted with a list of suggestions describing the objects in the camera
 4. Object is correctly recognized, so User taps the corresponding tile on the screen
 5. Word is spoken using the speaker on the device
-```
