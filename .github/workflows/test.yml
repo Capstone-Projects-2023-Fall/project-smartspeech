@@ -2,9 +2,9 @@ name: Test Application
 
 on:
   push:
-    branches: [ "landen/automate-testing" ]
+    branches: [ "main" ]
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     env:
       GIT_USER: ${{secrets.USER}}
