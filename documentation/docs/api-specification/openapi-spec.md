@@ -1,10 +1,8 @@
 ---
-title: API 1 - Swagger Petstore
-description: API Specification from openapi.yml
+title: Smart Speech Backend
+description: Generated from FastAPI documentation
 hide_table_of_contents: true
-sidebar_position: 2
+sidebar_position: 1
 ---
 
-import ApiDocMdx from '@theme/ApiDocMdx';
-
-<ApiDocMdx id="using-single-yaml" />
+Hosted Docs: [Backend Docs](https://smart-speech.backend-aws.com/docs)
