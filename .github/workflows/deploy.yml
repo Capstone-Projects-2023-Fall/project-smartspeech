@@ -5,7 +5,7 @@ name: Deploy Docs
 
 on:
   push:
-    branches: [ "main", "fix-build-failure" ]
+    branches: [ "main" ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
