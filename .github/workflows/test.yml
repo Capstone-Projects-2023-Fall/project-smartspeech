@@ -1,0 +1,15 @@
+name: Test Application
+
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GIT_USER: ${{secrets.USER}}
+      GIT_PASS: ${{secrets.TOKEN}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test Frontend
+        run: cd frontend && npm i && npm run test
