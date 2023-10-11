@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
+import { data } from "autoprefixer";
 
 interface pageProps {}
 
@@ -29,6 +30,10 @@ const page: FC<pageProps> = ({}) => {
         ctx.fill();
     }
 
+    function dataShowcase(){
+        return data;
+    }
+
     if (!renderPage) return null;
 
     return (
@@ -36,6 +41,9 @@ const page: FC<pageProps> = ({}) => {
             <div className="flex flex-col gap-10 pr-10">
                 <button type="button" className="p-2 rounded-md border border-black" onClick={clear}>
                     Clear canvas
+                </button>
+                <button type="button" className="p-2 rounded-md border border-black" onClick={dataShowcase}>
+                    Check Image
                 </button>
             </div>
 
