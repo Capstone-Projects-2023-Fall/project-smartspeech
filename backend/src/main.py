@@ -1,8 +1,11 @@
 from functools import cache
+import logging
+import time
 from typing import Annotated
 
 from dotenv import dotenv_values
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Response
+import requests
 
 app = FastAPI()
 
@@ -25,4 +28,28 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)]):
     Converts **phrase** to audio using elevenlab's test to speech service.
     Returns a string of mp3 bytes.
     """
-    return config["ELEVEN_TTS_KEY"]
+    headers = {
+        "Accept": "audio/mpeg",
+        "Content-Type": "application/json",
+        "xi-api-key": config["TTS_API_KEY"]
+    }
+
+    data = {
+        "text": phrase,
+        "model_id": "eleven_monolingual_v1",
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.5
+        }
+    }
+
+    start = time.perf_counter()
+    response = requests.post(config["TTS_API_URL"]+"zzz", json=data, headers=headers)
+    end = time.perf_counter()
+
+    logging.debug(f"Converting phrase '{phrase}' to audio took {end-start}s.")
+
+    response.raise_for_status()
+
+    audio = b"".join(response.iter_content(chunk_size=1024))
+    return Response(audio)
