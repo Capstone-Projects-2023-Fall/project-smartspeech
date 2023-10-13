@@ -150,7 +150,8 @@ resource "aws_ecs_service" "ss_backend_service" {
 
   network_configuration {
     security_groups = [aws_security_group.allow_web_sg.id]
-    subnets         = module.vpc.private_subnets # drop service in priv subnet for security
+    #! TODO Switch to private subnets later
+    subnets = module.vpc.public_subnets # drop service in priv subnet for security LATER
   }
 }
 
