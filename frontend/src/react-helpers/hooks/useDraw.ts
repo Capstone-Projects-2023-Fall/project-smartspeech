@@ -1,3 +1,4 @@
+import data from '@/data/AAC/Tiles'
 import { useEffect, useRef, useState } from 'react'
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
@@ -16,6 +17,30 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     if (!ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
+
+  
+  const promptUserRecogination = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    
+    if(canvas){
+      const drawingDataUrl = canvas.toDataURL() // Capture the drawing as a data URL
+      console.log("Captured drawing data URL:", drawingDataUrl)
+
+      //mock function accepting the canvas drawling
+      mockRecognitionFunc(drawingDataUrl)
+
+    }
+
+    
+  }
+  
+  function mockRecognitionFunc(drawingDataUrl: string){
+    console.log("Accepted drawing", drawingDataUrl)
   }
 
   useEffect(() => {
@@ -57,5 +82,5 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     }
   }, [onDraw])
 
-  return { canvasRef, onMouseDown, clear }
+  return { canvasRef, onMouseDown, clear, promptUserRecogination }
 }

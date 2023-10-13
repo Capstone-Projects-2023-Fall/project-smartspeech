@@ -1,15 +1,18 @@
 import { FC, useState } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { data } from "autoprefixer";
+import { getAACAssets } from "../../util/AAC/getAACAssets";
+import Tiles from "./Tiles";
+import { TileAssets } from "./TileTypes";
 
 interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
     const [color, setColor] = useState<string>("#000");
-    const { canvasRef, onMouseDown, clear } = useDraw(drawLine);
+    const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
 
     const renderPage = useClientRender();
+   
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
@@ -30,9 +33,7 @@ const page: FC<pageProps> = ({}) => {
         ctx.fill();
     }
 
-    function dataShowcase(){
-        return data;
-    }
+    
 
     if (!renderPage) return null;
 
@@ -42,7 +43,7 @@ const page: FC<pageProps> = ({}) => {
                 <button type="button" className="p-2 rounded-md border border-black" onClick={clear}>
                     Clear canvas
                 </button>
-                <button type="button" className="p-2 rounded-md border border-black" onClick={dataShowcase}>
+                <button type="button" className="p-2 rounded-md border border-black n" onClick={promptUserRecogination}>
                     Check Image
                 </button>
             </div>
