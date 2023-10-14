@@ -5,7 +5,11 @@ import type { AppProps } from "next/app";
 import { Inter, Poppins } from "next/font/google";
 import Head from "next/head";
 
-import {SessionProvider} from "next-auth/react";
+import Login from "@/components/login";
+import { Provider } from "react";
+import ProvidersWrapper from "@/react-state-management/providers/providersWrapper";
+
+//localhost:3000
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,19 +22,18 @@ const poppins = Poppins({
   weight: ["500", "600", "900"],
 });
 
-export default function App({ Component, pageProps:  { session, ...pageProps }}: AppProps) {
+export default function App({ Component, pageProps}: AppProps) {
   return (
     <>
-    <Head>
-      <meta charSet="utf-8" />
-      <PWAMeta />
-    </Head>
-    <SessionProvider session ={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-    <main className={`${inter.variable} ${poppins.variable} bg-dark-bg`}>
-      <Component {...pageProps} />
-    </main>
-  </>
+      <ProvidersWrapper>
+        <Head>
+          <meta charSet="utf-8" />
+          <PWAMeta />
+        </Head>
+        <main className={`${inter.variable} ${poppins.variable} bg-dark-bg`}>
+          <Component {...pageProps} />
+        </main>
+      </ProvidersWrapper>
+    </>
   );
 }
