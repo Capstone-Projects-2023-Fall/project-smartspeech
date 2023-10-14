@@ -3,18 +3,19 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 //import TwitterProvider from "next-auth/providers/twitter";
-import EmailProvider  from "next-auth/providers/email";
+import EmailProvider from "next-auth/providers/email";
+import NextAuth from "next-auth/next";
 //import Auth0Provider from "next-auth/providers/auth0";
 
 export const options: NextAuthOptions = {
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string
+            clientSecret: process.env.GITHUB_SECRET as string,
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
-            clientSecret: process.env.GOOGLE_SECRET as string
+            clientSecret: process.env.GOOGLE_SECRET as string,
         }),
         // cannot create the twitter auth until we have an actual web app link
         /*TwitterProvider({
@@ -23,15 +24,15 @@ export const options: NextAuthOptions = {
         }), 
         */
 
-       // Used SendGrid for Emails
+        // Used SendGrid for Emails
         EmailProvider({
-            server:{
+            server: {
                 host: process.env.EMAIL_SERVER_HOST,
                 port: process.env.EMAIL_SERVER_PORT,
                 auth: {
                     user: process.env.EMAIL_SERVER_USER,
-                    pass: process.env.EMAIL_SERVER_PASSWORD
-                }
+                    pass: process.env.EMAIL_SERVER_PASSWORD,
+                },
             },
             from: process.env.EMAIL_SERVER_FROM,
         }),
@@ -43,7 +44,7 @@ export const options: NextAuthOptions = {
 
         }),
         */
-       
+
         /*
         CredentialsProvider({
             name: "Credentials",
@@ -81,4 +82,6 @@ export const options: NextAuthOptions = {
         synchronize: true,
     }
     */
-    }
+};
+
+export default NextAuth(options);
