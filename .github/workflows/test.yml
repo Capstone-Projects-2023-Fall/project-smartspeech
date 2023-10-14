@@ -2,7 +2,7 @@ name: Test Application
 
 on:
   push:
-    branches: ["main", "SS-18-Text-to-audio-implementation"]
+    branches: ["main", "SS-18-Text-to-audio-implemention"]
 jobs:
   test:
     runs-on: ubuntu-latest
