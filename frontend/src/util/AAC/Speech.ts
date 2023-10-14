@@ -1,26 +1,45 @@
 /**
- * Uses the Web Speech API to synthesise the text contained in sound
+ * Retrieves a voice mp3 saying `sound` from the backend, then plays the audio
+ * by creating an AudioBufferSourceNode, as described here:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
+ *
+ * @returns true if the sound is played, and false otherwise
  */
-export async function speakViaWebSpeechAPI(sound: string) {
+export function speakViaWebSpeechAPI(sound: string): boolean {
   if (!window.AudioContext) {
-    return;
+    return false;
   }
 
-  var context = new AudioContext();
+  let context = new AudioContext();
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
-  fetch("http://localhost:8000/tts?" + new URLSearchParams("phrase=" + sound))
-    .then((response) => {
-      return response.arrayBuffer();
-    })
-    .then((buffer) => context.decodeAudioData(buffer))
-    .then((decodedData) => {
-      const source = new AudioBufferSourceNode(context);
-      source.buffer = decodedData;
-      source.connect(context.destination);
-      return source;
-    })
-    .then((source) => {
-      source.start(0);
-    });
+  // Get mp3 bytes from backend
+  try {
+    fetch("http://localhost:8000/tts?" + new URLSearchParams("phrase=" + sound))
+      // Retrieve bytes from response
+      .then((response) => {
+        if (response.ok) {
+          return response.arrayBuffer();
+        } else {
+          throw new Error("Could not retrieve audio from backend.");
+        }
+      })
+      // Convert bytes to audio data
+      .then((buffer) => context.decodeAudioData(buffer))
+      // Create an audio source
+      .then((decodedData) => {
+        const source = new AudioBufferSourceNode(context);
+        source.buffer = decodedData;
+        source.connect(context.destination);
+        return source;
+      })
+      // Play audio source
+      .then((source) => {
+        source.start(0);
+      });
+
+    return true;
+  } catch {
+    return false;
+  }
 }
