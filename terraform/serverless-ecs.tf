@@ -82,8 +82,8 @@ resource "aws_ecs_task_definition" "backend_task_def" {
 
 }
 
-#! Uncomment Below to deploy the container as an ECS Fargate Service
 # module "alb" {
+#   count   = var.is_full_deployment ? 1 : 0
 #   source  = "terraform-aws-modules/alb/aws"
 #   version = "~> 8.4.0"
 
@@ -133,6 +133,7 @@ resource "aws_ecs_task_definition" "backend_task_def" {
 # }
 
 # resource "aws_ecs_service" "ss_backend_service" {
+#   count           = var.is_full_deployment ? 1 : 0
 #   cluster         = module.ecs.cluster_id
 #   desired_count   = 1
 #   launch_type     = "FARGATE"
@@ -146,7 +147,7 @@ resource "aws_ecs_task_definition" "backend_task_def" {
 #   load_balancer {
 #     container_name   = var.ecs_backend_container_info.container_name
 #     container_port   = var.ecs_backend_container_info.container_port
-#     target_group_arn = module.alb.target_group_arns[0]
+#     target_group_arn = module.alb[0].target_group_arns[0]
 #   }
 
 #   network_configuration {
@@ -156,18 +157,19 @@ resource "aws_ecs_task_definition" "backend_task_def" {
 # }
 
 # resource "aws_route53_record" "backend_mapping" {
+#   count   = var.is_full_deployment ? 1 : 0
 #   zone_id = data.aws_route53_zone.backend_zone.zone_id
 #   name    = var.r53_domain_info.cert_domain
 #   type    = "CNAME"
 #   ttl     = 300
-#   records = [module.alb.lb_dns_name]
+#   records = [module.alb[0].lb_dns_name]
 # }
 
 # output "url_with_out_https" {
-#   value = "http://${module.alb.lb_dns_name}"
+#   value = var.is_full_deployment ? "http://${module.alb[0].lb_dns_name}" : "NULL"
 # }
 
 # output "url_with_https" {
-#   value = "https://${var.r53_domain_info.cert_domain}"
+#   value = var.is_full_deployment ? "https://${var.r53_domain_info.cert_domain}" : "NULL"
 # }
 
