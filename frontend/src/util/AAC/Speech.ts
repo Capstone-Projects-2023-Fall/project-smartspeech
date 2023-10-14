@@ -6,24 +6,21 @@ export async function speakViaWebSpeechAPI(sound: string) {
     return;
   }
 
-  // var context = new AudioContext();
+  var context = new AudioContext();
 
-  // function playByteArray(bytes: ReadableStream<Uint8Array>) {
-  //     var buffer = new Uint8Array( bytes.length );
-  //     buffer.set( new Uint8Array(bytes), 0 );
-
-  //     context.decodeAudioData(buffer.buffer, play);
-  // }
-
-  // function play(audioBuffer: AudioBuffer) {
-  //     var source = context.createBufferSource();
-  //     source.buffer = audioBuffer;
-  //     source.connect( context.destination );
-  //     source.start(0);
-  // }
-
-  let response = await fetch(
-    "http://localhost:8000/tts?" + new URLSearchParams("phrase=" + sound)
-  );
-  console.log(response.body);
+  // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
+  fetch("http://localhost:8000/tts?" + new URLSearchParams("phrase=" + sound))
+    .then((response) => {
+      return response.arrayBuffer();
+    })
+    .then((buffer) => context.decodeAudioData(buffer))
+    .then((decodedData) => {
+      const source = new AudioBufferSourceNode(context);
+      source.buffer = decodedData;
+      source.connect(context.destination);
+      return source;
+    })
+    .then((source) => {
+      source.start(0);
+    });
 }
