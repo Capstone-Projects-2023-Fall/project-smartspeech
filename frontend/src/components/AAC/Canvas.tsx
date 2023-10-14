@@ -33,7 +33,7 @@ const page: FC<pageProps> = ({}) => {
         ctx.fill();
     }
 
-    
+
 
     if (!renderPage) return null;
 
@@ -54,7 +54,7 @@ const page: FC<pageProps> = ({}) => {
                 width={window.innerWidth}
                 height={window.innerHeight}
                 className="border border-black rounded-md"
-            />
+            />        
         </div>
     );
 };

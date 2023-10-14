@@ -1,4 +1,6 @@
+import Tile from '@/components/AAC/Tile'
 import data from '@/data/AAC/Tiles'
+import { getAACAssets } from '@/util/AAC/getAACAssets'
 import { useEffect, useRef, useState } from 'react'
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
@@ -21,6 +23,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
   
   const promptUserRecogination = () => {
+    
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -35,12 +38,13 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
       mockRecognitionFunc(drawingDataUrl)
 
     }
-
+    
     
   }
   
   function mockRecognitionFunc(drawingDataUrl: string){
     console.log("Accepted drawing", drawingDataUrl)
+    
   }
 
   useEffect(() => {
@@ -82,5 +86,5 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     }
   }, [onDraw])
 
-  return { canvasRef, onMouseDown, clear, promptUserRecogination }
+  return { canvasRef, onMouseDown, clear, promptUserRecogination}
 }
