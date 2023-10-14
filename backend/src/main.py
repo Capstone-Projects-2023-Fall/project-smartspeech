@@ -5,22 +5,42 @@ from typing import Annotated
 
 from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, Response
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 
 app = FastAPI()
+
+
+origins = [
+    "http://localhost:3000",
+    "http://localhost"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 @cache
 def get_config():
     """Returns a dictionary mapping environment variable name to string value."""
     return dotenv_values(".env")
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+
 @app.get("/health-check")
 async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
+
 
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)]):
@@ -44,7 +64,8 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)]):
     }
 
     start = time.perf_counter()
-    response = requests.post(config["TTS_API_URL"]+"zzz", json=data, headers=headers)
+    response = requests.post(
+        config["TTS_API_URL"], json=data, headers=headers)
     end = time.perf_counter()
 
     logging.debug(f"Converting phrase '{phrase}' to audio took {end-start}s.")
