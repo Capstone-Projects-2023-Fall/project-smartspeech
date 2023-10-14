@@ -36,27 +36,29 @@ const page: FC<pageProps> = ({}) => {
 
 
     if (!renderPage) return null;
-
     return (
-        <div className="w-screen h-screen bg-white flex justify-center items-center">
-            <div className="flex flex-col gap-10 pr-10">
-                <button type="button" className="p-2 rounded-md border border-black" onClick={clear}>
-                    Clear canvas
-                </button>
-                <button type="button" className="p-2 rounded-md border border-black n" onClick={promptUserRecogination}>
-                    Check Image
-                </button>
-            </div>
+        <div className="mx-3">
+            <div className="w-full h-full bg-white flex justify-center items-center relative">
+                <div className="flex flex-col gap-10">
+                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold" onClick={clear}>
+                        Clear canvas
+                    </button>
+                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold" onClick={promptUserRecogination}>
+                        Check Image
+                    </button>
+                </div>
 
-            <canvas
-                ref={canvasRef}
-                onMouseDown={onMouseDown}
-                width={window.innerWidth}
-                height={window.innerHeight}
-                className="border border-black rounded-md"
-            />        
+                <canvas
+                    ref={canvasRef}
+                    onMouseDown={onMouseDown}
+                    width={window.innerWidth - 24 - 4}
+                    height={window.innerHeight - 24 - 4}
+                    className="border-black border-2 shadow-lg rounded-md"
+                />
+            </div>
         </div>
     );
 };
+   
 
 export default page;

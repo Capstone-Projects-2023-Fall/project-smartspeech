@@ -11,10 +11,10 @@ export default function Home() {
 
             <UtteredTilesProvider>
                 <SelectedTilesActionBar />
+                <Canvas />
+                <SuggestedTiles />
                 <Tiles />
             </UtteredTilesProvider>
-            <Canvas />
-            <SuggestedTiles />
         </section>
     );
 }
