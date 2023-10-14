@@ -12,7 +12,8 @@ export default function SuggestedTiles(){
 
     return(
         <div className="grid grid-cols-8">
-                    <div>01</div>
+                    <div>placeHolder</div>
+                    <div>placeHolder2</div>
     
                 </div>
     )
