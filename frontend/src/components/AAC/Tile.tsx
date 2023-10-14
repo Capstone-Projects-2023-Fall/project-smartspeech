@@ -4,12 +4,27 @@ import Image from "next/image";
 import React from "react";
 
 export interface TileProps {
+    /**
+     * image is displayed in center of tile
+     */
     image: string;
+    /**
+     * sound is played when this tile is spoken
+     */
     sound?: string;
+    /**
+     * text is displayed as a caption under image
+     */
     text: string;
+    /**
+     * color of the tile background
+     */
     tileColor: "red" | "purple" | "orange" | "yellow" | "green" | "blue";
 }
 
+/**
+ * @returns data-testid for a tile that contains text as a prop
+ */
 export function computeTileContainerName(text: string) {
     return `tile-container-${text.replace(" ", "_")}`;
 }

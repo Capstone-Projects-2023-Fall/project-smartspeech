@@ -34,7 +34,7 @@ sidebar_position: 4
   - Account setup will require some reading power, but this feature will be aimed at speech pathologists/supervising adults rather than an actual AAC user. 
 
 - We will use a form of lazy-loading to ensure that the app is not slowed down by loading a large number of custom tiles. A tile will be loaded when it is selected, meaning subsequent uses after the first will also be sped up.
-  - A cache of user tiles may be used to improve performance, but the actual aduio data will be lazily-loaded.
+  - A cache of user tiles may be used to improve performance, but the actual audio data will be lazily-loaded.
 
 - User login information will be properly salt + peppered to keep the information safe from malicious entites.
 

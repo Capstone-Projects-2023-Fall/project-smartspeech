@@ -1,5 +1,7 @@
-/* This fragment contains the full set of header tags required by next-pwa
- * https://www.npmjs.com/package/next-pwa */
+/** 
+ * This fragment contains the full set of header tags required by next-pwa
+ * https://www.npmjs.com/package/next-pwa 
+ */
 export default function PWAMeta() {
   return (
     <>

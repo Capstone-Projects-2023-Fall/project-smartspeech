@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install
-        run: cd documentation && yarn install
+        run: cd documentation && yarn install && cd ../frontend && npm i && npx typedoc
 
       - name: Deploy
         run: |

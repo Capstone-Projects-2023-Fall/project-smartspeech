@@ -46,6 +46,12 @@ classDiagram
 
   RecognizeHandler o-- Amazon_Rekognition: uses for image recognition 
   RecognizeHandler o-- AMAZON_S3: uses to store images
+
+  note for Amazon_Rekognition "Pre-trained deep learning for labeling image"
+  note for AMAZON_S3 "Persistent storage for storing large quantities of images"
+
+  note for Request "Used to represent requests in handlers"
+  note for Response "Used to represent responses in handlers"
 ```
 
-In this Diagram, the FASTAPI application will split routes to python submodules. Some submodules make use of AWS services like Rekognition or S3 (Object Storage). 
+In this Diagram, the FASTAPI application will split routes to python submodules. Some submodules make use of AWS services like Rekognition or S3 (Object Storage).

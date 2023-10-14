@@ -9,6 +9,9 @@ import things from "./things/things";
 import tell from "./tell/tell";
 import these from "./these/these";
 
+/**
+ * Maps words to tile data for each tile in our AAC board
+ */
 const data: TileAssets = {
     colors: {
         image: "/AAC_assets/img/colors/colorwheel.png",
