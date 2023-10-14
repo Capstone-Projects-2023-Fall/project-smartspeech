@@ -32,6 +32,11 @@ def get_config():
     return dotenv_values(".env")
 
 
+@cache
+def get_session():
+    return requests.Session()
+
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -43,7 +48,7 @@ async def healthCheck():
 
 
 @app.get("/tts")
-async def tts(phrase: str, config: Annotated[dict, Depends(get_config)]):
+async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
     """
     Converts **phrase** to audio using elevenlab's test to speech service.
     Returns a string of mp3 bytes.
@@ -64,7 +69,7 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)]):
     }
 
     start = time.perf_counter()
-    response = requests.post(
+    response = session.post(
         config["TTS_API_URL"], json=data, headers=headers)
     end = time.perf_counter()
 
