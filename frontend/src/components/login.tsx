@@ -31,11 +31,6 @@ export default function Login() {
       </>
     )
   }
-  /*
-  return(
-    <a href="/api/auth/signin">Sign in</a>
-  ) 
-  */
 
   return (
     <div className="bg-white flex flex-col justify-center items-center">
