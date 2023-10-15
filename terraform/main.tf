@@ -16,7 +16,7 @@ module "vpc" {
   public_subnets  = var.vpc_subnet_info.public_subnet_blocks
 
   map_public_ip_on_launch = true
-  enable_nat_gateway      = true
+  enable_nat_gateway      = var.is_full_deployment
 
   nat_eip_tags = merge(var.default_labels, {
     "Name" = "SS-nat-eip"

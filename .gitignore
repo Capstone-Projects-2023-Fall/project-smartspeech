@@ -2,6 +2,7 @@
 node_modules
 .pnp
 .pnp.js
+env
 
 # testing
 coverage
@@ -62,3 +63,6 @@ __pycache__
 # terraform 
 .terraform
 .terraform.lock.hcl
+
+# Hidden secrets
+.env.local

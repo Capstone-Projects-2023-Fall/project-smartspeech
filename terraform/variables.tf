@@ -20,6 +20,13 @@ variable "exposed_ecs_ports" {
   default = [8000]
 }
 
+#! Full deployment
+variable "is_full_deployment" {
+  type        = bool
+  default     = false
+  description = "When we want a full deployment with LBs and ECS FG Services, set to true"
+}
+
 variable "vpc_subnet_info" {
   type = map(list(string))
   default = {
