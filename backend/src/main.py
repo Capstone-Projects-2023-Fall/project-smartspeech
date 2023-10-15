@@ -1,7 +1,7 @@
 from functools import cache
 import logging
 import time
-from typing import Annotated
+from typing import Annotated, List
 from pydantic import BaseModel
 
 from dotenv import dotenv_values
@@ -12,8 +12,14 @@ import requests
 class Drawing(BaseModel):
     content: str
 
+class DrawingResponse(BaseModel):
+    predictions: List[str]
+
 class Image(BaseModel):
     content: str
+
+class ImageResponse(BaseModel):
+    predictions: List[str]
 
 app = FastAPI()
 
@@ -53,15 +59,15 @@ async def root():
 async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
 
-@app.get("/draw")
+@app.post("/draw")
 async def draw(drawing: Drawing):
-    lst = [drawing.content]
-    return {"content": lst}
+    predictions = [drawing.content]
+    return {"predictions": predictions}
 
-@app.get("/image")
+@app.post("/image")
 async def draw(image: Image):
-    lst = [image.content]
-    return {"content": lst}
+    predictions = [image.content]
+    return {"predictions": predictions}
 
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):

@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 import requests
 import requests_mock
 
-from .main import app, get_config, get_session
+from .main import app, get_config, get_session, Image, ImageResponse, Drawing, DrawingResponse
 
 
 mock_tts_endpoint = 'mock://tts.com'
@@ -57,3 +57,21 @@ def test_tts(client: TestClient):
     response = client.get("/tts?phrase=phrase")
     assert response.status_code == 200
     assert response.text == mock_text
+
+def test_image_output(client: TestClient):
+    """Ensure that '/image' returns a list of image predictions (string[])"""
+    stub = "This is an image"
+    image = Image(content=stub)
+    imageResponse = ImageResponse(predictions=[stub])
+    response = client.post("/image", json=image.model_dump())
+    assert response.status_code == 200
+    assert response.json() == imageResponse.model_dump()
+
+def test_drawing_output(client: TestClient):
+    """Ensure that '/draw' returns a list of drawing predictions (string[])"""
+    stub = "This is a drawing"
+    drawing = Drawing(content=stub)
+    drawingResponse = DrawingResponse(predictions=[stub])
+    response = client.post("/draw", json=drawing.model_dump())
+    assert response.status_code == 200
+    assert response.json() == drawingResponse.model_dump()
