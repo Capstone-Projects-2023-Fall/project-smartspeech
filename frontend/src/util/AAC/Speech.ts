@@ -11,11 +11,12 @@ export function speakViaWebSpeechAPI(sound: string): boolean {
   }
 
   let context = new AudioContext();
+  let backendURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
   // Get mp3 bytes from backend
   try {
-    fetch("http://localhost:8000/tts?" + new URLSearchParams("phrase=" + sound))
+    fetch(backendURL + "/tts?" + new URLSearchParams("phrase=" + sound))
       // Retrieve bytes from response
       .then((response) => {
         if (response.ok) {
