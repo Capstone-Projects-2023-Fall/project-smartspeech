@@ -8,7 +8,7 @@ import React from "react";
 import Login from "@/components/login";
 import Head from "next/head";
 import { signOut,useSession } from "next-auth/react";
-import SignOut from "@/components/Signout";
+import SignOut from "@/components/SignOut";
 
 
 export default function Home() {
