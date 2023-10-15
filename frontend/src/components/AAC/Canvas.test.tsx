@@ -1,10 +1,10 @@
 import "@testing-library/react"
+import "@testing-library/jest-dom";
 import page from "./Canvas"
-import{render} from "@testing-library/react"
+import{render, screen} from "@testing-library/react"
 
 describe("Renders Canvas", ()=>{
     it("should render", ()=>{
-        const renderPage = render(page)
-        
+       render(page)
     })
 })

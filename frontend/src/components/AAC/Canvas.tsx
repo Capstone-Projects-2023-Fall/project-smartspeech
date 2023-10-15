@@ -43,7 +43,7 @@ const page: FC<pageProps> = ({}) => {
         <div className="mx-3">
             <div className="w-full h-full bg-white flex justify-center items-center relative">
                 <div className="flex flex-col gap-10">
-                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"  onClick={clear}>
+                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"  data-testid = "clearImage" onClick={clear}>
                         Clear canvas
                     </button>
                     <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold" data-testid = "checkImage" onClick={promptUserRecogination}>
@@ -52,6 +52,7 @@ const page: FC<pageProps> = ({}) => {
                 </div>
 
                 <canvas
+                    data-testid = "canvasImage"
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
                     width={window.innerWidth - 24 - 4}
