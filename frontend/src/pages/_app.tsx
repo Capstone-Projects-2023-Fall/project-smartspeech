@@ -26,7 +26,7 @@ const poppins = Poppins({
 export default function App({Component, pageProps}: AppProps) {
   return (
     <>
-    <ProvidersWrapper>
+     <ProvidersWrapper>
         <Head>
           <meta charSet="utf-8" />
           <PWAMeta />
