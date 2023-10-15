@@ -5,6 +5,10 @@ import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 
 
+/**
+ * 
+ * @returns the homepage for this app
+ */
 export default function Home() {
     return (
         <section className="font-inter">

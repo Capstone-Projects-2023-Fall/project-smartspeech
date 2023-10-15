@@ -25,7 +25,9 @@ export interface UtteredTilesProviderProps {
 }
 
 /**
- *
+ * Provides a list of active tiles to children. This provider should be used to
+ * get access to currently selected tiles. Also provides an 'addTile' function
+ * for adding selected tiles.
  * @param children Components which require this provider should be used like:  `<UtteredTilesProvider>...</UtteredTilesProvider>`
  * @returns Component which provides a shared state of type `UtteredTilesState` to any `children`
  */

@@ -52,6 +52,13 @@ frontend/.swc
 # docs - obsidian
 .obsidian
 
+# docs - typedoc
+documentation/static/typedoc
+
 # python
 venv/
 __pycache__
+
+# terraform 
+.terraform
+.terraform.lock.hcl

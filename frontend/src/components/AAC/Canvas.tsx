@@ -7,6 +7,9 @@ import { TileAssets } from "./TileTypes";
 
 interface pageProps {}
 
+/**
+ * Renders a blank canvas, allowing the user to draw pictures with blank ink.
+ */
 const page: FC<pageProps> = ({}) => {
     const [color, setColor] = useState<string>("#000");
     const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
