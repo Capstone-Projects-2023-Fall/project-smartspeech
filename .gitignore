@@ -63,3 +63,6 @@ __pycache__
 # terraform 
 .terraform
 .terraform.lock.hcl
+
+# Hidden secrets
+.env.local
