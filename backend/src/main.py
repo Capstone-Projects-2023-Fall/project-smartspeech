@@ -55,11 +55,13 @@ async def healthCheck():
 
 @app.get("/draw")
 async def draw(drawing: Drawing):
-    return {"content": drawing.content}
+    lst = [drawing.content]
+    return {"content": lst}
 
 @app.get("/image")
 async def draw(image: Image):
-    return {"content": image.content}
+    lst = [image.content]
+    return {"content": lst}
 
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
