@@ -5,7 +5,7 @@ import {signIn } from "next-auth/react";
 export default function Login() {
   return (
     <>
-      Not signed in <br />
+      Not Signed In. <br />
       <button onClick={() => signIn()} type="button" className="btn btn-primary">
       Sign In</button>
     </>

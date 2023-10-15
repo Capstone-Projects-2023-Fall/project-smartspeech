@@ -8,6 +8,8 @@ import React from "react";
 import Login from "@/components/login";
 import Head from "next/head";
 import { signOut,useSession } from "next-auth/react";
+import SignOut from "@/components/Signout";
+
 
 export default function Home() {
     const session = useSession();
@@ -23,19 +25,7 @@ export default function Home() {
                 <Login />
             </main>
         </div>
-        <div>{session?.data?.user?.name}</div>
-        <button onClick={() =>  signOut()}>Logout</button>
-
-
-        <div>
-            <section className="font-inter">
-                <UtteredTilesProvider>
-                    <SelectedTilesActionBar />
-                    <Tiles />
-                </UtteredTilesProvider>
-                <Canvas />
-            </section>
-        </div>
+        <SignOut/>
 
         </>
     );
