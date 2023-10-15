@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-h1{
+.tilesHeaderFont{
     font-weight: bold;
     font-size: larger;
 }
