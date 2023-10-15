@@ -8,7 +8,18 @@ import sampleData from "@/data/testing/AAC/Tiles";
 
 jest.mock("../../util/AAC/getAACAssets");
 
-describe("Tiles", () => {
+/**
+ * @testDescription
+ * Test for Tile**s**
+ * This test renders a 'Tiles' with sample data and checks if all the required information was rendered and the effect of clicking on a random tile
+ *
+ * Test Count: 4
+ * - `<Tiles/>` : should render properly with initial state
+ * - `<Tiles/>` : should render properly with a tile with a sub menu is clicked
+ * - `<Tiles/>` : should render properly with a tile with a sub menu is clicked and then subtiles should disappear when back button is clicked
+ * - `<Tiles/>` : should snap back to main menu when a submenu is opened and an element is clicked
+ */
+export const tests = describe("Tiles", () => {
     it("should render properly with initial state", () => {
         // Set up data mock returns
         (getAACAssets as jest.Mock).mockReturnValue(sampleData);
@@ -56,7 +67,7 @@ describe("Tiles", () => {
         });
     });
 
-    it("should render properly with a tile with a sub menu is clicked", () => {
+    it("should render properly with a tile with a sub menu is clicked and then subtiles should disappear when back button is clicked", () => {
         // Set up data mock returns
         (getAACAssets as jest.Mock).mockReturnValue(sampleData);
 
