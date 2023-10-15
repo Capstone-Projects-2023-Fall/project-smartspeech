@@ -30,24 +30,26 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
   }
 
   
-  const promptUserRecogination = () => {
+  async function promptUserRecogination(){
+    try {
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
     
-    const canvas = canvasRef.current
-    if (!canvas) return
+      if(canvas){
+        const drawingDataUrl = canvas.toDataURL() // Capture the drawing as a data URL
+        console.log("Captured drawing data URL:", drawingDataUrl)
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    
-    if(canvas){
-      const drawingDataUrl = canvas.toDataURL() // Capture the drawing as a data URL
-      console.log("Captured drawing data URL:", drawingDataUrl)
+        //mock function accepting the canvas drawling
+        mockRecognitionFunc(drawingDataUrl)
 
-      //mock function accepting the canvas drawling
-      mockRecognitionFunc(drawingDataUrl)
-
+      }
+    } catch (error){
+      console.error("Error getting data", error)
+      throw error
     }
-    
-    
   }
   
   function mockRecognitionFunc(drawingDataUrl: string){
