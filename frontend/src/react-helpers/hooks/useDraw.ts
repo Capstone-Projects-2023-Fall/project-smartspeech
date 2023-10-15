@@ -44,7 +44,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
   
   function mockRecognitionFunc(drawingDataUrl: string){
     console.log("Accepted drawing", drawingDataUrl)
-    
+    return drawingDataUrl
   }
 
   useEffect(() => {
