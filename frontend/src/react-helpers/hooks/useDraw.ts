@@ -43,8 +43,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         console.log("Captured drawing data URL:", drawingDataUrl)
 
         //mock function accepting the canvas drawling
-        mockRecognitionFunc(drawingDataUrl)
-
+        return drawingDataUrl
       }
     } catch (error){
       console.error("Error getting data", error)
@@ -52,10 +51,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     }
   }
   
-  function mockRecognitionFunc(drawingDataUrl: string){
-    console.log("Accepted drawing", drawingDataUrl)
-    return drawingDataUrl
-  }
+
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
