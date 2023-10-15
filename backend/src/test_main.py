@@ -60,18 +60,38 @@ def test_tts(client: TestClient):
 
 def test_image_output(client: TestClient):
     """Ensure that '/image' returns a list of image predictions (string[])"""
-    stub = "This is an image"
-    image = Image(content=stub)
-    imageResponse = ImageResponse(predictions=[stub])
+    image = Image(content=mock_text)
+    imageResponse = ImageResponse(predictions=[mock_text])
     response = client.post("/image", json=image.model_dump())
     assert response.status_code == 200
     assert response.json() == imageResponse.model_dump()
 
-def test_drawing_output(client: TestClient):
+def test_draw_output(client: TestClient):
     """Ensure that '/draw' returns a list of drawing predictions (string[])"""
-    stub = "This is a drawing"
-    drawing = Drawing(content=stub)
-    drawingResponse = DrawingResponse(predictions=[stub])
+    drawing = Drawing(content=mock_text)
+    drawingResponse = DrawingResponse(predictions=[mock_text])
     response = client.post("/draw", json=drawing.model_dump())
     assert response.status_code == 200
     assert response.json() == drawingResponse.model_dump()
+
+def test_image_body_req(client: TestClient):
+    """Ensure that '/image' returns an error when there is no request body"""
+    response = client.post("/image")
+    assert response.status_code == 422
+
+def test_draw_body_req(client: TestClient):
+    """Ensure that '/draw' returns an error when there is no request body"""
+    response = client.post("/draw")
+    assert response.status_code == 422
+
+def test_image_body_form(client: TestClient):
+    """Ensure that '/image' returns an error when the request body is malformed"""
+    image = {"not-content": mock_text}
+    response = client.post("/image", json=image)
+    assert response.status_code == 422
+
+def test_draw_body_form(client: TestClient):
+    """Ensure that '/draw' returns an error when the request body is malformed"""
+    image = {"not-content": mock_text}
+    response = client.post("/image", json=image)
+    assert response.status_code == 422
