@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+class Drawing(BaseModel):
+    content: str
+
 class Image(BaseModel):
     content: str
 
@@ -16,5 +19,10 @@ async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
 
 @app.get("/draw")
+async def draw(drawing: Drawing):
+    return {"content": drawing.content}
+
+@app.get("/image")
 async def draw(image: Image):
     return {"content": image.content}
+
