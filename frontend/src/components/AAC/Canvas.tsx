@@ -1,16 +1,13 @@
 import { FC, useState } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { getAACAssets } from "../../util/AAC/getAACAssets";
-import Tiles from "./Tiles";
-import { TileAssets } from "./TileTypes";
 
 interface pageProps {}
 
 /**
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
  */
-const page: FC<pageProps> = ({}) => {
+export default function Canvas(){
     const [color, setColor] = useState<string>("#000");
     const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
 
@@ -52,17 +49,14 @@ const page: FC<pageProps> = ({}) => {
                 </div>
 
                 <canvas
-                    data-testid = "canvasImage"
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
                     width={window.innerWidth - 24 - 4}
                     height={window.innerHeight - 24 - 4}
                     className="border-black border-2 shadow-lg rounded-md"
+                    data-testid="my-canvas"
                 />
             </div>
         </div>
     );
 };
-   
-
-export default page;
