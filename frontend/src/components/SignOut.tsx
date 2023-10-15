@@ -11,8 +11,6 @@ export default function SignOut(){
     const session = useSession();
     return(
         <>
-        <h1 className="main-title">Welcome {session?.data?.user?.name} to Smart Speech!</h1>
-        
         <div>
             <section className="font-inter">
                 <UtteredTilesProvider>
@@ -23,7 +21,12 @@ export default function SignOut(){
             </section>
         </div>
 
-        <button onClick={() =>  signOut()}>Logout</button>
+        <div className="bg-white flex flex-col justify-center items-center">
+        <br />
+        <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() =>  signOut()}>Logout</button>
+        <br />
+        </div>
+       
         </>
     )
 }
