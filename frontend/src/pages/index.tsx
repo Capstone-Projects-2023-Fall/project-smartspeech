@@ -23,7 +23,7 @@ export default function Home() {
                 <Login />
             </main>
         </div>
-        <div>(session?.data?.user?.name)</div>
+        <div>{session?.data?.user?.name}</div>
         <button onClick={() =>  signOut()}>Logout</button>
 
 
