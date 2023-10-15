@@ -5,9 +5,13 @@ import type { AppProps } from "next/app";
 import { Inter, Poppins } from "next/font/google";
 import Head from "next/head";
 
-import Login from "@/components/login";
-import { Provider } from "react";
 import ProvidersWrapper from "@/react-state-management/providers/providersWrapper";
+import { getServerSession } from "next-auth";
+import { options } from "./api/auth/[...nextauth]";
+import { SessionProvider } from "next-auth/react";
+import React from "react";
+import Login from "@/components/login";
+import Home from "./";
 
 //localhost:3000
 
@@ -21,9 +25,22 @@ const poppins = Poppins({
   variable: "--font-poppins",
   weight: ["500", "600", "900"],
 });
-
-export default function App({ Component, pageProps}: AppProps) {
+export default async function App({children,}:{children: React.ReactNode}){
+/*export default function App({ Component, pageProps}: AppProps) {*/
+  const  session = await getServerSession(options);
   return (
+    <html lang="en">
+      <body className={inter.className}>
+        <SessionProvider session={session}>
+          {!session ? (
+            <Login/>
+          ):(
+            <Home/>
+          )}
+        </SessionProvider> 
+      </body>
+    </html>
+    /*
     <>
       <ProvidersWrapper>
         <Head>
@@ -35,5 +52,6 @@ export default function App({ Component, pageProps}: AppProps) {
         </main>
       </ProvidersWrapper>
     </>
+    */
   );
 }
