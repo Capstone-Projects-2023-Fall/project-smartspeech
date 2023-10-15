@@ -2,7 +2,7 @@ name: Test Application
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "SS-18-Text-to-audio-implemention"]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,4 +14,4 @@ jobs:
       - name: Test Frontend
         run: cd frontend && npm i && npm run test
       - name: Test Backend
-        run: cd backend && python3 -m venv env && source env/bin/activate && pip install -r requirements.txt && pytest --cov
+        run: cd backend && pip install -r requirements.txt && pytest --cov
