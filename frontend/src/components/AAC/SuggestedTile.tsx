@@ -1,9 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { TileAssets } from "./TileTypes";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "../../util/AAC/getAACAssets";
 import Tiles from "./Tiles";
 import Tile from "./Tile";
+
 
 /**
  *
@@ -12,29 +12,27 @@ import Tile from "./Tile";
  * update later to add logic for what is drawn on Canvas
  */
 export default function SuggestedTiles() {
+  // State to store tile data and current location
   const [data, setData] = useState<TileAssets>({});
   const [dataLocation, dispatch] = useReducer(stackReducer<string>, []);
-  const [currentFrame, setCurrentFrame] = useState<TileAssets>({});
 
+  // Fetch and set tile assets from an external source when the component mounts
   useEffect(() => {
     const tileAssets = getAACAssets();
     setData(tileAssets);
   }, []);
 
-  useEffect(() => {
-    if (dataLocation.length === 0) return setCurrentFrame(data);
-  }, [data, dataLocation]);
-
   return (
-    <><h1 className="tilesHeaderFont">Suggested Tiles</h1>
+    <>
+      <h1 className="tilesHeaderFont">Suggested Tiles</h1>
       <div className="grid grid-cols-8" data-testid="tiles-container">
-        {Object.keys(currentFrame).map((key) => {
-          const tileData = currentFrame[key];
+        {Object.keys(data).map((key) => {
+          const tileData = data[key];
           const { image, text, sound, tileColor, subTiles } = tileData;
-
-          //rendering tiles and setting up click handler to add key to data location
+        //rendering tiles and setting up click handler to add key to data location
           return (
             <div key={key} onClick={() => dispatch({ type: "add", payload: key })}>
+              {/* Render each tile and set up the click handler to add the key to data location */}
               <Tile image={image} text={text} sound={sound} tileColor={tileColor} />
             </div>
           );
