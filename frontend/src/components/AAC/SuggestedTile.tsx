@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "../../util/AAC/getAACAssets";
-import Tiles from "./Tiles";
 import Tile from "./Tile";
+import { TileAssets } from "./TileTypes";
 
 
 /**
@@ -31,10 +31,7 @@ export default function SuggestedTiles() {
           const { image, text, sound, tileColor, subTiles } = tileData;
         //rendering tiles and setting up click handler to add key to data location
           return (
-            <div key={key} onClick={() => dispatch({ type: "add", payload: key })}>
-              {/* Render each tile and set up the click handler to add the key to data location */}
-              <Tile image={image} text={text} sound={sound} tileColor={tileColor} />
-            </div>
+            <Tile image={image} text={text} sound={sound} tileColor={tileColor} key={key}/>
           );
         })}
       </div>
