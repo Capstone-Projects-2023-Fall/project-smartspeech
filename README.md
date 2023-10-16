@@ -49,6 +49,20 @@ This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and Ass
  
 ### Software Requirements
 
+## [SmartSpeech](https://capstone-projects-2023-fall.github.io/project-smartspeech) GitHub Stats
+
+## Number of opened pull requests made by each team member on the Tradester Team
+
+![SmartSpeech pull requests](https://courses.ianapplebaum.com/api/pull-requests/Capstone-Projects-2023-Fall/project-smartspeech)
+
+## Number of code reviews made by each team member on the Tradester Team
+
+![SmartSpeech reviews](https://courses.ianapplebaum.com/api/reviews/Capstone-Projects-2023-Fall/project-smartspeech)
+
+## Number of commits made by each team member on the Tradester Team
+
+![SmartSpeech commits](https://courses.ianapplebaum.com/api/commits/Capstone-Projects-2023-Fall/project-smartspeech)
+
 ### Collaborators
 
 [//]: # ( readme: collaborators -start )
