@@ -2,7 +2,7 @@ name: Test Application
 
 on:
   push:
-    branches: ["main"]
+    branches: ["**"]
 jobs:
   test:
     runs-on: ubuntu-latest
