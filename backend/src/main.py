@@ -1,12 +1,25 @@
 from functools import cache
 import logging
 import time
-from typing import Annotated
+from typing import Annotated, List
+from pydantic import BaseModel
 
 from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+
+class Drawing(BaseModel):
+    content: str
+
+class DrawingResponse(BaseModel):
+    predictions: List[str]
+
+class Image(BaseModel):
+    content: str
+
+class ImageResponse(BaseModel):
+    predictions: List[str]
 
 app = FastAPI()
 
@@ -46,6 +59,19 @@ async def root():
 async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
 
+@app.post("/draw")
+async def draw(drawing: Drawing):
+    predictions = [drawing.content]
+    return {"predictions": predictions}
+
+@app.post("/image")
+async def draw(image: Image):
+    predictions = [image.content]
+    return {"predictions": predictions}
+
+@app.get("/tile/{user_id}")
+async def tile(user_id: int):
+    return {"user_id": user_id}
 
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
