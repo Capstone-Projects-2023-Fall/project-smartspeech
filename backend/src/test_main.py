@@ -66,22 +66,9 @@ def test_image_output(client: TestClient):
     assert response.status_code == 200
     assert response.json() == imageResponse.model_dump()
 
-def test_draw_output(client: TestClient):
-    """Ensure that '/draw' returns a list of drawing predictions (string[])"""
-    drawing = Drawing(content=mock_text)
-    drawingResponse = DrawingResponse(predictions=[mock_text])
-    response = client.post("/draw", json=drawing.model_dump())
-    assert response.status_code == 200
-    assert response.json() == drawingResponse.model_dump()
-
 def test_image_body_req(client: TestClient):
     """Ensure that '/image' returns an error when there is no request body"""
     response = client.post("/image")
-    assert response.status_code == 422
-
-def test_draw_body_req(client: TestClient):
-    """Ensure that '/draw' returns an error when there is no request body"""
-    response = client.post("/draw")
     assert response.status_code == 422
 
 def test_image_body_form(client: TestClient):
@@ -90,8 +77,28 @@ def test_image_body_form(client: TestClient):
     response = client.post("/image", json=image)
     assert response.status_code == 422
 
+def test_draw_output(client: TestClient):
+    """Ensure that '/draw' returns a list of drawing predictions (string[])"""
+    drawing = Drawing(content=mock_text)
+    drawingResponse = DrawingResponse(predictions=[mock_text])
+    response = client.post("/draw", json=drawing.model_dump())
+    assert response.status_code == 200
+    assert response.json() == drawingResponse.model_dump()
+
+def test_draw_body_req(client: TestClient):
+    """Ensure that '/draw' returns an error when there is no request body"""
+    response = client.post("/draw")
+    assert response.status_code == 422
+
 def test_draw_body_form(client: TestClient):
     """Ensure that '/draw' returns an error when the request body is malformed"""
     image = {"not-content": mock_text}
     response = client.post("/image", json=image)
     assert response.status_code == 422
+
+def test_tile_output(client: TestClient):
+    """Ensure that '/tile' correclty outputs the user_id"""
+    user_id = 1234
+    response = client.get(f"/tile/{user_id}")
+    assert response.status_code == 200
+    assert response.json() == {"user_id": user_id}
