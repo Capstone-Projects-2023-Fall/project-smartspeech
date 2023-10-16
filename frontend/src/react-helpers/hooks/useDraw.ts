@@ -1,3 +1,6 @@
+import Tile from '@/components/AAC/Tile'
+import data from '@/data/AAC/Tiles'
+import { getAACAssets } from '@/util/AAC/getAACAssets'
 import { useEffect, useRef, useState } from 'react'
 
 /**
@@ -25,6 +28,30 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
   }
+
+  
+  async function promptUserRecogination(){
+    try {
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+    
+      if(canvas){
+        const drawingDataUrl = canvas.toDataURL() // Capture the drawing as a data URL
+        console.log("Captured drawing data URL:", drawingDataUrl)
+
+        //mock function accepting the canvas drawling
+        return drawingDataUrl
+      }
+    } catch (error){
+      console.error("Error getting data", error)
+      throw error
+    }
+  }
+  
+
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -65,5 +92,5 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     }
   }, [onDraw])
 
-  return { canvasRef, onMouseDown, clear }
+  return { canvasRef, onMouseDown, clear, promptUserRecogination}
 }

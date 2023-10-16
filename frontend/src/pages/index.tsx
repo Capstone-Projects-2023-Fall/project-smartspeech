@@ -2,6 +2,7 @@ import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
 import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
 import Canvas from "@/components/AAC/Canvas";
+import SuggestedTiles from "@/components/AAC/SuggestedTile";
 
 
 /**
@@ -14,9 +15,10 @@ export default function Home() {
 
             <UtteredTilesProvider>
                 <SelectedTilesActionBar />
+                <Canvas />
+                <SuggestedTiles />
                 <Tiles />
             </UtteredTilesProvider>
-            <Canvas />
         </section>
     );
 }

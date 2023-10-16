@@ -36,7 +36,7 @@ export default function Tiles() {
     }, [data, dataLocation]);
 
     return (
-        <div className="grid grid-cols-8" data-testid="tiles-container">
+        <><h1 className="tilesHeaderFont">Standard Tiles</h1><div className="grid grid-cols-8" data-testid="tiles-container">
             {Object.keys(currentFrame).map((key) => {
                 const tileData = currentFrame[key];
                 const { image, text, sound, tileColor, subTiles } = tileData;
@@ -44,13 +44,12 @@ export default function Tiles() {
 
                 const clickHandler = subTiles
                     ? // attach navigator if subtiles exist
-                      () =>
-                          dispatch({
-                              type: "add",
-                              payload: key,
-                          })
+                    () => dispatch({
+                        type: "add",
+                        payload: key,
+                    })
                     : // go back to main menu if button clicked
-                      () => dispatch({ type: "clear" });
+                    () => dispatch({ type: "clear" });
 
                 return (
                     <div key={key} onClick={clickHandler}>
@@ -63,6 +62,6 @@ export default function Tiles() {
                     <Tile image="/AAC_assets/img/standard/back_arrow.png" text={BACK_BTN_TEXT} tileColor="green" />
                 </div>
             )}
-        </div>
+        </div></>
     );
 }
