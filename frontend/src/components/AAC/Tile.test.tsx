@@ -32,7 +32,18 @@ const sampleTileProps: TileProps = {
     tileColor: "red",
 };
 
-describe("Tile", () => {
+/**
+ * @testDescription
+ * Test for Tile
+ * This test renders a Tile with sample data and checks if all the required information was rendered and the effect of clicking on a tile
+ *
+ * *Note* : This test requires the provider `UtteredTilesProvider` to register tile presses.
+ *
+ * Test Count: 2
+ * - `<Tile/>` : Correctly renders MiniTile component with sound
+ * - `<Tile/>` : Correctly renders MiniTile component without sound
+ */
+export const tests = describe("Tile", () => {
     it("Correctly renders MiniTile component with sound", () => {
         const { image, text, sound, tileColor } = sampleTileProps;
         render(

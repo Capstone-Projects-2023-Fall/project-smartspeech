@@ -17,7 +17,20 @@ jest.mock("../../util/AAC/Speech", () => {
 
 jest.mock("../../util/AAC/getAACAssets");
 
-describe("SelectedTilesActionBar", () => {
+/**
+ * @testDescription
+ * Test for SelectedTilesActionBar
+ * This test renders a SelectedTilesActionBar with **mocked** TileData and checks if all the required information was rendered and the effects of clicking tiles.
+ *
+ * *Note* : This test requires the provider `UtteredTilesProvider` to register tile presses.
+ *
+ * Test Count: 4
+ * - `<SelectedTilesActionBar/>` : should render properly
+ * - `<SelectedTilesActionBar/>` : should add tiles correctly when tiles are pressed
+ * - `<SelectedTilesActionBar/>` : should add elements correctly and send them to webspeech API
+ * - `<SelectedTilesActionBar/>` : should clear elements on the click of the clear button
+ */
+export const tests = describe("SelectedTilesActionBar", () => {
     // fake getAssets call
     beforeEach(() => {
         (getAACAssets as jest.Mock).mockReturnValue(sampleData);
@@ -45,7 +58,7 @@ describe("SelectedTilesActionBar", () => {
         expect(clearBtnElement).toBeInTheDocument();
     });
 
-    it("should add elements correctly", () => {
+    it("should add tiles correctly when tiles are pressed", () => {
         // we need tiles to help add buttons into action bar
         render(
             <UtteredTilesProvider>

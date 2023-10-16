@@ -6,6 +6,7 @@ interface pageProps {}
 
 /**
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
+ * Canvas also allows for clearing and submitting to server
  */
 const page: FC<pageProps> = ({}) => {
     const [color, setColor] = useState<string>("#000");
