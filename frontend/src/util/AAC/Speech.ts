@@ -1,3 +1,5 @@
+import { AudioContext } from "standardized-audio-context";
+
 /**
  * To evict the cache, we arbitrarily remove one quarter of the cache when the
  * app uses 90% or more of its storage quota. While an LRU cache would be more
@@ -5,8 +7,15 @@
  * timestamps. In an experiment, a sentence with 15 words took 0.024% of the
  * available storage, so we will evict very infrequently. Hence, we take the
  * simplest approach.
+ *
+ * We cannot estimate storage capacity on some browsers, in which case
+ * we just let the browser purge the whole cache periodically.
  */
 async function evictCache(cache: Cache) {
+  if (navigator.storage.estimate === undefined) {
+    return;
+  }
+
   let estimate = await navigator.storage.estimate();
   if (estimate.quota === undefined || estimate.usage === undefined) {
     return;
@@ -69,15 +78,9 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
  * @returns true if the sound is played, and false otherwise
  */
 export async function speakViaWebSpeechAPI(sound: string): Promise<boolean> {
-  if (!window.AudioContext) {
-    return false;
-  }
-
   // Get Response by first checking cache
   let response = await requestTTS(sound);
-  if (response === undefined) {
-    return false;
-  }
+  if (!response) return false;
 
   // Play audio in response out loud
   let context = new AudioContext();
@@ -89,7 +92,7 @@ export async function speakViaWebSpeechAPI(sound: string): Promise<boolean> {
     .then((buffer) => context.decodeAudioData(buffer))
     // Create an audio source
     .then((decodedData) => {
-      const source = new AudioBufferSourceNode(context);
+      const source = context.createBufferSource();
       source.buffer = decodedData;
       source.connect(context.destination);
       return source;
