@@ -1,6 +1,35 @@
 /**
+ * To evict the cache, we arbitrarily remove one quarter of the cache when the
+ * app uses 90% or more of its storage quota. While an LRU cache would be more
+ * efficient, it would require a secondary cache since Cache doesn't keep
+ * timestamps. In an experiment, a sentence with 15 words took 0.024% of the
+ * available storage, so we will evict very infrequently. Hence, we take the
+ * simplest approach.
+ */
+async function evictCache(cache: Cache) {
+  let estimate = await navigator.storage.estimate();
+  if (estimate.quota === undefined || estimate.usage === undefined) {
+    return;
+  }
+
+  let quota_usage = (estimate.usage / estimate.quota) * 100;
+  if (quota_usage < 90) {
+    return;
+  }
+
+  console.log("Evicting TTS cache");
+
+  let keys = await cache.keys();
+  for (let i = 0; i < Math.ceil(keys.length / 4); i++) {
+    let key = keys[Math.floor(Math.random() * keys.length)];
+    cache.delete(key);
+  }
+}
+
+/**
  * Returns a Response containing an mp3 speaking `phrase`. Checks the browser
  * cache to see if a Response is already saved.
+ *
  */
 async function requestTTS(phrase: string): Promise<Response | undefined> {
   let backendURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
@@ -11,9 +40,11 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
 
   let response = await cache.match(request);
   if (response === undefined) {
+    console.log("Making a call to the backend");
     response = await fetch(request);
     if (response.ok) {
       cache.put(request, response.clone());
+      evictCache(cache);
     } else {
       return undefined;
     }
