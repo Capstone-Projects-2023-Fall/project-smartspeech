@@ -27,9 +27,7 @@ export default function SelectedTilesActionBar() {
       .map((tile) => tile.sound);
     const sentence = validTilesSounds.join(" ");
 
-    let context = new AudioContext();
-
-    speakViaWebSpeechAPI(sentence, context);
+    speakViaWebSpeechAPI(sentence);
   };
 
   return (

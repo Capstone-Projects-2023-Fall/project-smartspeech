@@ -40,9 +40,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
     // tiles that are just covers are soundless since they are
     if (!sound) return;
 
-    let context = new AudioContext();
-
-    speakViaWebSpeechAPI(sound, context);
+    speakViaWebSpeechAPI(sound);
 
     addTile({
       image,
