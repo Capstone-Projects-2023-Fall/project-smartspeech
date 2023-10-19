@@ -75,15 +75,23 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
  * is most reliable is we resample the AudioBuffer each call. This
  * extra processing time is not noticeable by the end user.
  *
+ * "Why do I have to pass in the AudioContext?"
+ * Safari will only play audio if it is the result of direct user interaction.
+ * If the AudioContext is initialized in the function, Safari does not see
+ * that as the result of user interaction, so it blocks the context.
+ * By passing in the AudioContext, Safari allows the audio to play.
+ * https://stackoverflow.com/a/31777081
+ * https://stackoverflow.com/a/58354682
+ *
  * @returns true if the sound is played, and false otherwise
  */
-export async function speakViaWebSpeechAPI(sound: string): Promise<boolean> {
+export async function speakViaWebSpeechAPI(
+  sound: string,
+  context: AudioContext
+): Promise<boolean> {
   // Get Response by first checking cache
   let response = await requestTTS(sound);
   if (!response) return false;
-
-  // Play audio in response out loud
-  let context = new AudioContext();
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
   response
