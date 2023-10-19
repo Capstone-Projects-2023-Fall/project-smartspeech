@@ -1,5 +1,5 @@
 import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
-import { speakViaWebSpeechAPI } from "@/util/AAC/Speech";
+import { speak } from "@/util/AAC/Speech";
 import Image from "next/image";
 import React from "react";
 import { AudioContext } from "standardized-audio-context";
@@ -40,7 +40,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
     // tiles that are just covers are soundless since they are
     if (!sound) return;
 
-    speakViaWebSpeechAPI(sound);
+    speak(sound);
 
     addTile({
       image,

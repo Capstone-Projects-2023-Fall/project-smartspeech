@@ -4,7 +4,7 @@ import MiniTile from "./MiniTile";
 
 import { RiSpeakLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
-import { speakViaWebSpeechAPI } from "@/util/AAC/Speech";
+import { speak } from "@/util/AAC/Speech";
 import { AudioContext } from "standardized-audio-context";
 
 export const actionBarDataTestIds = {
@@ -27,7 +27,7 @@ export default function SelectedTilesActionBar() {
       .map((tile) => tile.sound);
     const sentence = validTilesSounds.join(" ");
 
-    speakViaWebSpeechAPI(sentence);
+    speak(sentence);
   };
 
   return (

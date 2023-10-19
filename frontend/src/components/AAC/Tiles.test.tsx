@@ -13,7 +13,7 @@ jest.mock("../../util/AAC/getAACAssets");
 jest.mock("../../util/AAC/Speech", () => {
   return {
     ...jest.requireActual("../../util/AAC/Speech"),
-    speakViaWebSpeechAPI: jest.fn(),
+    speak: jest.fn(),
   };
 });
 
