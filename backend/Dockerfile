@@ -17,4 +17,4 @@ COPY ./src /code/src
 COPY ./.env /code/.env
 
 # Start server
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--env-file", "/code/src/.env.local"]
