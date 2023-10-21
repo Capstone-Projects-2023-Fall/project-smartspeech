@@ -31,7 +31,7 @@ class UploadFileToS3Model(BaseModel):
 def upload_file_to_s3(body: UploadFileToS3Model):
 	uploaded_file_name = f'{uuid.uuid4().hex}-{body.file_name}.{body.extension}'
 	file_binary = b64decode(body.base64File)
-	print(getenv(BUCKET_NAME_ENV_VAR))
+	
 	s3.upload_fileobj(BytesIO(file_binary), getenv(BUCKET_NAME_ENV_VAR), uploaded_file_name)
 
 	return {
