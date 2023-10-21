@@ -1,13 +1,18 @@
 from fastapi import APIRouter, UploadFile
-from uuid import uuid4
+from pydantic import BaseModel
+import uuid
 
 from dotenv import load_dotenv
 from os import getenv
 import boto3
+from base64 import b64decode
+from io import BytesIO
 
-BUCKET_NAME_ENV_VAR="BUCKET_NAME"
-ACCESS_KEY_ENV_VAR="ACCESS_KEY"
-SECRET_KEY_ENV_VAR="SECRET_KEY"
+BUCKET_NAME_ENV_VAR = "BUCKET_NAME"
+ACCESS_KEY_ENV_VAR = "ACCESS_KEY"
+SECRET_KEY_ENV_VAR = "SECRET_KEY"
+
+UPLOAD_TO_S3_ROUTE = "/s3/drawn-image"
 
 router = APIRouter()
 load_dotenv(dotenv_path=".env.local")
@@ -17,19 +22,21 @@ s3 = boto3.client('s3', \
 					aws_secret_access_key=getenv(SECRET_KEY_ENV_VAR)
 				)
 
+class UploadFileToS3Model(BaseModel):
+	base64File: str
+	file_name: str 
+	extension: str
 
-@router.post("/s3/drawn-image")
-def upload_image_to_s3(fileObj: UploadFile, image_name: str, extension: str, upload_with_raw_name: bool=False):
-	uploaded_image_name = fileObj.filename
-	
-	if upload_with_raw_name == False or uploaded_image_name is None: 
-		uploaded_image_name = f'{uuid4().hex}-{image_name}.{extension}'
-
-	s3.upload_fileobj(fileObj.file, getenv(BUCKET_NAME_ENV_VAR), uploaded_image_name)
+@router.post(UPLOAD_TO_S3_ROUTE)
+def upload_file_to_s3(body: UploadFileToS3Model):
+	uploaded_file_name = f'{uuid.uuid4().hex}-{body.file_name}.{body.extension}'
+	file_binary = b64decode(body.base64File)
+	print(getenv(BUCKET_NAME_ENV_VAR))
+	s3.upload_fileobj(BytesIO(file_binary), getenv(BUCKET_NAME_ENV_VAR), uploaded_file_name)
 
 	return {
 		"message": "uploaded",
-		"filename": uploaded_image_name
+		"filename": uploaded_file_name
 	}
 
 
