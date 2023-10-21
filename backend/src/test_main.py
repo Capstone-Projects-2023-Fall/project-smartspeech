@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 import requests
 import requests_mock
+import httpx # used to add httpx entry to requirements
 
 from .main import app, get_config, get_session, Image, ImageResponse, Drawing, DrawingResponse
 
