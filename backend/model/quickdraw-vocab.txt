@@ -1,182 +1,33 @@
-airplane
-ant
-apple
-arm
-backpack
-banana
-bandage
-baseball
-baseball bat
-basketball
-bathtub
-bed
-bee
-belt
-bicycle
-bird
-book
-broom
-bucket
-butterfly
-cactus
-camel
-camera
+blueberry
+bread
+bridge
+bus
 car
 carrot
 cat
-cell phone
-chair
 circle
-clock
-cloud
-computer
-cookie
-couch
-cow
-crab
-crayon
-crown
 cup
 diamond
 dog
-dolphin
-donut
-door
-dumbbell
-ear
-elephant
-eye
-eyeglasses
-face
-feather
-fence
-finger
-fire hydrant
-fish
-flashlight
-flip flops
 flower
-foot
 fork
-frog
-frying pan
-giraffe
-golf club
-grass
-guitar
 hamburger
 hammer
-hand
 hat
-headphones
-hexagon
-hockey puck
-hockey stick
-horse
-hot dog
-house
-ice cream
-jacket
-key
-keyboard
-ladder
-laptop
-leaf
-leg
-light bulb
-lightning
-line
-lion
-monkey
-moon
+hospital
 mountain
-mouse
-moustache
-mouth
-mug
-mushroom
-nose
 ocean
-octagon
 paintbrush
-palm tree
 pants
-paper clip
-pear
 pencil
-penguin
-piano
-pickup truck
-pig
-pillow
-pineapple
 pizza
-police car
-purse
-rabbit
-rain
-rainbow
-rake
-roller coaster
-rollerskates
-sailboat
-sandwich
-saw
-saxophone
-school bus
 scissors
-scorpion
 screwdriver
-shark
-sheep
-shoe
-shorts
-shovel
-sink
-skateboard
 smiley face
-snail
-snake
-snorkel
-snowflake
-snowman
-soccer ball
-sock
-spider
 spoon
 square
-squirrel
-stairs
-star
-steak
-stop sign
 strawberry
-submarine
-sun
-swing set
-table
-teapot
-teddy-bear
-telephone
-television
-tennis racquet
-tent
-tiger
-toaster
-toe
-toilet
-tooth
-toothbrush
-toothpaste
-tornado
-traffic light
-train
 tree
 triangle
-trumpet
 t-shirt
-umbrella
 underwear
-watermelon
-whale
-wheel
