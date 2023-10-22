@@ -8,14 +8,15 @@ import boto3
 from base64 import b64decode
 from io import BytesIO
 
+#https://github.com/quiqua/pytest-dotenv
 from .s3_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, UPLOAD_TO_S3_ROUTE
 
 router = APIRouter()
 load_dotenv(dotenv_path=".env.local")
 
-if getenv(ACCESS_KEY_ENV_VAR) is None or getenv(SECRET_KEY_ENV_VAR) is None:
-	print(getenv(ACCESS_KEY_ENV_VAR), getenv(SECRET_KEY_ENV_VAR), uuid.uuid4().hex)
-	raise RuntimeError("AWS Creds or ENV not present")
+#if getenv(ACCESS_KEY_ENV_VAR) is None or getenv(SECRET_KEY_ENV_VAR) is None:
+#	print(getenv(ACCESS_KEY_ENV_VAR), getenv(SECRET_KEY_ENV_VAR), uuid.uuid4().hex)
+#	raise RuntimeError("AWS Creds or ENV not present")
 
 s3 = boto3.client('s3', \
 					aws_access_key_id=getenv(ACCESS_KEY_ENV_VAR, "key"), \
