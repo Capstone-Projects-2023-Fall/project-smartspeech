@@ -1,5 +1,5 @@
-# Python 3
-FROM python:3.9
+# Python 3.10
+FROM python:3.10-slim
 
 # Set base dir
 WORKDIR /code

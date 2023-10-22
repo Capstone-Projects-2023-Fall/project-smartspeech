@@ -8,7 +8,7 @@ import boto3
 from base64 import b64decode
 from io import BytesIO
 
-from .s3_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, UPLOAD_TO_S3_ROUTE
+from .s3_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, UPLOAD_TO_S3_ROUTE, OBJECT_URL_ENV_VAR
 
 router = APIRouter()
 load_dotenv(dotenv_path=".env.local")
@@ -39,7 +39,8 @@ def upload_file_to_s3(body: UploadFileToS3Model):
 
 	return {
 		"message": "uploaded",
-		"filename": uploaded_file_name
+		"filename": uploaded_file_name,
+		"url": f'{getenv(OBJECT_URL_ENV_VAR)}/{uploaded_file_name}'
 	}
 
 
