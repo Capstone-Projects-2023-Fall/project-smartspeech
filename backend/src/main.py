@@ -2,13 +2,15 @@ from functools import cache
 import logging
 import time
 from typing import Annotated, List
-from pydantic import BaseModel
 
 from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+from pydantic import BaseModel
 
+# custom modules
+from .routers.s3 import router as s3_router
 
 class Drawing(BaseModel):
     content: str
@@ -27,7 +29,7 @@ class ImageResponse(BaseModel):
 
 
 app = FastAPI()
-
+app.include_router(s3_router)
 
 origins = [
     "http://localhost:3000",
