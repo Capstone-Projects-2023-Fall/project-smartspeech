@@ -2,27 +2,34 @@ from functools import cache
 import logging
 import time
 from typing import Annotated, List
-from pydantic import BaseModel
 
 from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+from pydantic import BaseModel
+
+# custom modules
+from .routers.s3 import router as s3_router
 
 class Drawing(BaseModel):
     content: str
 
+
 class DrawingResponse(BaseModel):
     predictions: List[str]
+
 
 class Image(BaseModel):
     content: str
 
+
 class ImageResponse(BaseModel):
     predictions: List[str]
 
-app = FastAPI()
 
+app = FastAPI()
+app.include_router(s3_router)
 
 origins = [
     "http://localhost:3000",
@@ -42,7 +49,7 @@ app.add_middleware(
 @cache
 def get_config():
     """Returns a dictionary mapping environment variable name to string value."""
-    return dotenv_values(".env")
+    return dotenv_values(".env.local")
 
 
 @cache
@@ -59,19 +66,23 @@ async def root():
 async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
 
+
 @app.post("/draw")
 async def draw(drawing: Drawing):
     predictions = [drawing.content]
     return {"predictions": predictions}
+
 
 @app.post("/image")
 async def draw(image: Image):
     predictions = [image.content]
     return {"predictions": predictions}
 
+
 @app.get("/tile/{user_id}")
 async def tile(user_id: int):
     return {"user_id": user_id}
+
 
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
@@ -93,6 +104,8 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session
             "similarity_boost": 0.5
         }
     }
+
+    print(headers)
 
     start = time.perf_counter()
     response = session.post(
