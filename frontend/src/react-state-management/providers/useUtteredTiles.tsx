@@ -35,7 +35,7 @@ export interface UtteredTilesProviderProps {
  */
 export default function UtteredTilesProvider({ children }: UtteredTilesProviderProps) {
     const [tiles, dispatchTileState] = useReducer(stackReducer<TileData>, []);
-    const [tileHistory, dispatchTileHistoryState] = useReducer(stackReducer<TileData>, []);
+    const [tileHistory, dispatchTileHistoryState] = useReducer(stackReducer<TileData>, [], );
 
     const clear = () => {
         dispatchTileState({ type: "clear" });
