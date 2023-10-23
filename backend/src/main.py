@@ -1,16 +1,13 @@
-from functools import cache
-import logging
-import time
-from typing import Annotated, List
+from typing import List
 
-from dotenv import dotenv_values
-from fastapi import FastAPI, Depends, Response
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import requests
 from pydantic import BaseModel
 
 # custom modules
 from .routers.s3 import router as s3_router
+from .routers.tts import router as tts_router
+
 
 class Drawing(BaseModel):
     content: str
@@ -30,6 +27,8 @@ class ImageResponse(BaseModel):
 
 app = FastAPI()
 app.include_router(s3_router)
+app.include_router(tts_router)
+
 
 origins = [
     "http://localhost:3000",
@@ -44,17 +43,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-
-@cache
-def get_config():
-    """Returns a dictionary mapping environment variable name to string value."""
-    return dotenv_values(".env.local")
-
-
-@cache
-def get_session():
-    return requests.Session()
 
 
 @app.get("/")
@@ -82,39 +70,3 @@ async def draw(image: Image):
 @app.get("/tile/{user_id}")
 async def tile(user_id: int):
     return {"user_id": user_id}
-
-
-@app.get("/tts")
-async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
-    """
-    Converts **phrase** to audio using elevenlab's test to speech service.
-    Returns a string of mp3 bytes.
-    """
-    headers = {
-        "Accept": "audio/mpeg",
-        "Content-Type": "application/json",
-        "xi-api-key": config["TTS_API_KEY"]
-    }
-
-    data = {
-        "text": phrase,
-        "model_id": "eleven_monolingual_v1",
-        "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.5
-        }
-    }
-
-    print(headers)
-
-    start = time.perf_counter()
-    response = session.post(
-        config["TTS_API_URL"], json=data, headers=headers)
-    end = time.perf_counter()
-
-    logging.debug(f"Converting phrase '{phrase}' to audio took {end-start}s.")
-
-    response.raise_for_status()
-
-    audio = b"".join(response.iter_content(chunk_size=1024))
-    return Response(audio)
