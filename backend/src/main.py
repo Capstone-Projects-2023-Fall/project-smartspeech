@@ -105,3 +105,7 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session
 
     audio = b"".join(response.iter_content(chunk_size=1024))
     return Response(audio)
+
+@app.get("/similarity")
+async def similarity(words: List[str]):
+    return words
