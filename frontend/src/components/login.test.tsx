@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import Login from './login';
+import "@testing-library/react"
+import "@testing-library/jest-dom";
 
 // Mock the next-auth/react module
 jest.mock('next-auth/react', () => ({
