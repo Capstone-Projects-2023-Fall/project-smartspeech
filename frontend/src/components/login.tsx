@@ -6,27 +6,32 @@ import Canvas from "@/components/AAC/Canvas";
 
 import React from "react";
 import {signIn, signOut, useSession } from "next-auth/react";
+import SuggestedTiles from "./AAC/SuggestedTile";
 
 export default function Login() {
   const { data: session, status } = useSession()
   if(status === 'authenticated'){
     return(
       <>
-      <p>Signed in as {session?.user?.email}</p>
-      <div>
-            <section className="font-inter">
-                <UtteredTilesProvider>
-                    <SelectedTilesActionBar />
-                    <Tiles />
-                </UtteredTilesProvider>
+        <div className="bg-white flex flex-col justify-center items-center">
+          <p>Signed in as {session?.user?.email}</p>
+        </div>
+      
+        <div>
+          <section className="font-inter">
+          <UtteredTilesProvider>
+                <SelectedTilesActionBar />
                 <Canvas />
-            </section>
+                <SuggestedTiles />
+                <Tiles />
+            </UtteredTilesProvider>
+          </section>
         </div>
 
         <div className="bg-white flex flex-col justify-center items-center">
-        <br />
-        <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() =>  signOut()}>Logout</button>
-        <br />
+          <br />
+          <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() =>  signOut()}>Logout</button>
+          <br />
         </div>
       </>
     )
@@ -35,7 +40,6 @@ export default function Login() {
   return (
     <div className="bg-white flex flex-col justify-center items-center">
       <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() => signIn()}>Sign In</button>
-      <br /> Not Signed In Yet. <br />
     </div>
   )  
 }

@@ -15,10 +15,11 @@ export default function Home() {
             </Head>
 
             <main className="main-inter flex justify-center">
-                <h1 className="main-title">Welcome {session?.data?.user?.name} to Smart Speech! </h1>
+                <h1 className="main-title">Welcome {session?.data?.user?.name} to Smart Speech! </h1>   
             </main>
+            <Login />
             <br/>
-                <Login />
+                
         </div>
         </>
     );
