@@ -6,7 +6,7 @@ import { EMPTY_FUNCTION } from "@/util/constants";
 
 export interface UtteredTilesState {
     tiles: TileData[];
-    tileHistory: TileData[]
+    tileHistory: TileData[];
     clear: () => void;
     addTile: (item: TileData) => void;
 }
@@ -35,7 +35,7 @@ export interface UtteredTilesProviderProps {
  */
 export default function UtteredTilesProvider({ children }: UtteredTilesProviderProps) {
     const [tiles, dispatchTileState] = useReducer(stackReducer<TileData>, []);
-    const [tileHistory, dispatchTileHistoryState] = useReducer(stackReducer<TileData>, [], );
+    const [tileHistory, dispatchTileHistoryState] = useReducer(stackReducer<TileData>, []);
 
     const clear = () => {
         dispatchTileState({ type: "clear" });
@@ -43,6 +43,11 @@ export default function UtteredTilesProvider({ children }: UtteredTilesProviderP
 
     const addTile = (item: TileData) => {
         dispatchTileState({
+            type: "add",
+            payload: item,
+        });
+
+        dispatchTileHistoryState({
             type: "add",
             payload: item,
         });
