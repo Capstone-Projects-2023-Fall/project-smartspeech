@@ -1,6 +1,6 @@
 import { TileProps } from "@/components/AAC/Tile";
 
-export const MAX_TILES_TO_KEEP_IN_MEMORY = 5;
+export const MAX_TILES_TO_KEEP_IN_MEMORY = 3;
 
 export type StackState<T> = T[];
 
@@ -39,15 +39,25 @@ export function insertTileWithHistory(newtile: TileProps, tileArray: StackState<
     return tileArray;
 }
 
-//! need to add in :StackState<TileHistoryTileProps> to function head
+export function canStoreTileInHistory(tile: TileProps, blacklist: TileProps[]) {
+    return true;
+}
+
+
 export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, action: StackAction<TileProps>) {
     switch (action.type) {
         case "add":
-            const newState = insertTileWithHistory(action.payload, [...state]);
+            const newTile = action.payload;
+
+            if (!canStoreTileInHistory(newTile, [])) return [...state];
+
+            //ensure that tile is not in blacklist
+
+            const newState = insertTileWithHistory(newTile, [...state]);
             newState
                 .sort((tileA, tileB) => tileB.rank - tileA.rank) //remove any extra tiles added to history
                 .splice(MAX_TILES_TO_KEEP_IN_MEMORY, 1); //sort them in order of rank to reflect which one was receently pressed
-                
+
             return newState;
 
         case "clear":

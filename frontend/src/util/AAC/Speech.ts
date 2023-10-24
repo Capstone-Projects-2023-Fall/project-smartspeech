@@ -97,6 +97,7 @@ export async function speak(sound: string){
 
   if(process.env.NEXT_PUBLIC_PROG_MODE as string === 'DEV'){
     speakViaWebSpeechAPI(sound);
+    console.log(sound)
     return true;
   }
 
