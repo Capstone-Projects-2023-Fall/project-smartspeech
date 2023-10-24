@@ -1,6 +1,6 @@
 import { TileProps } from "@/components/AAC/Tile";
 
-const MAX_TILES_TO_KEEP_IN_MEMORY = 5;
+export const MAX_TILES_TO_KEEP_IN_MEMORY = 5;
 
 export type StackState<T> = T[];
 
@@ -35,6 +35,7 @@ export function insertTileWithHistory(newtile: TileProps, tileArray: StackState<
 
     // tile is already present so replace it with one with a higher rank
     tileArray.splice(indexInArray, 1, { ...newtile, rank: Date.now() });
+
     return tileArray;
 }
 
@@ -43,13 +44,13 @@ export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, acti
     switch (action.type) {
         case "add":
             const newState = insertTileWithHistory(action.payload, [...state]);
-            newState.splice(MAX_TILES_TO_KEEP_IN_MEMORY, 1); //shave off extra element if it was added
-            newState.sort((tileA, tileB) => tileB.rank - tileA.rank); //sort them in order of rank to reflect which one was receently pressed
+            newState
+                .sort((tileA, tileB) => tileB.rank - tileA.rank) //remove any extra tiles added to history
+                .splice(MAX_TILES_TO_KEEP_IN_MEMORY, 1); //sort them in order of rank to reflect which one was receently pressed
+                
             return newState;
 
         case "clear":
             return emptyStateFactory<TileHistoryTileProps>();
-        default:
-            console.error("TileHistoryReducer Erorr: invalid action", action);
     }
 }

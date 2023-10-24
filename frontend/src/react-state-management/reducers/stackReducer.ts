@@ -24,7 +24,5 @@ export function stackReducer<T>(state: StackState<T>, action: StackAction<T>): S
             return newState;
         case "clear":
             return emptyStateFactory();
-        default:
-            return state;
     }
 }
