@@ -85,7 +85,7 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
  *
  * @returns true if the sound is played, and false otherwise
  */
-export async function speak(sound: string): Promise<boolean> {
+export async function speak(sound: string){
   /* It is essential the context is declared first.
    * Safari will only play audio if it is the result of direct user
    * interaction. If the AudioContext is initialized after any
@@ -93,10 +93,16 @@ export async function speak(sound: string): Promise<boolean> {
    * so it blocks the context.
    * https://stackoverflow.com/a/31777081
    * https://stackoverflow.com/a/58354682 */
-  let context = new AudioContext();
+  if(process.env.NEXT_PUBLIC_PROG_MODE as string === 'DEV'){
+    speakViaWebSpeechAPI(sound);
+    console.log(sound)
+    return true;
+  }
+
+  const context = new AudioContext();
 
   // Get Response by first checking cache
-  let response = await requestTTS(sound);
+  const response = await requestTTS(sound);
   if (!response) return false;
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
@@ -117,4 +123,18 @@ export async function speak(sound: string): Promise<boolean> {
     });
 
   return true;
+}
+
+/**
+ * Uses the Web Speech API to synthesise the text contained in sound
+ */
+export function speakViaWebSpeechAPI(sound: string) {
+  if (!("speechSynthesis" in window)) {
+      return;
+  }
+
+  let utterance = new SpeechSynthesisUtterance(sound);
+  utterance.rate = +(process.env.NEXT_PUBLIC_VOICE_SPEED as string) ?? 1;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
 }

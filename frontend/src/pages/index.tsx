@@ -1,26 +1,24 @@
-'use client';
+import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
+import Tiles from "@/components/AAC/Tiles";
+import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
+import Canvas from "@/components/AAC/Canvas";
+import SuggestedTiles from "@/components/AAC/SuggestedTile";
+import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
 
-import React from "react";
-import Login from "@/components/login";
-import Head from "next/head";
-import {useSession } from "next-auth/react";
-
+/**
+ *
+ * @returns the homepage for this app
+ */
 export default function Home() {
-    const session = useSession();
     return (
-        <>
-        <div>
-            <Head>
-                <title> Smart Speech</title>
-            </Head>
-
-            <main className="main-inter flex justify-center">
-                <h1 className="main-title">Welcome {session?.data?.user?.name} to Smart Speech! </h1>   
-            </main>
-            <Login />
-            <br/>
-                
-        </div>
-        </>
+        <section className="font-inter">
+            <UtteredTilesProvider>
+                <SelectedTilesActionBar />
+                <Canvas />
+                <RecentlyClickedTiles />
+                <SuggestedTiles />
+                <Tiles />
+            </UtteredTilesProvider>
+        </section>
     );
 }

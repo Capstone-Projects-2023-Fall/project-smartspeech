@@ -8,6 +8,7 @@ import feelings from "./feelings/feelings";
 import things from "./things/things";
 import tell from "./tell/tell";
 import these from "./these/these";
+import { TileProps } from "@/components/AAC/Tile";
 
 /**
  * Maps words to tile data for each tile in our AAC board
@@ -106,13 +107,12 @@ const data: TileAssets = {
         subTiles: tell,
     },
     these: {
-        image:"/AAC_assets/img/this/this.png",
+        image: "/AAC_assets/img/this/this.png",
         text: "This",
         sound: "This",
         tileColor: "green",
         subTiles: these,
     },
-    
 };
 
 export const mockSuggestedTileData: TileAssets = {
@@ -134,6 +134,8 @@ export const mockSuggestedTileData: TileAssets = {
         sound: "Stop",
         tileColor: "red",
     },
-}
+};
+
+export const blacklist: TileProps[] = [data.good, data.bad];
 
 export default data;
