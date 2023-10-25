@@ -39,6 +39,17 @@ jest.mock("../../react-state-management/providers/useUtteredTiles", () => ({
     }),
 }));
 
+
+/**
+ * @testDescription
+ * Test for RecentlyClickedTiles
+ * This tests attempts to render RecentlyClickedTiles using a predefined `tileHistory`. Notice we do not have to text the addition and removal of items since its direct dependency: `tileHistoryReducer` is fully tested.
+ *
+ *
+ * Test Count: 2
+ * - `<RecentlyClickedTiles/>` : should render
+ * - `<RecentlyClickedTiles/>` : should render recently clicked tiles in correct order
+ */
 const tests = describe("RecentlyClickedTiles", () => {
     it("should render", () => {
         render(
