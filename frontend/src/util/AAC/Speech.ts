@@ -93,16 +93,16 @@ export async function speak(sound: string){
    * so it blocks the context.
    * https://stackoverflow.com/a/31777081
    * https://stackoverflow.com/a/58354682 */
-  let context = new AudioContext();
-
   if(process.env.NEXT_PUBLIC_PROG_MODE as string === 'DEV'){
     speakViaWebSpeechAPI(sound);
     console.log(sound)
     return true;
   }
 
+  const context = new AudioContext();
+
   // Get Response by first checking cache
-  let response = await requestTTS(sound);
+  const response = await requestTTS(sound);
   if (!response) return false;
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
