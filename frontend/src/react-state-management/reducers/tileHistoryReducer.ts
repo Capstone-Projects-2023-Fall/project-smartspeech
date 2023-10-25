@@ -43,7 +43,6 @@ export function canStoreTileInHistory(tile: TileProps, blacklist: TileProps[]) {
     return true;
 }
 
-
 export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, action: StackAction<TileProps>) {
     switch (action.type) {
         case "add":
@@ -57,6 +56,8 @@ export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, acti
             newState
                 .sort((tileA, tileB) => tileB.rank - tileA.rank) //remove any extra tiles added to history
                 .splice(MAX_TILES_TO_KEEP_IN_MEMORY, 1); //sort them in order of rank to reflect which one was receently pressed
+
+            console.log(newState);
 
             return newState;
 
