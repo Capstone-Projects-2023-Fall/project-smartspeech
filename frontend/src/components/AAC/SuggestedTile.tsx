@@ -4,7 +4,7 @@ import { getAACAssets } from "../../util/AAC/getAACAssets";
 import Tile from "./Tile";
 import { TileAssets } from "./TileTypes";
 import { mockSuggestedTileData } from "@/data/AAC/Tiles";
-
+import { isGlobalManualFlag } from "./GlobalManualVariable";
 
 /**
  *

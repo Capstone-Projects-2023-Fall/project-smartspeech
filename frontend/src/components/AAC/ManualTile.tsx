@@ -4,6 +4,8 @@ import { getAACAssets } from "../../util/AAC/getAACAssets";
 import Tile from "./Tile";
 import { TileAssets } from "./TileTypes";
 import data from "@/data/AAC/Tiles";
+import { isGlobalManualFlag } from "./GlobalManualVariable";
+
 
 export default function ManualTile(){
     const [data, setData] = useState<TileAssets>({});
@@ -14,6 +16,9 @@ export default function ManualTile(){
     setData(getAACAssets);
   }, []);
 
+  
+
+  
   return (
     <>
       <h1 className="tilesHeaderFont">Manual Tile</h1>
