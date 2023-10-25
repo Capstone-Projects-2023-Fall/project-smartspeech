@@ -75,8 +75,6 @@ const tests = describe("RecentlyClickedTiles", () => {
         );
 
         const container = screen.getByTestId(recentlyClickedTilesIds.container);
-        const tileContainer = screen.getByTestId(recentlyClickedTilesIds.tileContainer);
-        const title = screen.getByTestId(recentlyClickedTilesIds.title);
 
         const tileSelector = computeTileContainerName(""); //each subtile will start with this prefix for data-id attr
 
