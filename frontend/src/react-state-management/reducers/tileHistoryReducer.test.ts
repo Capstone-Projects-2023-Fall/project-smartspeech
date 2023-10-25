@@ -2,6 +2,7 @@ import { TileProps } from "@/components/AAC/Tile";
 import { MAX_TILES_TO_KEEP_IN_MEMORY, TileHistoryReducer, TileHistoryTileProps } from "./tileHistoryReducer";
 
 import { v4 as uuidv4 } from "uuid";
+import { blacklist } from "@/data/AAC/Tiles";
 
 // sample data
 const greenTile: TileProps = {
@@ -94,5 +95,12 @@ export const tests = describe("TileHistoryReducer", () => {
             sound: mostRecentTile.sound,
             tileColor: mostRecentTile.tileColor,
         }).toEqual(redTile);
+    });
+
+    it("Should not add any blacklisted items", () => {
+        blacklist.forEach((tile) => {
+            const result = TileHistoryReducer([], { type: "add", payload: tile });
+            expect(result.length).toBe(0);
+        });
     });
 });
