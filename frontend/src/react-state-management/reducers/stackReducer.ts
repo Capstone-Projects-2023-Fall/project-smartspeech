@@ -4,7 +4,7 @@ type AddAction<T> = { type: "add"; payload: T };
 type RmAction = { type: "remove" };
 type ClearAction = { type: "clear" };
 
-type StackAction<T> = AddAction<T> | RmAction | ClearAction;
+export type StackAction<T> = AddAction<T> | RmAction | ClearAction;
 
 function emptyStateFactory<T>(): StackState<T> {
     return new Array<T>();
@@ -24,7 +24,5 @@ export function stackReducer<T>(state: StackState<T>, action: StackAction<T>): S
             return newState;
         case "clear":
             return emptyStateFactory();
-        default:
-            return state;
     }
 }
