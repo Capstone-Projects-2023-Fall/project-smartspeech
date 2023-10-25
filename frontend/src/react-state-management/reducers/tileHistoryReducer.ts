@@ -1,4 +1,6 @@
 import { TileProps } from "@/components/AAC/Tile";
+import { blacklist } from "@/data/AAC/Tiles";
+import { compareTiles } from "@/util/AAC/compareTiles";
 
 export const MAX_TILES_TO_KEEP_IN_MEMORY = 3;
 
@@ -23,9 +25,8 @@ function emptyStateFactory<T>(): StackState<T> {
  * @returns new copy of `tileArray` with `newtile` added to it
  */
 export function insertTileWithHistory(newtile: TileProps, tileArray: StackState<TileHistoryTileProps>) {
-    const indexInArray = tileArray.findIndex((tile) => {
-        return newtile.image === tile.image && newtile.text === tile.text && newtile.tileColor === tile.tileColor && newtile.sound === tile.sound;
-    });
+    // attempt to find matching tile already present
+    const indexInArray = tileArray.findIndex((tile) => compareTiles(tile, newtile));
 
     if (indexInArray < 0) {
         // tile was never present so add it in with the highest rank so it appears first
@@ -39,8 +40,13 @@ export function insertTileWithHistory(newtile: TileProps, tileArray: StackState<
     return tileArray;
 }
 
-export function canStoreTileInHistory(tile: TileProps, blacklist: TileProps[]) {
-    return true;
+/**
+ * Checks if a tile can be added to history list based on its existance in the black list file
+ * @param newtile tile to be checked against tiles in `blacklist`
+ * @returns `true` if tile can be safely added
+ */
+function canStoreTileInHistory(newtile: TileProps) {
+    return blacklist.findIndex((tile) => compareTiles(tile, newtile)) < 0;
 }
 
 export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, action: StackAction<TileProps>) {
@@ -48,9 +54,9 @@ export function TileHistoryReducer(state: StackState<TileHistoryTileProps>, acti
         case "add":
             const newTile = action.payload;
 
-            if (!canStoreTileInHistory(newTile, [])) return [...state];
-
+            //! fix
             //ensure that tile is not in blacklist
+            if (!canStoreTileInHistory(newTile)) return [...state];
 
             const newState = insertTileWithHistory(newTile, [...state]);
             newState

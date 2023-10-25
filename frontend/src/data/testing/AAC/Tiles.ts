@@ -1,3 +1,4 @@
+import { TileProps } from "@/components/AAC/Tile";
 import { TileAssets } from "@/components/AAC/TileTypes";
 
 const COLOR_TILES_COLOR = "yellow";
