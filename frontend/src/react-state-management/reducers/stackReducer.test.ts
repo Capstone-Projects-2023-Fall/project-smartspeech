@@ -6,7 +6,7 @@ import { stackReducer, StackAction } from "./stackReducer";
  * This tests adds and removes items using a stackReducer and checks the integrity of the data:
  *
  *
- * Test Count: 2
+ * Test Count: 4
  * - `stackReducer` : should add a number to the stack
  * - `stackReducer` : should remove a number from the stack
  * - `stackReducer` : should do nothing on 'remove' if stack is already empty
