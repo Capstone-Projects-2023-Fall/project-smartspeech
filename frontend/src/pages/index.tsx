@@ -3,8 +3,7 @@ import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
-import ManualTile from "@/components/AAC/ManualTile";
-
+import { isGlobalManualFlag } from "@/components/AAC/GlobalManualVariable";
 
 /**
  * 
@@ -17,7 +16,6 @@ export default function Home() {
             <UtteredTilesProvider>
                 <SelectedTilesActionBar />
                 <Canvas />
-                <ManualTile />
                 <SuggestedTiles />
                 <Tiles />
             </UtteredTilesProvider>
