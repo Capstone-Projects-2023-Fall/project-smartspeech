@@ -1,12 +1,11 @@
 import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
 import React from "react";
 import MiniTile from "./MiniTile";
-
 import { RiSpeakLine } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { speak } from "@/util/AAC/Speech";
 import { AudioContext } from "standardized-audio-context";
-import { isGlobalManualFlag } from "./GlobalManualVariable";
+
 
 
 export const actionBarDataTestIds = {

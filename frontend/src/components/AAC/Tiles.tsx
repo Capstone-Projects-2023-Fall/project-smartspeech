@@ -3,7 +3,6 @@ import Tile from "./Tile";
 import { getAACAssets } from "../../util/AAC/getAACAssets";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { TileAssets } from "./TileTypes";
-import { isGlobalManualFlag } from "./GlobalManualVariable";
 
 
 export const BACK_BTN_TEXT = "back";

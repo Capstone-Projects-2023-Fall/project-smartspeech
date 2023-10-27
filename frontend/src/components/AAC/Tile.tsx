@@ -3,7 +3,7 @@ import { speak } from "@/util/AAC/Speech";
 import Image from "next/image";
 import React from "react";
 import { AudioContext } from "standardized-audio-context";
-import { isGlobalManualFlag } from "./GlobalManualVariable";
+
 
 
 export interface TileProps {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { isGlobalManualFlag } from "./GlobalManualVariable";
+
 
 export interface MiniTileProps {
     /**
