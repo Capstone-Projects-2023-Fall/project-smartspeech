@@ -59,6 +59,7 @@ documentation/static/typedoc
 # python
 venv/
 __pycache__
+.vscode
 
 # terraform 
 .terraform

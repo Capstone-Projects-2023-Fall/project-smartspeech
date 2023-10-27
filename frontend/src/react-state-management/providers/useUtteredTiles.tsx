@@ -3,15 +3,18 @@ import { stackReducer } from "../reducers/stackReducer";
 
 import { TileData } from "@/components/AAC/TileTypes";
 import { EMPTY_FUNCTION } from "@/util/constants";
+import { TileHistoryReducer, TileHistoryTileProps } from "../reducers/tileHistoryReducer";
 
 export interface UtteredTilesState {
     tiles: TileData[];
+    tileHistory: TileHistoryTileProps[];
     clear: () => void;
     addTile: (item: TileData) => void;
 }
 
 const UtteredTiles = createContext<UtteredTilesState>({
     tiles: [],
+    tileHistory: [],
     clear: EMPTY_FUNCTION,
     addTile: EMPTY_FUNCTION,
 });
@@ -33,13 +36,19 @@ export interface UtteredTilesProviderProps {
  */
 export default function UtteredTilesProvider({ children }: UtteredTilesProviderProps) {
     const [tiles, dispatchTileState] = useReducer(stackReducer<TileData>, []);
+    const [tileHistory, dispatchTileHistoryState] = useReducer(TileHistoryReducer, []);
 
     const clear = () => {
         dispatchTileState({ type: "clear" });
     };
-    
+
     const addTile = (item: TileData) => {
         dispatchTileState({
+            type: "add",
+            payload: item,
+        });
+
+        dispatchTileHistoryState({
             type: "add",
             payload: item,
         });
@@ -47,6 +56,7 @@ export default function UtteredTilesProvider({ children }: UtteredTilesProviderP
 
     const value = {
         tiles,
+        tileHistory,
         clear,
         addTile,
     };
