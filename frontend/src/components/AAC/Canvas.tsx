@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { isGlobalManualFlag } from "./GlobalManualVariable";
+
 interface pageProps {}
 
 /**

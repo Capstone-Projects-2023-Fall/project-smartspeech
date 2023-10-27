@@ -1,4 +1,5 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
+import feelings from "../feelings/feelings";
 
 export const CLOTHES_TILES_COLOR = "purple";
 
