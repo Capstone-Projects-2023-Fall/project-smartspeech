@@ -1,12 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .tilesHeaderFont {
     font-weight: bold;
     font-size: larger;
 }
 
-canvas.canvas-container {
-    width: inherit !important;
-    height: inherit !important;
-}
