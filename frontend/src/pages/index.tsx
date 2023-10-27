@@ -25,7 +25,8 @@ export default function Home() {
                     <>
                         <Canvas />
                         <SuggestedTiles />
-                        <button className="tile-button" onClick={handleTilesClick}>
+                        <button className="tile-button" onClick={handleTilesClick} data-testid="manual-button">
+                        
                         <img 
                             src={"/AAC_assets/img/standard/manual.png"}
                             width = {176}
@@ -37,7 +38,7 @@ export default function Home() {
                 {showTiles && (
                     <>
                     <Tiles/>
-                    <button className="tile-button" onClick={handleTilesReturn}>
+                    <button className="tile-button" onClick={handleTilesReturn} data-testid = "return-button">
                         <h1 className="tilesHeaderFont">Return to Canvas</h1>
                         <img 
                             src={"/AAC_assets/img/standard/back_arrow.png"}
