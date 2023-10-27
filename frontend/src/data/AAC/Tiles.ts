@@ -8,12 +8,8 @@ import feelings from "./feelings/feelings";
 import things from "./things/things";
 import tell from "./tell/tell";
 import these from "./these/these";
-<<<<<<< HEAD
 import { TileProps } from "@/components/AAC/Tile";
 
-=======
-import manualTiles from "./manualTiles/manualTiles";
->>>>>>> b25767c6789c1ec8e2a77c8a1ee7bb4f2c61b881
 /**
  * Maps words to tile data for each tile in our AAC board
  */

@@ -28,7 +28,9 @@ export default function Home() {
                 {!showTiles && (
                     <>
                         <Canvas />
+                        <RecentlyClickedTiles />
                         <SuggestedTiles />
+                        <Tiles />
                         <button className="tile-button" onClick={handleTilesClick} data-testid="manual-button">
                             <img src={"/AAC_assets/img/standard/manual.png"} width={176} height={176} />
                         </button>
@@ -43,11 +45,6 @@ export default function Home() {
                         </button>
                     </>
                 )}
-                <SelectedTilesActionBar />
-                <Canvas />
-                <RecentlyClickedTiles />
-                <SuggestedTiles />
-                <Tiles />
             </UtteredTilesProvider>
         </section>
     );
