@@ -4,6 +4,7 @@ import UtteredTilesProvider from "@/react-state-management/providers/useUtteredT
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
+import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 
 /**
  *
@@ -12,13 +13,15 @@ import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
 export default function Home() {
     return (
         <section className="font-inter">
-            <UtteredTilesProvider>
-                <SelectedTilesActionBar />
-                <Canvas />
-                <RecentlyClickedTiles />
-                <SuggestedTiles />
-                <Tiles />
-            </UtteredTilesProvider>
+            <RekognitionProvider>
+                <UtteredTilesProvider>
+                    <SelectedTilesActionBar />
+                    <Canvas />
+                    <RecentlyClickedTiles />
+                    <SuggestedTiles />
+                    <Tiles />
+                </UtteredTilesProvider>
+            </RekognitionProvider>
         </section>
     );
 }
