@@ -8,7 +8,7 @@ from dotenv import dotenv_values
 from fastapi import APIRouter, Depends, Response, HTTPException
 import requests
 
-from .s3_constants import GET_FROM_S3_ROUTE
+from .aws_constants import GET_FROM_S3_ROUTE
 from .s3 import get_file_from_s3_logic, upload_file_to_s3_logic
 
 TTS_ROUTE = "/tts"
