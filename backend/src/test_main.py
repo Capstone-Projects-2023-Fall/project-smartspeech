@@ -102,3 +102,9 @@ def test_tile_output(client: TestClient):
     response = client.get(f"/tile/{user_id}")
     assert response.status_code == 200
     assert response.json() == {"user_id": user_id}
+
+def test_similarity_output(client: TestClient):
+    """Ensure '/similarity' correctly echoes the input"""
+    payload = ["foo", "bar"]
+    response = client.post("/similarity", json=payload)
+    assert response.json() == payload
