@@ -2,6 +2,9 @@ import pytest
 from fastapi.testclient import TestClient
 import requests
 import requests_mock
+import os
+
+os.environ['SPACY_MODEL'] = 'en_core_web_md'
 
 from .main import app, get_config, get_session, Image, ImageResponse, Drawing, DrawingResponse
 
