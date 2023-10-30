@@ -1,4 +1,5 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
+import { getBackendUrl } from "@/util/backend-url";
 import axios, { AxiosResponse } from "axios";
 
 export interface RekognitionDetectLabelSingleResponse {
@@ -21,9 +22,9 @@ export interface RekognitionProviderProps {
 }
 
 export async function sendImageToBackendForLabeling(base64: string, mime_type: string) {
-    if (!process.env.NEXT_PUBLIC_BACKEND_URL || typeof process.env.NEXT_PUBLIC_BACKEND_URL !== "string") return null;
+    const backendUrl = getBackendUrl();
 
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/rekognition`;
+    const url = `${backendUrl}/rekognition`;
     const base64image = base64.split(",")[1];
 
     if (!base64image) return null;
