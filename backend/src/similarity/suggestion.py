@@ -25,12 +25,12 @@ def similar(words: List[str]) -> List[str]:
 def vocab_similarity(word) -> List[float]:
     sim_scores = {}
     for token in tokens:
-        sim_scores[token.similarity(word)] = token.text
+        if token.vector_norm and word.vector_norm:
+            sim_scores[token.similarity(word)] = token.text
     top = list(sim_scores.keys())
     top.sort(reverse=True)
     suggestions = [sim_scores.get(key) for key in top[0:3]]
     return suggestions
-
 
 if __name__ == "__main__":
     main()
