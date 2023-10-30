@@ -9,6 +9,8 @@ from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 
+from .similarity import similarity as Suggestion
+
 class Drawing(BaseModel):
     content: str
 
@@ -108,4 +110,5 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session
 
 @app.post("/similarity")
 async def similarity(words: List[str]):
-    return words
+    suggestions = Suggestion.similar(words)
+    return suggestions
