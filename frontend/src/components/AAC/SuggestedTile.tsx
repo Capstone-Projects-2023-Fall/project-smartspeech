@@ -25,7 +25,7 @@ export default function SuggestedTiles() {
   return (
     <>
       <h1 className="tilesHeaderFont">Suggested Tiles</h1>
-      <div className="grid grid-cols-8" data-testid="tiles-container">
+      <div className="flex flex-cols-8 gap-6" data-testid="tiles-container">
         {Object.keys(data).map((key) => {
           const tileData = data[key];
           const { image, text, sound, tileColor } = tileData;
