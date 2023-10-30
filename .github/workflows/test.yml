@@ -14,4 +14,4 @@ jobs:
       - name: Test Frontend
         run: cd frontend && npm i && npm run test
       - name: Test Backend
-        run: cd backend && pip install -r requirements.txt && pytest --cov=src
+        run: cd backend && pip install -r requirements.txt && python -m spacy download en_core_web_md && pytest --cov=src
