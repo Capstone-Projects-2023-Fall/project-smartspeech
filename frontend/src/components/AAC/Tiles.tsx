@@ -38,7 +38,7 @@ export default function Tiles() {
     return (
         <>
             <h1 className="tilesHeaderFont">Standard Tiles</h1>
-            <div className="grid grid-cols-8" data-testid="tiles-container">
+            <div className="flex grid grid-cols-8 gap-6" data-testid="tiles-container">
                 {Object.keys(currentFrame).map((key) => {
                     const tileData = currentFrame[key];
                     const { image, text, sound, tileColor, subTiles } = tileData;

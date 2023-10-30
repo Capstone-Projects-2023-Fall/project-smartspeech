@@ -42,14 +42,17 @@ export default function Home() {
                 {!showTiles && (
                     <>
                         {itemsShownByDefault}
+                        <br/>
                         <div onClick={handleTilesClick} data-testid={ManualModeTestIds.manualBtn}>
                             <Tile image="/AAC_assets/img/standard/manual.png" text="" tileColor="blue" />
                         </div>
+                        <br/>
                     </>
                 )}
                 {showTiles && (
                     <>
                         <Tiles />
+                        <br/>
                         <div onClick={handleTilesReturn} data-testid={ManualModeTestIds.exitManualBtn}>
                             <Tile image="/AAC_assets/img/standard/back_arrow.png" text="Return" tileColor="blue" />
                         </div>
