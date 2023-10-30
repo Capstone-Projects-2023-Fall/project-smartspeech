@@ -39,7 +39,8 @@ app.include_router(rekognition_router)
 
 origins = [
     "http://localhost:3000",
-    "http://localhost"
+    "http://localhost",
+    "https://project-smartspeech.vercel.app"
 ]
 
 
