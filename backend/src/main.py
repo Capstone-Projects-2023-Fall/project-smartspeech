@@ -71,10 +71,6 @@ async def draw(image: Image):
     predictions = [image.content]
     return {"predictions": predictions}
 
-@app.get("/tile/{user_id}")
-async def tile(user_id: int):
-    return {"user_id": user_id}
-
 @app.get("/tts")
 async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
     """
