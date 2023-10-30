@@ -4,7 +4,9 @@ import time
 from typing import Annotated
 import urllib.parse
 
-from dotenv import dotenv_values
+from dotenv import load_dotenv
+import os
+
 from fastapi import APIRouter, Depends, Response, HTTPException
 import requests
 
@@ -16,11 +18,11 @@ TTS_ROUTE = "/tts"
 
 router = APIRouter()
 
+load_dotenv(".env.local")
 
-@cache
 def get_config():
     """Returns a dictionary mapping environment variable name to string value."""
-    return dotenv_values(".env.local")
+    return { "TTS_API_KEY": os.getenv("TTS_API_KEY"), "TTS_API_URL": os.getenv("TTS_API_URL") }
 
 
 @cache
@@ -64,7 +66,6 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session
     start = time.perf_counter()
 
     audio = None
-
     try:
         # Try to fetch from cache
         print('Trying to get phrase from S3...')
