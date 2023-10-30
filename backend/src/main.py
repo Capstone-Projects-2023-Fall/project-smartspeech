@@ -9,7 +9,7 @@ from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 
-from .similarity import similarity as Suggestion
+from .similarity import suggestion as Suggestion
 
 class Drawing(BaseModel):
     content: str

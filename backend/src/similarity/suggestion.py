@@ -12,7 +12,7 @@ nlp = spacy.load('en_core_web_lg')
 tokens = nlp(vocab)
 
 def main():
-    print(similar(["fruit", "blue", "berry"]))
+    print(similar(["fruit"]))
 
 def similar(words: List[str]) -> List[str]:
     """Check a list of words against preset tiles for suggestions"""
