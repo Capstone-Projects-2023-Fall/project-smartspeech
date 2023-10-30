@@ -3,6 +3,8 @@ import { RekognitionProviderProps, RekognitionState, sendImageToBackendForLabeli
 import useTimedIncrement from "@/react-helpers/hooks/useTimedIncrement";
 import Webcam from "react-webcam";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
+import { useTilesProvider } from "./tileProvider";
+import { TileProps } from "@/components/AAC/Tile";
 
 const RekognitionContext = createContext<RekognitionState>({
     items: [],
@@ -17,9 +19,12 @@ const FACING_MODE_ENVIRONMENT = "environment";
 export const MIME_TYPE = "image/png";
 
 export default function RekognitionProvider(props: RekognitionProviderProps) {
+    // read tiles
+    const { flatList } = useTilesProvider();
+
     // provider state
-    const [items, setItems] = useState<RekognitionState["items"]>([]);
-    const refresh = useTimedIncrement(5000);
+    const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
+    const refresh = useTimedIncrement(2500);
 
     // webcam state
     const webcamRef = useRef<Webcam>(null);
@@ -34,10 +39,6 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
         setImgSrc(imageSrc);
     }, [webcamRef]);
 
-    const value = {
-        items,
-    };
-
     useEffect(() => {
         capture();
     }, [refresh]);
@@ -49,13 +50,19 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
         labelDetectionAction.then((detectionResponse) => {
             if (!detectionResponse) return;
-            setItems(detectionResponse);
+
+            console.log("server detection resp:", detectionResponse);
+            const detectedTiles = detectionResponse.map((item) => flatList[item.name]).filter((item) => item);
+
+            setItems(detectedTiles);
         });
     }, [imgSrc]);
 
-    useEffect(() => {
-        console.log(items);
-    }, [items]);
+    const value = {
+        items,
+    };
+
+    console.log(items);
 
     return (
         <RekognitionContext.Provider value={value}>

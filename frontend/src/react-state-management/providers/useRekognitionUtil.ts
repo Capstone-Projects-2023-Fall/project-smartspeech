@@ -1,3 +1,4 @@
+import { TileProps } from "@/components/AAC/Tile";
 import { TileAssets } from "@/components/AAC/TileTypes";
 import { getBackendUrl } from "@/util/backend-url";
 import axios, { AxiosResponse } from "axios";
@@ -14,7 +15,7 @@ export interface RekognitionDetectLabelFailureResponse {
 export type BackendRekognitionResponse = RekognitionDetectLabelSingleResponse[] | RekognitionDetectLabelFailureResponse;
 
 export interface RekognitionState {
-    items: RekognitionDetectLabelSingleResponse[];
+    items: TileProps[];
 }
 
 export interface RekognitionProviderProps {
