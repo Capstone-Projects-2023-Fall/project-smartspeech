@@ -829,6 +829,12 @@ const flatList: FlatTileAssets = {
         sound: "Game",
         tileColor: "blue",
     },
+    tv: {
+        image: "/AAC_assets/img/things/tv.png",
+        text: "TV",
+        sound: "TV",
+        tileColor: "red",
+    },
 };
 
 export function getTileFlatList() {
