@@ -135,7 +135,7 @@ module "alb" {
 resource "aws_ecs_service" "ss_backend_service" {
   count           = var.is_full_deployment ? 1 : 0
   cluster         = module.ecs.cluster_id
-  desired_count   = 1
+  desired_count   = var.ecs_backend_container_info.desired_count
   launch_type     = "FARGATE"
   name            = var.backend_service_info.name
   task_definition = aws_ecs_task_definition.backend_task_def.arn
