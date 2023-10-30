@@ -8,6 +8,12 @@ from pydantic import BaseModel
 from .routers.s3 import router as s3_router
 from .routers.tts import router as tts_router
 
+from dotenv import dotenv_values
+from fastapi import FastAPI, Depends, Response
+from fastapi.middleware.cors import CORSMiddleware
+import requests
+
+from .similarity import suggestion as Suggestion
 
 class Drawing(BaseModel):
     content: str
@@ -70,3 +76,8 @@ async def draw(image: Image):
 @app.get("/tile/{user_id}")
 async def tile(user_id: int):
     return {"user_id": user_id}
+
+@app.post("/similarity")
+async def similarity(words: List[str]):
+    suggestions = Suggestion.similar(words)
+    return suggestions
