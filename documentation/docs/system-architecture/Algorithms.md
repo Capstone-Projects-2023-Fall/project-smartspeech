@@ -5,10 +5,14 @@ sidebar_position: 1
 
 Below are the algorithms that will be utilized in this project. 
 
-### Image Classification
+### Sketch Recognition
 
-An obvious algorithm required for this project is an image classification model. This is accomplished with the help of deep learning. While a custom model could be built, it would be difficult and expensive to find training data and to have sufficient hardware to effectively host this model. To solve this problem, a few different resources can be utilized. The first is Digital Ink Recognition by Google, which is a free model built specifically to recognize hand-drawn sketches. The problem with this model is that it would be difficult to implement into a PWA. Another option is OFA, which is a visual question-answering system. It takes an image and a text prompt as input and outputs text answering the question. Other API services for image recognition exist; however, they are costly and trained on images different from what we will be using. 
+To classify drawings we have implemented a Convolutional Neural Network (CNN) with around one million parameters. This neural network was constructed with the help of the TensorFlow Keras library, exported for use in TensorFlowJS. The training data used was from the [Google Quick, Draw! dataset](https://quickdraw.withgoogle.com/data). The model currently recognizes 33 different drawings which are all directly mapped to tiles in our dictionary. The model is lightweight enough to be run on mobile devices with a quick inference time. 
+
+### Image Recognition
+
+To identify what objects are being captured by the devices camera, this project has implemented an image classifier to achieve this task. The model is connected to Amazon Rekognition, which uses a pre-trained model to label and classify images in real time.
 
 ### Word Similarity Search
 
-In AAC, one image could represent a few different (but similar) words. For example, if someone drew a circle, we would want the system to suggest tiles such as 'circle', 'shape', or even 'ball'. Our image classification model may not always capture all of these possibilities. To get around this, we need to implement some type of natural language processing (NLP) to capture context and similarly related words. This is not a trivial task; however, we can use FastText from Facebook Research to achieve this goal. FastText works by first preparing a dataset (which will be the dictionary of all AAC words), training the model, and then using the model. The model essentially converts words into embedded vectors. Cosine similarity can be used between vectors to extract similar words.
+In AAC, one image could represent a few different (but similar) words. For example, if someone drew a circle, we would want the system to suggest tiles such as 'circle', 'shape', or even 'ball'. Our image classification model may not always capture all of these possibilities. To get around this, we have implemented natural language processing (NLP) to capture context and similarly related words. We use the spaCy library to achieve this goal. The model essentially converts words into embedded vectors. Cosine similarity can be used between vectors to extract similar words.
