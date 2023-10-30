@@ -9,8 +9,8 @@ import boto3
 from base64 import b64decode
 from io import BytesIO
 
-from .s3_constants import UPLOAD_TO_S3_ROUTE, GET_FROM_S3_ROUTE
-from .s3_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, OBJECT_URL_ENV_VAR, AWS_REGION_ENV_VAR
+from .aws_constants import UPLOAD_TO_S3_ROUTE, GET_FROM_S3_ROUTE
+from .aws_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, OBJECT_URL_ENV_VAR, AWS_REGION_ENV_VAR
 
 router = APIRouter()
 load_dotenv(dotenv_path=".env.local")

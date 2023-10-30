@@ -1,4 +1,5 @@
 import { AudioContext } from "standardized-audio-context";
+import { getBackendUrl } from "../backend-url";
 
 /**
  * To evict the cache, we arbitrarily remove one quarter of the cache when the
@@ -41,7 +42,7 @@ async function evictCache(cache: Cache) {
  *
  */
 async function requestTTS(phrase: string): Promise<Response | undefined> {
-  let backendURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+  let backendURL = getBackendUrl()
   let request = new Request(
     backendURL + "/tts?" + new URLSearchParams("phrase=" + phrase)
   );

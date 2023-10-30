@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 # custom modules
 from .routers.s3 import router as s3_router
+from .routers.rekognition import router as rekognition_router
 from .routers.tts import router as tts_router
 
 from dotenv import dotenv_values
@@ -33,11 +34,13 @@ class ImageResponse(BaseModel):
 app = FastAPI()
 app.include_router(s3_router)
 app.include_router(tts_router)
+app.include_router(rekognition_router)
 
 
 origins = [
     "http://localhost:3000",
-    "http://localhost"
+    "http://localhost",
+    "https://project-smartspeech.vercel.app"
 ]
 
 
