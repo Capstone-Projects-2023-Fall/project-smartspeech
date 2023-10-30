@@ -5,7 +5,7 @@ import requests
 import requests_mock
 import os
 
-os.environ['SPACY_MODEL'] = 'en_core_web_md'
+os.environ['SPACY_MODEL'] = 'en_core_web_lg'
 
 from .main import app, Image, ImageResponse, Drawing, DrawingResponse
 
