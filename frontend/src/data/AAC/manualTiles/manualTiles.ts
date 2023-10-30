@@ -1,20 +1,17 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
-import colors, { COLOR_TILES_COLOR } from "./colors/colors";
-import shapes from "./shapes/shapes";
-import foods from "./foods/foods";
-import locations, { LOCATION_TILES_COLOR } from "./locations/locations";
-import clothes from "./clothes/clothes";
-import feelings from "./feelings/feelings";
-import things from "./things/things";
-import tell from "./tell/tell";
-import these from "./these/these";
-import { TileProps } from "@/components/AAC/Tile";
+import colors, { COLOR_TILES_COLOR } from "../colors/colors";
+import shapes from "../shapes/shapes";
+import foods from "../foods/foods";
+import locations, { LOCATION_TILES_COLOR } from "../locations/locations";
+import clothes from "../clothes/clothes";
+import feelings from "../feelings/feelings";
+import things from "../things/things";
+import tell from "../tell/tell";
+import these from "../these/these";
 
-/**
- * Maps words to tile data for each tile in our AAC board
- */
-const data: TileAssets = {
 
+
+const manualTiles: TileAssets = {
     colors: {
         image: "/AAC_assets/img/colors/colorwheel.png",
         text: "Colors",
@@ -108,35 +105,13 @@ const data: TileAssets = {
         subTiles: tell,
     },
     these: {
-        image: "/AAC_assets/img/this/this.png",
+        image:"/AAC_assets/img/this/this.png",
         text: "This",
         sound: "This",
         tileColor: "green",
         subTiles: these,
     },
+    
 };
 
-export const mockSuggestedTileData: TileAssets = {
-    bathroom: {
-        image: "/AAC_assets/img/locations/bathroom.png",
-        text: "Bathroom",
-        sound: "Bathroom",
-        tileColor: LOCATION_TILES_COLOR,
-    },
-    hospital: {
-        image: "/AAC_assets/img/locations/hospital.png",
-        text: "Hospital",
-        sound: "Hospital",
-        tileColor: LOCATION_TILES_COLOR,
-    },
-    stop: {
-        image: "/AAC_assets/img/standard/stop.png",
-        text: "Stop",
-        sound: "Stop",
-        tileColor: "red",
-    },
-};
-
-export const blacklist: TileProps[] = [data.good, data.bad];
-
-export default data;
+export default manualTiles;

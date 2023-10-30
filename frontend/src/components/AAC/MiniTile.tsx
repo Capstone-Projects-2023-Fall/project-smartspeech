@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
+
 export interface MiniTileProps {
     /**
      * Image displayed on center of tile
