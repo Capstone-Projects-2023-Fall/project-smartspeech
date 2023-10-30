@@ -10,7 +10,7 @@ import os
 
 # Build word vectors for vocab
 model_name = os.environ.get("SPACY_MODEL", "en_core_web_lg")
-nlp = spacy.load('en_core_web_lg')
+nlp = spacy.load(model_name)
 tokens = nlp(vocab)
 
 def main():
