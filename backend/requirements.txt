@@ -5,6 +5,7 @@ moto==4.2.6
 pydantic==2.4.2
 pytest==7.4.2
 pytest-env==1.0.1
+pytest-cov==4.1.0
 python-dotenv==1.0.0
 requests==2.31.0
 requests-mock==1.11.0
