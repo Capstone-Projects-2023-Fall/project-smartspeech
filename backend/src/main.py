@@ -9,9 +9,8 @@ from .routers.s3 import router as s3_router
 from .routers.tts import router as tts_router
 
 from dotenv import dotenv_values
-from fastapi import FastAPI, Depends, Response
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import requests
 
 from .similarity import suggestion as Suggestion
 
