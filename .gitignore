@@ -67,3 +67,4 @@ __pycache__
 
 # Hidden secrets
 .env.local
+trash
