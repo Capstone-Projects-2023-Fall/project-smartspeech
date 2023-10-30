@@ -13,11 +13,11 @@ classDiagram
   }
 
   class RecognizeHandler {
-    + handle(request: Request): Response
+    + handle(request: Request) Response
   }
 
   class TilesHandler {
-    + handle(request: Request): Response
+    + handle(request: Request) Response
   }
 
 
@@ -25,33 +25,33 @@ classDiagram
     detect_labels(**kwargs)
   }
 
-  class AMAZON_S3 {
-    upload_file(file_name: string, bucket: string, object_name: string)
+  class Suggestion {
+    nlp: Language
+    + similar(words: List[str]) List[str]
+    vocab_similarity(word: str) List[float]
   }
 
-  class Request {
-    - method: string
-    - path: string
-    + query_params: object
-    + request_body: object
+  class Tts {
+    router: APIRouter
+    tts(phrase: str) Response
   }
 
-  class Response {
-    - status_code: int
-    + content: ?
+  class S3 {
+    router: APIRouter
+    upload_file_to_s3(base64File: str, file_name: str, extension: str, force_unique: bool) Response
+    get_file_from_s3(filename: str, get_url: bool) Response
   }
 
   FastAPI --> RecognizeHandler: routes /recognize requests
   FastAPI --> TilesHandler: routes /tile requests
+  FastAPI --> Suggestion: call in /similarity
+  FastAPI --> Tts: passes /tts to Tts.router
+  FastAPI --> S3: routes /s3 requests
+
+  Tts --> S3: uses to cache audio files
 
   RecognizeHandler o-- Amazon_Rekognition: uses for image recognition 
-  RecognizeHandler o-- AMAZON_S3: uses to store images
-
-  note for Amazon_Rekognition "Pre-trained deep learning for labeling image"
-  note for AMAZON_S3 "Persistent storage for storing large quantities of images"
-
-  note for Request "Used to represent requests in handlers"
-  note for Response "Used to represent responses in handlers"
+  RecognizeHandler o-- S3: uses to store images
 ```
 
-In this Diagram, the FASTAPI application will split routes to python submodules. Some submodules make use of AWS services like Rekognition or S3 (Object Storage).
+In this Diagram, the FASTAPI application will send routes to python submodules. Some submodules make use of AWS services like Rekognition or S3 (Object Storage).
