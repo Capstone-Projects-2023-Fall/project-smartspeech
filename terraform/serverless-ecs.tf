@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "backend_task_def" {
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
   task_role_arn            = data.aws_iam_role.ecs_task_execution_role.arn # will be diff if we attach external perms
   family                   = "ss-backend-tasks"
-  memory                   = 1024 # in mib
+  memory                   = 3 * 1024 # in mib
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
 
