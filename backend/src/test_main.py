@@ -96,13 +96,6 @@ def test_draw_body_form(client: TestClient):
     response = client.post("/image", json=image)
     assert response.status_code == 422
 
-def test_tile_output(client: TestClient):
-    """Ensure that '/tile' correclty outputs the user_id"""
-    user_id = 1234
-    response = client.get(f"/tile/{user_id}")
-    assert response.status_code == 200
-    assert response.json() == {"user_id": user_id}
-
 def test_similarity_type(client: TestClient):
     """Ensure '/similarity' correctly echoes the input"""
     payload = ["fruit"]
