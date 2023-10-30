@@ -3,6 +3,7 @@ import Tile from "./Tile";
 import { getAACAssets } from "../../util/AAC/getAACAssets";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { TileAssets } from "./TileTypes";
+import { useTilesProvider } from "@/react-state-management/providers/tileProvider";
 
 export const BACK_BTN_TEXT = "back";
 
@@ -11,20 +12,15 @@ export const BACK_BTN_TEXT = "back";
  * @returns Component which will fetch tiles and display them
  */
 export default function Tiles() {
-    const [data, setData] = useState<TileAssets>({});
+    const { tiles } = useTilesProvider();
     const [dataLocation, dispatch] = useReducer(stackReducer<string>, []);
     const [currentFrame, setCurrentFrame] = useState<TileAssets>({});
 
     useEffect(() => {
-        const tileAssets = getAACAssets();
-        setData(tileAssets);
-    }, []);
+        if (Object.keys(tiles).length === 0) return;
+        if (dataLocation.length === 0) return setCurrentFrame(tiles);
 
-    useEffect(() => {
-        if (Object.keys(data).length === 0) return;
-        if (dataLocation.length === 0) return setCurrentFrame(data);
-
-        let newFrame = data;
+        let newFrame = tiles;
 
         dataLocation.forEach((loc) => {
             if (loc in newFrame && newFrame[loc].subTiles) {
@@ -33,12 +29,12 @@ export default function Tiles() {
         });
 
         setCurrentFrame(newFrame);
-    }, [data, dataLocation]);
+    }, [tiles, dataLocation]);
 
     return (
         <>
             <h1 className="tilesHeaderFont">Standard Tiles</h1>
-            <div className="flex grid grid-cols-8 gap-6" data-testid="tiles-container">
+            <div className="grid grid-cols-8 gap-6" data-testid="tiles-container">
                 {Object.keys(currentFrame).map((key) => {
                     const tileData = currentFrame[key];
                     const { image, text, sound, tileColor, subTiles } = tileData;
