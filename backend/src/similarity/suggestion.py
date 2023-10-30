@@ -6,8 +6,10 @@ for word in words:
 
 import spacy
 from typing import List
+import os
 
 # Build word vectors for vocab
+model_name = os.environ.get("SPACY_MODEL", "en_core_web_lg")
 nlp = spacy.load('en_core_web_lg')
 tokens = nlp(vocab)
 
