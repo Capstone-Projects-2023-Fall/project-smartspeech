@@ -22,7 +22,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
     // provider state
     const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
-    const refresh = useTimedIncrement(2500);
+    const refresh = useTimedIncrement(10000);
 
     // webcam state
     const webcamRef = useRef<Webcam>(null);
@@ -59,8 +59,6 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
     const value = {
         items,
     };
-
-    console.log(items);
 
     return (
         <RekognitionContext.Provider value={value}>
