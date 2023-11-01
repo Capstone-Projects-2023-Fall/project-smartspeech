@@ -133,4 +133,4 @@ def test_get_config(client: TestClient):
     """Assert that `get_config` returns  the correct type. 
        We have to assume that dotenv just works, 
        so this is just for 100% coverage."""
-    assert type(tts.get_config()) == OrderedDict
+    assert type(tts.get_config()) == dict

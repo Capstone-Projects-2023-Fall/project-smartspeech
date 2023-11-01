@@ -32,6 +32,8 @@
 
         "autoprefixer": "10.4.15",
 
+        "axios": "^1.6.0",
+
         "eslint": "8.49.0",
 
         "eslint-config-next": "13.4.19",
@@ -53,6 +55,8 @@
         "react-dom": "18.2.0",
 
         "react-icons": "^4.11.0",
+
+        "react-webcam": "^7.2.0",
 
         "standardized-audio-context": "^25.3.57",
 

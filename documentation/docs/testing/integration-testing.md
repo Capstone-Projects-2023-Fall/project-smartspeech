@@ -38,15 +38,18 @@ Many of these tasks require that the word is spoken aloud, but audio cannot be e
 
 ## Use Case 4: AAC Board - Use Tile Board
 
-1. Tap a word category
-2. Tap a word in that category
+1. Click the manual button to open the AAC board
+2. Tap a word category
+3. Tap a word in that category
 
 ## Use Case 5: Image Recognition & Drawing - Draw Rather Than Using Tiles
 
-1. Tap a word category
-2. Simulate a drawing of a t-shirt on the canvas
-3. Submit drawing to a mocked endpoint that returns 5 guesses
-4. Ensure that Tiles for each of the 5 guesses is visible on the screen and can be tapped
+1. Click the manual button to open the AAC board
+2. Tap a word category
+3. Return to home page
+4. Simulate a drawing of a t-shirt on the canvas
+5. Submit drawing to a mocked endpoint that returns 5 guesses
+6. Ensure that Tiles for each of the 5 guesses is visible on the screen and can be tapped
 
 ## Use Case 6: Download App
 
@@ -61,7 +64,7 @@ Refer to acceptance testing.
 ## Use Case 8: AAC Board - View Custom Tiles
 
 1. Enter the login details for a fake account and have the mocked login endpoint return successful
-2. Navigate to the tile board on the main screen
+2. Click the manual button to open the AAC board
 3. Have the backend endpoint return a fake custom tile
 4. Ensure that the custom tile can be tapped on the tile board
 
@@ -71,8 +74,9 @@ Refer to acceptance testing.
 2. Submit drawing to a mocked endpoint that returns an error simulating network loss
 3. Ensure that the user is alerted that there is no internet
    Without calling any endpoint ensure the user can:
-4. Tap a word category
-5. Tap a word in that category
+4. Click the manual button to open the AAC board
+5. Tap a word category
+6. Tap a word in that category
 
 ## Use Case 10: Camera Recognition
 

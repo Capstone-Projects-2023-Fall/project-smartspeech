@@ -3,7 +3,7 @@ variable "default_labels" {
   default = {
     environment = "dev"
     app         = "smart-speech"
-    sprint      = 2
+    sprint      = 4
   }
 }
 
@@ -49,6 +49,7 @@ variable "ecs_backend_container_info" {
   default = {
     container_name : "ss-backend"
     container_port : 8000
+    desired_count : 2
 
   }
 }
@@ -56,7 +57,7 @@ variable "ecs_backend_container_info" {
 variable "docker_image_info" {
   type = map(string)
   default = {
-    "name" = "parth099/smart-speech:0.1.0"
+    "name" = "parth099/smart-speech:0.1.5"
   }
 }
 

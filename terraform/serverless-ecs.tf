@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "backend_task_def" {
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
   task_role_arn            = data.aws_iam_role.ecs_task_execution_role.arn # will be diff if we attach external perms
   family                   = "ss-backend-tasks"
-  memory                   = 1024 # in mib
+  memory                   = 3 * 1024 # in mib
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
 
@@ -135,7 +135,7 @@ module "alb" {
 resource "aws_ecs_service" "ss_backend_service" {
   count           = var.is_full_deployment ? 1 : 0
   cluster         = module.ecs.cluster_id
-  desired_count   = 1
+  desired_count   = var.ecs_backend_container_info.desired_count
   launch_type     = "FARGATE"
   name            = var.backend_service_info.name
   task_definition = aws_ecs_task_definition.backend_task_def.arn

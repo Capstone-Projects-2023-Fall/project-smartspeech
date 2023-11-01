@@ -127,6 +127,12 @@ const things: TileAssets = {
         sound: "Tree",
         tileColor: THINGS_TILES_COLOR,
     },
+    tv: {
+        image: "/AAC_assets/img/things/tv.png",
+        text: "TV",
+        sound: "TV",
+        tileColor: THINGS_TILES_COLOR,
+    },
 };
 
 export default things;
