@@ -7,7 +7,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
     moduleDirectories: ["node_modules", "<rootDir>/"],
     testEnvironment: "jest-environment-jsdom",
-    coveragePathIgnorePatterns: ["<rootDir>/src/util/", "<rootDir>/src/data/"],
+    coveragePathIgnorePatterns: ["<rootDir>/src/util/", "<rootDir>/src/data/", "<rootDir>/src/react-helpers/"],
     resetMocks: true,
 };
 
