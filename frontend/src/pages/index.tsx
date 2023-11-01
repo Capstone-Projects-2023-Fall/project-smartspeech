@@ -6,7 +6,6 @@ import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
 import Tile from "@/components/AAC/Tile";
-import FabricCanvas from "@/components/FabricCanvas/FabricCanvas";
 
 export const ManualModeTestIds = {
     manualBtn: "manual-button",
@@ -32,7 +31,7 @@ export default function Home() {
 
     const itemsShownByDefault = (
         <>
-            <FabricCanvas />
+            <Canvas />
             <RecentlyClickedTiles />
             <SuggestedTiles />
         </>

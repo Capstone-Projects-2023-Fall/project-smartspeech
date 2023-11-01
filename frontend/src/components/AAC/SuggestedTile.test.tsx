@@ -2,7 +2,6 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import SuggestedTiles from "./SuggestedTile";
 import { computeTileContainerName } from "./Tile";
-import { mockSuggestedTileData } from "@/data/AAC/Tiles";
 import RekognitionProvider from "../../react-state-management/providers/useRekognition";
 import { RekognitionProviderProps } from "@/react-state-management/providers/useRekognitionUtil";
 
@@ -40,7 +39,7 @@ describe("Renders placeholder text for suggested tiles", () => {
         expect(container).toBeInTheDocument();
 
         [stopTile, goTile].forEach((tile) => {
-            const tileContainer = screen.queryByTestId(computeTileContainerName(tile.text))
+            const tileContainer = screen.queryByTestId(computeTileContainerName(tile.text));
             expect(tileContainer).toBeInTheDocument();
         });
     });

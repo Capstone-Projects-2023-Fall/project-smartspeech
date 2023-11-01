@@ -39,10 +39,9 @@ export default function FabricCanvas() {
             canvas.setDimensions({ width: containerWidth, height: containerWidth / ratio });
             console.log("new dim", containerWidth, containerWidth / ratio);
             canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
-            console.log(canvas.toJSON());
         };
 
-		// run initially to get correct initial render
+        // run initially to get correct initial render
         resizeCalc();
 
         window.addEventListener("resize", resizeCalc);
