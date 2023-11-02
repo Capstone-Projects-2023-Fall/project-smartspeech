@@ -10,9 +10,7 @@ const RekognitionContext = createContext<RekognitionState>({
     items: [],
 });
 
-export const useRekognition = () => {
-    return useContext(RekognitionContext);
-};
+export const useRekognition = () => useContext(RekognitionContext);
 
 const FACING_MODE_USER = "user";
 const FACING_MODE_ENVIRONMENT = "environment";
