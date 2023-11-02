@@ -1,7 +1,7 @@
-import Tile from '@/components/AAC/Tile'
-import data from '@/data/AAC/Tiles'
-import { getAACAssets } from '@/util/AAC/getAACAssets'
-import { useEffect, useRef, useState } from 'react'
+import Tile from "@/components/AAC/Tile";
+import data from "@/data/AAC/Tiles";
+import { getAACAssets } from "@/util/AAC/getAACAssets";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * useDraw provides functionality for drawing on an html canvas
@@ -12,85 +12,83 @@ import { useEffect, useRef, useState } from 'react'
  * the user presses, and a function for clearning the canvas
  */
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
-  const [mouseDown, setMouseDown] = useState(false)
+    const [mouseDown, setMouseDown] = useState(false);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const prevPoint = useRef<null | Point>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const prevPoint = useRef<null | Point>(null);
 
-  const onMouseDown = () => setMouseDown(true)
+    const onMouseDown = () => setMouseDown(true);
 
-  const clear = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const clear = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-  }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
 
-  
-  async function promptUserRecogination(){
-    try {
-      const canvas = canvasRef.current
-      if (!canvas) return
+    async function promptUserRecogination() {
+        try {
+            const canvas = canvasRef.current;
+            if (!canvas) return;
 
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
-    
-      if(canvas){
-        const drawingDataUrl = canvas.toDataURL() // Capture the drawing as a data URL
-        console.log("Captured drawing data URL:", drawingDataUrl)
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return;
 
-        //mock function accepting the canvas drawling
-        return drawingDataUrl
-      }
-    } catch (error){
-      console.error("Error getting data", error)
-      throw error
-    }
-  }
-  
+            if (canvas) {
+                const drawingDataUrl = canvas.toDataURL(); // Capture the drawing as a data URL
+                console.log("Captured drawing data URL:", drawingDataUrl);
 
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!mouseDown) return
-      const currentPoint = computePointInCanvas(e)
-
-      const ctx = canvasRef.current?.getContext('2d')
-      if (!ctx || !currentPoint) return
-
-      onDraw({ ctx, currentPoint, prevPoint: prevPoint.current })
-      prevPoint.current = currentPoint
+                //mock function accepting the canvas drawling
+                return drawingDataUrl;
+            }
+        } catch (error) {
+            console.error("Error getting data", error);
+            throw error;
+        }
     }
 
-    const computePointInCanvas = (e: MouseEvent) => {
-      const canvas = canvasRef.current
-      if (!canvas) return
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (!mouseDown) return;
+            const currentPoint = computePointInCanvas(e);
 
-      const rect = canvas.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+            const ctx = canvasRef.current?.getContext("2d");
+            if (!ctx || !currentPoint) return;
 
-      return { x, y }
-    }
+            onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
+            prevPoint.current = currentPoint;
+        };
 
-    const mouseUpHandler = () => {
-      setMouseDown(false)
-      prevPoint.current = null
-    }
+        const computePointInCanvas = (e: MouseEvent) => {
+            const canvas = canvasRef.current;
+            if (!canvas) return;
 
-    // Add event listeners
-    canvasRef.current?.addEventListener('mousemove', handler)
-    window.addEventListener('mouseup', mouseUpHandler)
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
-    // Remove event listeners
-    return () => {
-      canvasRef.current?.removeEventListener('mousemove', handler)
-      window.removeEventListener('mouseup', mouseUpHandler)
-    }
-  }, [onDraw])
+            console.log({ x, y }, mouseDown);
+            return { x, y };
+        };
 
-  return { canvasRef, onMouseDown, clear, promptUserRecogination}
-}
+        const mouseUpHandler = () => {
+            setMouseDown(false);
+            prevPoint.current = null;
+        };
+
+        // Add event listeners
+        canvasRef.current?.addEventListener("mousemove", handler);
+        window.addEventListener("mouseup", mouseUpHandler);
+
+        // Remove event listeners
+        return () => {
+            canvasRef.current?.removeEventListener("mousemove", handler);
+            window.removeEventListener("mouseup", mouseUpHandler);
+        };
+    }, [onDraw]);
+
+    return { canvasRef, onMouseDown, clear, promptUserRecogination };
+};

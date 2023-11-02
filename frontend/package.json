@@ -70,6 +70,8 @@
 
         "@testing-library/react": "^14.0.0",
 
+        "@types/fabric": "^5.3.5",
+
         "@types/jest": "^29.5.5",
 
         "@types/uuid": "^9.0.6",

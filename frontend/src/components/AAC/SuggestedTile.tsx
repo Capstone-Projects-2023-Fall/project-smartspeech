@@ -16,8 +16,6 @@ export default function SuggestedTiles() {
     // State to store tile data and current location
     const { items } = useRekognition();
 
-    console.log(items);
-
     return (
         <>
             <h1 className="tilesHeaderFont">Suggested Tiles</h1>
