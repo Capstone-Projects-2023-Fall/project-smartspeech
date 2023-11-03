@@ -1,4 +1,5 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
+import body from "@/data/AAC/body/body";
 import colors, { COLOR_TILES_COLOR } from "./colors/colors";
 import shapes from "./shapes/shapes";
 import foods from "./foods/foods";
@@ -9,6 +10,7 @@ import things from "./things/things";
 import tell from "./tell/tell";
 import these from "./these/these";
 import they from "./they/they";
+import touch from "./touch/touch";
 import { TileProps } from "@/components/AAC/Tile";
 
 /**
@@ -56,7 +58,7 @@ const data: TileAssets = {
   self: {
     image: "/AAC_assets/img/standard/self.png",
     text: "I",
-    sound: "I",
+    sound: "Eye",
     tileColor: "blue",
   },
   you: {
@@ -120,6 +122,20 @@ const data: TileAssets = {
     sound: "They",
     tileColor: "yellow",
     subTiles: they,
+  },
+  body: {
+    image: "/AAC_assets/img/body/body.png",
+    text: "Body",
+    sound: "Body",
+    tileColor: "orange",
+    subTiles: body,
+  },
+  touch: {
+    image: "/AAC_assets/img/touch/touch.png",
+    text: "Touch",
+    sound: "Touch",
+    tileColor: "blue",
+    subTiles: touch,
   },
 };
 

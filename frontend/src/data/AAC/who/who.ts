@@ -51,6 +51,12 @@ const who: TileAssets = {
     sound: "Myself",
     tileColor: WHO_TILES_COLOR,
   },
+  mine: {
+    image: "/AAC_assets/img/who/mine.png",
+    text: "Mine",
+    sound: "Mine",
+    tileColor: WHO_TILES_COLOR,
+  },
   people: {
     image: "/AAC_assets/img/who/people.png",
     text: "People",
