@@ -1,6 +1,13 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
 import materials from "../materials/materials";
 import tools from "../tools/tools";
+import because from "@/data/AAC/because/because";
+import { BECAUSE_TILES_COLOR } from "@/data/AAC/because/because";
+import sound from "@/data/AAC/sound/sound";
+import { SOUND_TILES_COLOR } from "@/data/AAC/sound/sound";
+import okay from "@/data/AAC/okay/okay";
+import { OKAY_TILES_COLOR } from "@/data/AAC/okay/okay";
+import learn, { LEARN_TILES_COLOR } from "../learn/learn";
 
 export const TELL_TILES_COLOR = "blue";
 
@@ -21,21 +28,21 @@ const tell: TileAssets = {
         image: "/AAC_assets/img/tell/learn.png",
         text: "Learn",
         sound: "Learn",
-        tileColor: TELL_TILES_COLOR,
+        tileColor: LEARN_TILES_COLOR,
         subTiles: learn,
     },
     okay: {
         image: "/AAC_assets/img/tell/okay.png",
         text: "Okay",
         sound: "Okay",
-        tileColor: "yellow",
+        tileColor: OKAY_TILES_COLOR,
         subTiles: okay,
     },
     sound: {
         image: "/AAC_assets/img/tell/sound.png",
         text: "Sound",
         sound: "Sound",
-        tileColor: "orange",
+        tileColor: SOUND_TILES_COLOR,
         subTiles: sound,
     },
     sorry: {
@@ -114,7 +121,7 @@ const tell: TileAssets = {
         image: "/AAC_assets/img/tell/because.png",
         text: "Because",
         sound: "Because",
-        tileColor: "purple",
+        tileColor: BECAUSE_TILES_COLOR,
         subTiles: because,
     },
     goodbye: {
