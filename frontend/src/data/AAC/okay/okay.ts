@@ -52,7 +52,7 @@ const okay: TileAssets ={
         tileColor: OKAY_TILES_COLOR,
     },
     lets: {
-        image: "/AAC_assets/img/okaylets.png",
+        image: "/AAC_assets/img/okay/lets.png",
         text: "Let's",
         sound: "Let's",
         tileColor: OKAY_TILES_COLOR,
@@ -70,7 +70,7 @@ const okay: TileAssets ={
         tileColor: OKAY_TILES_COLOR,
     },
     myPhrase: {
-        image: "/AAC_assets/img/ookay/myPhrase.png",
+        image: "/AAC_assets/img/okay/myPhrase.png",
         text: "My Phrase",
         sound: "My Phrase",
         tileColor: "blue",

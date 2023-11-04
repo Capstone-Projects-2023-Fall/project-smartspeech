@@ -38,7 +38,7 @@ const sound: TileAssets ={
         image: "/AAC_assets/img/sound/sing.png",
         text: "Sing",
         sound: "Sing",
-        tileColor: "green",
+        tileColor: "yellow",
     },
     music: {
         image: "/AAC_assets/img/sound/music.png",
