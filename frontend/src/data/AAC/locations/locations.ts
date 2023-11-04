@@ -1,4 +1,10 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
+import at from "@/data/AAC/at/at";
+import { AT_TILES_COLOR } from "@/data/AAC/at/at";
+import house from "@/data/AAC/house/house";
+import { HOUSE_TILES_COLOR } from "@/data/AAC/house/house";
+import directions from "@/data/AAC/directions/directions";
+import somewhereElse from "@/data/AAC/somewhereElse/somewhereElse";
 
 export const LOCATION_TILES_COLOR = "blue";
 
@@ -43,7 +49,8 @@ const locations: TileAssets = {
         image: "/AAC_assets/img/locations/at.png",
         text: "At",
         sound: "At",
-        tileColor: LOCATION_TILES_COLOR,
+        tileColor: AT_TILES_COLOR,
+        subTiles: at,
     },
     where: {
         image: "/AAC_assets/img/locations/where.png",
@@ -103,7 +110,8 @@ const locations: TileAssets = {
         image: "/AAC_assets/img/locations/house.png",
         text: "House",
         sound: "House",
-        tileColor: LOCATION_TILES_COLOR,
+        tileColor: HOUSE_TILES_COLOR,
+        subTiles: house,
     },
     library: {
         image: "/AAC_assets/img/locations/library.png",
@@ -140,12 +148,14 @@ const locations: TileAssets = {
         text: "Direction",
         sound: "Direction",
         tileColor: "purple",
+        subTiles: directions,
     },
     somewhereElse: {
         image: "/AAC_assets/img/go/somewhereElse.png",
         text: "Somewhere Else",
         sound: "Somewhere Else",
         tileColor: "purple",
+        subTiles: somewhereElse,
     }
 };
 
