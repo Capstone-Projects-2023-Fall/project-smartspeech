@@ -1,6 +1,9 @@
 import { TileAssets } from "@/components/AAC/TileTypes";
 import materials from "../materials/materials";
 import tools from "../tools/tools";
+import sky, { SKY_TILES_COLOR } from "../sky/sky";
+import job from "../job/job";
+import game from "../game/game";
 
 export const THIS_TILES_COLOR = "blue";
 
@@ -99,19 +102,22 @@ const these: TileAssets = {
         image: "/AAC_assets/img/this/sky.png",
         text: "Sky",
         sound: "Sky",
-        tileColor: "orange",
+        tileColor: SKY_TILES_COLOR,
+        subTiles: sky,
     },
     job: {
         image: "/AAC_assets/img/this/job.png",
         text: "Job",
         sound: "Job",
         tileColor: "orange",
+        subTiles: job,
     },
     game: {
         image: "/AAC_assets/img/this/game.png",
         text: "Game",
         sound: "Game",
         tileColor: "orange",
+        subTiles: game,
     },
 };
 
