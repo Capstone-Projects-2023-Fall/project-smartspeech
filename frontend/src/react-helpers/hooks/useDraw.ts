@@ -71,6 +71,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             const y = e.clientY - rect.top;
 
             console.log({ x, y }, mouseDown);
+            // add this to the provider
             return { x, y };
         };
 
