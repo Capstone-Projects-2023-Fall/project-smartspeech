@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef, RefObject } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 
@@ -6,6 +6,16 @@ interface ParentDivDims {
     width?: number;
     height?: number;
 }
+
+const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
+    if (!parentRef.current) return;
+    const boundRect = parentRef.current.getBoundingClientRect();
+
+    return {
+        width: boundRect.width,
+        height: boundRect.height,
+    };
+};
 
 /**
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
@@ -16,11 +26,10 @@ export default function Canvas() {
 
     const parentDiv = useRef<HTMLDivElement>(null);
     const [parentDim, setParentDims] = useState<ParentDivDims>({});
-    const [intialResizePerformed, setIntialResizePerformed] = useState(false);
-
-    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine);
 
     const renderPage = useClientRender();
+
+    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine);
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
@@ -41,32 +50,24 @@ export default function Canvas() {
         ctx.fill();
     }
 
+    // attach event on window resize to configure canvas
     useEffect(() => {
         const resizeEvent = () => {
             // on resize clear canvas
-            if (!canvasRef.current || !parentDiv.current) return;
-
-            const boundRect = parentDiv.current.getBoundingClientRect();
-
-            setParentDims({
-                width: boundRect.width,
-                height: boundRect.height,
-            });
+            const resizeCalcs = resizeCalc(parentDiv);
+            if (resizeCalcs) setParentDims(resizeCalcs);
         };
 
         window.addEventListener("resize", resizeEvent);
 
-        if (!intialResizePerformed) {
-            console.log("initial resize triggered");
-            resizeEvent();
-
-            setIntialResizePerformed(true);
-        }
-
         return () => window.removeEventListener("resize", resizeEvent);
     }, [parentDim, setParentDims]);
 
-    if (!renderPage) return null;
+    // one time on load resize to resize on initial page load
+    useEffect(() => {
+        const resizeCalcs = resizeCalc(parentDiv);
+        if (resizeCalcs) setParentDims(resizeCalcs);
+    }, []);
 
     return (
         <div className="ml-3 w-full" ref={parentDiv}>
