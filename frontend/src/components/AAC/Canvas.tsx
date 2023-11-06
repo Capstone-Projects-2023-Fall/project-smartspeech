@@ -8,12 +8,31 @@ interface ParentDivDims {
 }
 
 const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+
+    // Get the viewport height using the innerHeight property
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    // Get the total page height using the scrollHeight property
+    const totalPageHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
     if (!parentRef.current) return;
     const boundRect = parentRef.current.getBoundingClientRect();
 
+    // fallback view
+    if (!viewportHeight || !totalPageHeight)
+        return {
+            width: boundRect.width,
+            height: boundRect.height,
+        };
+
+    const hightDifferential = totalPageHeight - viewportHeight;
+
+    console.log("hightDifferential", hightDifferential, totalPageHeight, viewportHeight);
+
     return {
         width: boundRect.width,
-        height: boundRect.height,
+        height: boundRect.height - hightDifferential,
     };
 };
 
@@ -69,6 +88,8 @@ export default function Canvas() {
     useEffect(() => {
         resizeFn();
     }, []);
+
+    console.log(canvasRef.current?.width, canvasRef.current?.height);
 
     return (
         <div className="ml-3 w-full" ref={parentDiv}>
