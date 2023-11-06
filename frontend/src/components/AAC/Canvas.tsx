@@ -26,10 +26,10 @@ const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
             height: boundRect.height,
         };
 
+    // find diff between page and screen length
     const hightDifferential = totalPageHeight - viewportHeight;
 
-    console.log("hightDifferential", hightDifferential, totalPageHeight, viewportHeight);
-
+    // cut off high diff off canvas height
     return {
         width: boundRect.width,
         height: boundRect.height - hightDifferential,
