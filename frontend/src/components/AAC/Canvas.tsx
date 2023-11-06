@@ -1,19 +1,26 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 
-interface pageProps {}
+interface ParentDivDims {
+    width?: number;
+    height?: number;
+}
 
 /**
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
  * Canvas also allows for clearing and submitting to server
  */
-export default function Canvas(){
+export default function Canvas() {
     const [color, setColor] = useState<string>("#000");
-    const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
+
+    const parentDiv = useRef<HTMLDivElement>(null);
+    const [parentDim, setParentDims] = useState<ParentDivDims>({});
+    const [intialResizePerformed, setIntialResizePerformed] = useState(false);
+
+    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine);
 
     const renderPage = useClientRender();
-   
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
@@ -34,17 +41,51 @@ export default function Canvas(){
         ctx.fill();
     }
 
+    useEffect(() => {
+        const resizeEvent = () => {
+            // on resize clear canvas
+            if (!canvasRef.current || !parentDiv.current) return;
 
+            const boundRect = parentDiv.current.getBoundingClientRect();
+
+            setParentDims({
+                width: boundRect.width,
+                height: boundRect.height,
+            });
+        };
+
+        window.addEventListener("resize", resizeEvent);
+
+        if (!intialResizePerformed) {
+            console.log("initial resize triggered");
+            resizeEvent();
+
+            setIntialResizePerformed(true);
+        }
+
+        return () => window.removeEventListener("resize", resizeEvent);
+    }, [parentDim, setParentDims]);
 
     if (!renderPage) return null;
+
     return (
-        <div className="mx-3">
+        <div className="ml-3 w-full" ref={parentDiv}>
             <div className="w-full h-full bg-white flex justify-center items-center relative">
                 <div className="flex flex-col gap-10">
-                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"  data-testid = "clearImage" onClick={clear}>
+                    <button
+                        type="button"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"
+                        data-testid="clearImage"
+                        onClick={clearCanvas}
+                    >
                         Clear canvas
                     </button>
-                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold" data-testid = "checkImage" onClick={promptUserRecogination}>
+                    <button
+                        type="button"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold"
+                        data-testid="checkImage"
+                        onClick={promptUserRecogination}
+                    >
                         Check Image
                     </button>
                 </div>
@@ -52,12 +93,13 @@ export default function Canvas(){
                 <canvas
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
-                    width={window.innerWidth - 24 - 4}
-                    height={window.innerHeight - 24 - 4}
                     className="border-black border-2 shadow-lg rounded-md"
                     data-testid="my-canvas"
+                    id="responsive-canvas"
+                    width={parentDim.width || 640}
+                    height={parentDim.height || 320}
                 />
             </div>
         </div>
     );
-};
+}

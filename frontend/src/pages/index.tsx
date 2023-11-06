@@ -31,14 +31,16 @@ export default function Home() {
 
     const itemsShownByDefault = (
         <>
-            <Canvas />
-            <RecentlyClickedTiles />
+            <div className="flex gap-2 max-w-[100vw]">
+                <Canvas />
+                <RecentlyClickedTiles />
+            </div>
             <SuggestedTiles />
         </>
     );
 
     return (
-        <section className="font-inter">
+        <section className="font-inter max-h-screen max-w-[100vw]">
             <TileProvider>
                 <RekognitionProvider>
                     <UtteredTilesProvider>
