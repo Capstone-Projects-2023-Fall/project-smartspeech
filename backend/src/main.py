@@ -8,12 +8,11 @@ from pydantic import BaseModel
 from .routers.s3 import router as s3_router
 from .routers.rekognition import router as rekognition_router
 from .routers.tts import router as tts_router
+from .routers.similarity import router as similarity_router
 
 from dotenv import dotenv_values
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from .similarity import suggestion as Suggestion
 
 class Drawing(BaseModel):
     content: str
@@ -35,7 +34,7 @@ app = FastAPI()
 app.include_router(s3_router)
 app.include_router(tts_router)
 app.include_router(rekognition_router)
-
+app.include_router(similarity_router)
 
 origins = [
     "http://localhost:3000",
