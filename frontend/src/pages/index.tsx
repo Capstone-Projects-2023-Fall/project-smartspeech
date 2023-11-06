@@ -32,7 +32,6 @@ export default function Home() {
     const itemsShownByDefault = (
         <>
             <Canvas />
-            <RecentlyClickedTiles />
             <SuggestedTiles />
         </>
     );
