@@ -42,7 +42,7 @@ async function evictCache(cache: Cache) {
  *
  */
 async function requestTTS(phrase: string): Promise<Response | undefined> {
-  let backendURL = getBackendUrl()
+  let backendURL = getBackendUrl();
   let request = new Request(
     backendURL + "/tts?" + new URLSearchParams("phrase=" + phrase)
   );
@@ -51,8 +51,14 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
   let response = await cache.match(request);
   if (response === undefined) {
     console.log("Making a call to the backend");
-    response = await fetch(request);
-    if (response.ok) {
+
+    try {
+      response = await fetch(request);
+    } catch (TypeError) {
+      return undefined;
+    }
+
+    if (response && response.ok) {
       cache.put(request, response.clone());
       evictCache(cache);
     } else {
@@ -86,7 +92,7 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
  *
  * @returns true if the sound is played, and false otherwise
  */
-export async function speak(sound: string){
+export async function speak(sound: string) {
   /* It is essential the context is declared first.
    * Safari will only play audio if it is the result of direct user
    * interaction. If the AudioContext is initialized after any
@@ -94,9 +100,9 @@ export async function speak(sound: string){
    * so it blocks the context.
    * https://stackoverflow.com/a/31777081
    * https://stackoverflow.com/a/58354682 */
-  if(process.env.NEXT_PUBLIC_PROG_MODE as string === 'DEV'){
+  if ((process.env.NEXT_PUBLIC_PROG_MODE as string) === "DEV") {
     speakViaWebSpeechAPI(sound);
-    console.log(sound)
+    console.log(sound);
     return true;
   }
 
@@ -104,7 +110,13 @@ export async function speak(sound: string){
 
   // Get Response by first checking cache
   const response = await requestTTS(sound);
-  if (!response) return false;
+
+  // Use the WebSpeech API if there is an error fetching
+  if (!response) {
+    speakViaWebSpeechAPI(sound);
+    console.log(sound);
+    return true;
+  }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer#playing_music
   response
@@ -131,7 +143,7 @@ export async function speak(sound: string){
  */
 export function speakViaWebSpeechAPI(sound: string) {
   if (!("speechSynthesis" in window)) {
-      return;
+    return;
   }
 
   let utterance = new SpeechSynthesisUtterance(sound);
