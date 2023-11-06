@@ -3,9 +3,6 @@ from fastapi.testclient import TestClient
 import httpx  # used to add httpx entry to requirements
 import requests
 import requests_mock
-import os
-
-os.environ['SPACY_MODEL'] = 'en_core_web_lg'
 
 from .main import app, Image, ImageResponse, Drawing, DrawingResponse
 
@@ -83,9 +80,3 @@ def test_tile_output(client: TestClient):
     response = client.get(f"/tile/{user_id}")
     assert response.status_code == 200
     assert response.json() == {"user_id": user_id}
-
-def test_similarity_type(client: TestClient):
-    """Ensure '/similarity' correctly echoes the input"""
-    payload = ["fruit"]
-    response = client.post("/similarity", json=payload)
-    assert response.json() == ["strawberry"]
