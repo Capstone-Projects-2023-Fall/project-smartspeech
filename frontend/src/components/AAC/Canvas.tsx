@@ -59,7 +59,7 @@ export default function Canvas(){
                     data-testid="my-canvas"
                 />
             </div>   
-            <div className="w-full bg-white flex justify-left  min-h-[164px] items-center relative">
+            <div className="w-full bg-white flex justify-center  min-h-[164px] items-center relative">
             <RecentlyClickedTiles />
             </div>
         </div>
