@@ -78,8 +78,3 @@ async def draw(image: Image):
 @app.get("/tile/{user_id}")
 async def tile(user_id: int):
     return {"user_id": user_id}
-
-@app.post("/similarity")
-async def similarity(words: List[str]):
-    suggestions = Suggestion.similar(words)
-    return suggestions
