@@ -13,7 +13,6 @@ export default function Canvas(){
     const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
 
     const renderPage = useClientRender();
-   
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;

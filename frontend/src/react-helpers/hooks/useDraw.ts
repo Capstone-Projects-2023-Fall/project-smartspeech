@@ -3,6 +3,8 @@ import data from "@/data/AAC/Tiles";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { useEffect, useRef, useState } from "react";
 
+
+
 /**
  * useDraw provides functionality for drawing on an html canvas
  * @param onDraw whenever the user makes a stroke, a reference to the canvas
@@ -11,6 +13,9 @@ import { useEffect, useRef, useState } from "react";
  * @returns a reference to the html canvas, a function that should be called
  * the user presses, and a function for clearning the canvas
  */
+
+const [stroke, setStroke] = useState([]);
+
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
 
@@ -71,9 +76,14 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             const y = e.clientY - rect.top;
 
             console.log({ x, y }, mouseDown);
-            // add this to the provider
             return { x, y };
         };
+
+        const createStroke = (e: MouseEvent) => {
+            const newPoint = computePointInCanvas(e);
+            setStroke((prev) => [...prev, newPoint]);
+            return setStroke;
+            };
 
         const mouseUpHandler = () => {
             setMouseDown(false);

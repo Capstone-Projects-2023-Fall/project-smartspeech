@@ -16,5 +16,5 @@ const GlobalContext = createContext<ContextProps>({
 })
 
 export const GlobalContextProvider = ({children}) => {
-
+    stroke:
 }
