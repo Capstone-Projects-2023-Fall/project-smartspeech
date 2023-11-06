@@ -68,12 +68,6 @@ async def draw(drawing: Drawing):
     return {"predictions": predictions}
 
 
-@app.post("/image")
-async def draw(image: Image):
-    predictions = [image.content]
-    return {"predictions": predictions}
-
-
 @app.get("/tile/{user_id}")
 async def tile(user_id: int):
     return {"user_id": user_id}

@@ -28,29 +28,7 @@ def test_healthCheck(client: TestClient):
     assert response.status_code == 200
     assert response.json() == {
         "message": "an apple a day keeps the doctor away"}
-
-
-def test_image_output(client: TestClient):
-    """Ensure that '/image' returns a list of image predictions (string[])"""
-    image = Image(content=MOCK_TEXT)
-    imageResponse = ImageResponse(predictions=[MOCK_TEXT])
-    response = client.post("/image", json=image.model_dump())
-    assert response.status_code == 200
-    assert response.json() == imageResponse.model_dump()
-
-
-def test_image_body_req(client: TestClient):
-    """Ensure that '/image' returns an error when there is no request body"""
-    response = client.post("/image")
-    assert response.status_code == 422
-
-
-def test_image_body_form(client: TestClient):
-    """Ensure that '/image' returns an error when the request body is malformed"""
-    image = {"not-content": MOCK_TEXT}
-    response = client.post("/image", json=image)
-    assert response.status_code == 422
-
+    
 
 def test_draw_output(client: TestClient):
     """Ensure that '/draw' returns a list of drawing predictions (string[])"""
