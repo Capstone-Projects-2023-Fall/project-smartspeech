@@ -19,7 +19,7 @@ export default function SuggestedTiles() {
     return (
         <>
             <h1 className="tilesHeaderFont">Suggested Tiles</h1>
-            <div className="flex flex-cols-8 gap-6" data-testid="tiles-container">
+            <div className="flex flex-cols-7 gap-6" data-testid="tiles-container">
                 {(items ?? []).map((item, i) => {
                     const { image, text, sound, tileColor } = item;
                     return <Tile image={image} text={text} sound={sound} tileColor={tileColor} key={`${item.text}-${i}`} />;

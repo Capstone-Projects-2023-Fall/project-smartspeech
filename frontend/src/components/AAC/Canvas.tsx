@@ -39,8 +39,8 @@ export default function Canvas(){
 
     if (!renderPage) return null;
     return (
-        <div className="w-full flex gap-2 p-2  mx-3">
-            <div className="w-full h-full bg-white flex justify-center items-center relative">
+        <div className=" flex gap-2 p-2  mx-3">
+            <div className="w-full  bg-white flex justify-center min-h-[64px] items-center relative">
                 <div className="flex flex-col gap-10">
                     <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"  data-testid = "clearImage" onClick={clear}>
                         Clear canvas
@@ -53,13 +53,13 @@ export default function Canvas(){
                 <canvas
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
-                    width={window.innerWidth - 24 - 225}
-                    height={window.innerHeight - 24 - 4}
-                    className="border-black border-2 shadow-lg rounded-md min--['500%'] flex flex-wrap"
+                    width={window.innerWidth - 24 - 245}
+                    height={window.innerHeight - 24 - 124}
+                    className="h-full border-black border-2 shadow-lg rounded-md p-1 min-w-[164px] min-h-[64px]flex flex-wrap"
                     data-testid="my-canvas"
                 />
             </div>   
-            <div>
+            <div className="w-full bg-white flex justify-left  min-h-[164px] items-center relative">
             <RecentlyClickedTiles />
             </div>
         </div>
