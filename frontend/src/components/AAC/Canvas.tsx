@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef, RefObject } from "react";
+import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 
@@ -50,23 +50,24 @@ export default function Canvas() {
         ctx.fill();
     }
 
+    // cache callbacks to optimze renders
+    const resizeFn = useCallback(() => {
+        const resizeCalcs = resizeCalc(parentDiv);
+        if (resizeCalcs) setParentDims(resizeCalcs);
+    }, [parentDiv, parentDim, setParentDims, renderPage]);
+
     // attach event on window resize to configure canvas
     useEffect(() => {
-        const resizeEvent = () => {
-            // on resize clear canvas
-            const resizeCalcs = resizeCalc(parentDiv);
-            if (resizeCalcs) setParentDims(resizeCalcs);
-        };
+        const windowResizeListener = resizeFn;
 
-        window.addEventListener("resize", resizeEvent);
+        window.addEventListener("resize", windowResizeListener);
 
-        return () => window.removeEventListener("resize", resizeEvent);
+        return () => window.removeEventListener("resize", windowResizeListener);
     }, [parentDim, setParentDims]);
 
     // one time on load resize to resize on initial page load
     useEffect(() => {
-        const resizeCalcs = resizeCalc(parentDiv);
-        if (resizeCalcs) setParentDims(resizeCalcs);
+        resizeFn();
     }, []);
 
     return (
