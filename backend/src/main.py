@@ -60,14 +60,3 @@ async def root():
 @app.get("/health-check")
 async def healthCheck():
     return {"message": "an apple a day keeps the doctor away"}
-
-
-@app.post("/draw")
-async def draw(drawing: Drawing):
-    predictions = [drawing.content]
-    return {"predictions": predictions}
-
-
-@app.get("/tile/{user_id}")
-async def tile(user_id: int):
-    return {"user_id": user_id}
