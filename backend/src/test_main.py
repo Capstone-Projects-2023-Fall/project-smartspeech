@@ -4,7 +4,7 @@ import httpx  # used to add httpx entry to requirements
 import requests
 import requests_mock
 
-from .main import app, Image, ImageResponse, Drawing, DrawingResponse
+from .main import app
 
 
 MOCK_TEXT = 'exampledata'
