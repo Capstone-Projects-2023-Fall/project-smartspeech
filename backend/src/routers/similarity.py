@@ -1,40 +1,51 @@
 import json
+from pydantic import BaseModel
 from typing import List, Annotated
 from fastapi import APIRouter, Depends
 from fastapi.responses import Response, JSONResponse
 import spacy
 
+class SimilarityModel(BaseModel):
+    words: List[str]
+
+class SimilarityResponseModel(BaseModel):
+    suggestions: List[str]
+
 SIMILARITY_ROUTE = "/similarity"
 
 router = APIRouter()
 
-model_name = "en_core_web_lg"
-nlp = spacy.load(model_name)
-vocab_path = "resources/words.json"
+def load_model():
+    model_name = "en_core_web_lg"
+    nlp = spacy.load(model_name)
+    return nlp
 
 def parse_vocab():
     """Allows vocab injection and runtime vocab changes"""
     # Import vocab from json file
-    f = open(vocab_path)
-    data = json.load(f)["tiles"]
-    words = ""
-    # Combine words into document
-    for word in data:
-        words += word + " "
-    # Build word vectors for vocab
-    tokens = nlp(words)
-
-    return {"tokens": tokens}
+    f = open("resources/words.json")
+    tiles = json.load(f)["tiles"]
+    vocab = " ".join(tiles)
+    return vocab
 
 
 @router.post(SIMILARITY_ROUTE)
-async def similarity(words: List[str], config: Annotated[str, Depends(set_config)]) -> Response:
-    tokens = config["tokens"]  
+async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language, Depends(load_model)], 
+                     vocab: Annotated[dict, Depends(parse_vocab)], count: int = 3) -> SimilarityResponseModel:
+    """Get **count** words similar to **words**
+    
+    Picks the **count** most similar words from the manual tiles based on **words**.
+
+    Returns a list of **count** strings.
+    """
+    words = base_words.words
     tmp_suggestions = []
+    vocab = nlp(vocab)
     for word in words:
+        # Get vectors for word
         word = nlp(word)
-        # Generate dictionary of the form similarity_score: token_text
-        scores = { token.similarity(word): token.text for token in tokens if token.vector_norm and word.vector_norm }
+        # Generate dictionary {similarity_score: token_text} if both words are in the model's vocab
+        scores = { token.similarity(word): token.text for token in vocab if token.vector_norm and word.vector_norm }
         # Sort scores to find highest similarity
         top = list(scores.keys())
         top.sort(reverse=True)
@@ -42,11 +53,14 @@ async def similarity(words: List[str], config: Annotated[str, Depends(set_config
         tmp_suggestions = [scores.get(key) for key in top[0:3]]
         tmp_suggestions += tmp_suggestions
     # Compare suggestions to entire list for final pruning
-    doc = nlp("".join(words))
-    final_suggestions = { doc.similarity(suggestion): suggestion.text for suggestion in tmp_suggestions if suggestion.vector_norm }
+    doc = nlp(" ".join(words))
+    final_suggestions = { suggestion.similarity(doc): suggestion.text for suggestion in nlp(" ".join(tmp_suggestions)) if suggestion.vector_norm }
     top = list(final_suggestions.keys())
-    top.sort()
-    top_suggestions = [final_suggestions.get(key) for key in top[0:3]]
+    top.sort(reverse=True)
+    top_suggestions = [final_suggestions.get(key) for key in top[0:count]]
     if len(top_suggestions) > 0:
-        return JSONResponse(top_suggestions)
-    return JSONResponse([])
+        return { "suggestions": top_suggestions }
+    return { "suggestions": [] }
+
+if __name__ == "__main__":
+    print(parse_vocab())
