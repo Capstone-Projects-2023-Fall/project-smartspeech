@@ -29,8 +29,10 @@ def load_model():
 
     return nlp
 
+@cache
 def parse_vocab():
     """Allows vocab injection and runtime vocab changes"""
+    print("Importing vocab...")
     # Import vocab from json file
     f = open("resources/words.json")
     tiles = json.load(f)["tiles"]
