@@ -47,6 +47,8 @@ async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language,
 
     Returns a list of **count** strings.
     """
+    start = time.perf_counter()
+
     words = base_words.words
     tmp_suggestions = []
     vocab = nlp(vocab)
@@ -67,6 +69,10 @@ async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language,
     top = list(final_suggestions.keys())
     top.sort(reverse=True)
     top_suggestions = [final_suggestions.get(key) for key in top[0:count]]
+
+    end = time.perf_counter()
+    print(f"Finding {count} suggestions took {end-start}s")
+
     if len(top_suggestions) > 0:
         return { "suggestions": top_suggestions }
     return { "suggestions": [] }
