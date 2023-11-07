@@ -1,8 +1,8 @@
 import pytest
 import json
 import spacy
-from typing import Annotated
-from fastapi import FastAPI, Depends
+from typing import List
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from . import similarity
 
@@ -37,14 +37,20 @@ def test_similarity_exists(client: TestClient):
 
 def test_similarity_type(client: TestClient):
     """Ensure '/similarity' correctly echoes the input"""
-    payload = { "words": [] }
+    payload = { "words": ["fruit"] }
     response = client.post(similarity.SIMILARITY_ROUTE, json=payload)
-    assert response.json() == {"suggestions": []}
+    assert type(response.json()["suggestions"]) == type([])
 
 def test_similarity_output(client: TestClient):
     """Ensure '/similarity' correctly echoes the input"""
     payload = { "words": ["fruit"] }
     response = client.post(f"{similarity.SIMILARITY_ROUTE}?count=1", json=payload)
     assert response.json() == { "suggestions": ["fruit"] }
+
+def test_similarity_count(client: TestClient):
+    """Check that the count parameter is being utilized correctly"""
+    payload = { "words": ["fruit", "apple"]}
+    response = client.post(f"{similarity.SIMILARITY_ROUTE}?count=3", json=payload)
+    assert len(response.json()["suggestions"]) == 3
 
 
