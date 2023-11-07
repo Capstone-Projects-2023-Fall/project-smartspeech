@@ -1,8 +1,9 @@
 import json
+import time
 from pydantic import BaseModel
 from typing import List, Annotated
 from fastapi import APIRouter, Depends
-from fastapi.responses import Response, JSONResponse
+from functools import cache
 import spacy
 
 class SimilarityModel(BaseModel):
@@ -15,9 +16,17 @@ SIMILARITY_ROUTE = "/similarity"
 
 router = APIRouter()
 
+@cache
 def load_model():
+    print("Loading model...")
+    start = time.perf_counter()
+
     model_name = "en_core_web_lg"
     nlp = spacy.load(model_name)
+
+    end = time.perf_counter()
+    print(f"Loading '{model_name}' took {end-start}s.")
+
     return nlp
 
 def parse_vocab():
@@ -50,7 +59,7 @@ async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language,
         top = list(scores.keys())
         top.sort(reverse=True)
         # Add top 3 suggestions to list
-        tmp_suggestions = [scores.get(key) for key in top[0:3]]
+        tmp_suggestions = [scores.get(key) for key in top[0:count]]
         tmp_suggestions += tmp_suggestions
     # Compare suggestions to entire list for final pruning
     doc = nlp(" ".join(words))
