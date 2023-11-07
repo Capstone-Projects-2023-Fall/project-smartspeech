@@ -61,6 +61,3 @@ async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language,
     if len(top_suggestions) > 0:
         return { "suggestions": top_suggestions }
     return { "suggestions": [] }
-
-if __name__ == "__main__":
-    print(parse_vocab())
