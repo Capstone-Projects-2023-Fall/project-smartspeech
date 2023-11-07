@@ -1,17 +1,18 @@
 import pytest
 import json
 import spacy
-from typing import List
+from functools import cache
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from . import similarity
 
+@cache
 def mock_load_model():
     model_name = "en_core_web_md"
     nlp = spacy.load(model_name)
     return nlp
 
-
+@cache
 def mock_parse_vocab() -> dict:
     # Import vocab from json file
     f = open("resources/test_words.json")
@@ -35,22 +36,23 @@ def test_similarity_exists(client: TestClient):
     response = client.post(similarity.SIMILARITY_ROUTE)
     assert response.status_code < 500
 
+
 def test_similarity_type(client: TestClient):
     """Ensure '/similarity' correctly echoes the input"""
     payload = { "words": ["fruit"] }
     response = client.post(similarity.SIMILARITY_ROUTE, json=payload)
     assert type(response.json()["suggestions"]) == type([])
 
-def test_similarity_output(client: TestClient):
-    """Ensure '/similarity' correctly echoes the input"""
-    payload = { "words": ["fruit"] }
-    response = client.post(f"{similarity.SIMILARITY_ROUTE}?count=1", json=payload)
-    assert response.json() == { "suggestions": ["fruit"] }
 
 def test_similarity_count(client: TestClient):
     """Check that the count parameter is being utilized correctly"""
-    payload = { "words": ["fruit", "apple"]}
+    payload = { "words": ["fruit"]}
     response = client.post(f"{similarity.SIMILARITY_ROUTE}?count=3", json=payload)
     assert len(response.json()["suggestions"]) == 3
 
 
+def test_similarity_ignore_input(client: TestClient):
+    """Ignore words from the input from suggestions"""
+    payload = { "words": ["apple"]}
+    response = client.post(f"{similarity.SIMILARITY_ROUTE}?count=3", json=payload)
+    assert "apple" not in response.json()["suggestions"]

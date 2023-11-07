@@ -53,19 +53,21 @@ async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language,
 
     words = base_words.words
     tmp_suggestions = []
+    # Generate word vectors for vocab
     vocab = nlp(vocab)
     for word in words:
         # Get vectors for word
         word = nlp(word)
-        # Generate dictionary {similarity_score: token_text} if both words are in the model's vocab
-        scores = { token.similarity(word): token.text for token in vocab if token.vector_norm and word.vector_norm }
+        # Generate dictionary {word_similarity: word} if both words are in the model's vocab, ignoring those that are in the input text
+        scores = { word.similarity(token): token.text for token in vocab if token.has_vector and word.has_vector and token.text not in words }
         # Sort scores to find highest similarity
         top = list(scores.keys())
         top.sort(reverse=True)
-        # Add top 3 suggestions to list
+        # Add #count suggestions to list
         tmp_suggestions = [scores.get(key) for key in top[0:count]]
         tmp_suggestions += tmp_suggestions
-    # Compare suggestions to entire list for final pruning
+    # Compare suggestions to entire word input for final pruning
+    # This allows us to 
     doc = nlp(" ".join(words))
     final_suggestions = { suggestion.similarity(doc): suggestion.text for suggestion in nlp(" ".join(tmp_suggestions)) if suggestion.vector_norm }
     top = list(final_suggestions.keys())
