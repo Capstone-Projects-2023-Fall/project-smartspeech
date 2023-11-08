@@ -1,1 +1,1 @@
-require("jest-fetch-mock").enableMocks();
+global.fetch = require("node-fetch");

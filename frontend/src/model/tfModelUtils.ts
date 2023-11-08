@@ -1,13 +1,12 @@
+import { Point } from "@/util/types/typing";
 import { loadLayersModel, zeros, browser, image, scalar, tidy } from "@tensorflow/tfjs";
 
 //tests
 import { LayersModel, Tensor, InferenceModel } from "@tensorflow/tfjs";
 
-// Define types
-type Coordinate = { x: number; y: number };
 type BoundingBox = {
-    min: Coordinate;
-    max: Coordinate;
+    min: Point;
+    max: Point;
 };
 type InferenceData = { name: string; prob: number };
 
@@ -59,17 +58,17 @@ export async function loadModel(): Promise<void> {
 /**
  * Input the array of drawing coordinates.
  */
-function getBoundingBox(coords: Coordinate[]): BoundingBox {
+function getBoundingBox(coords: Point[]): BoundingBox {
     // Get coordinate arrays
     const coorX = coords.map((p) => p.x);
     const coorY = coords.map((p) => p.y);
 
     // Find top left and bottom right corners
-    const min_coords: Coordinate = {
+    const min_coords: Point = {
         x: Math.min(...coorX),
         y: Math.min(...coorY),
     };
-    const max_coords: Coordinate = {
+    const max_coords: Point = {
         x: Math.max(...coorX),
         y: Math.max(...coorY),
     };
