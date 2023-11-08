@@ -50,6 +50,11 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         }
     }
 
+    const mouseUpHandler = () => {
+        setMouseDown(false);
+        prevPoint.current = null;
+    };
+
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (!mouseDown) return;
@@ -70,13 +75,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            console.log({ x, y }, mouseDown);
             return { x, y };
-        };
-
-        const mouseUpHandler = () => {
-            setMouseDown(false);
-            prevPoint.current = null;
         };
 
         // Add event listeners

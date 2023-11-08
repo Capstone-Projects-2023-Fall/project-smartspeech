@@ -9,6 +9,8 @@ const customJestConfig = {
     testEnvironment: "jest-environment-jsdom",
     coveragePathIgnorePatterns: ["<rootDir>/src/util/", "<rootDir>/src/data/", "<rootDir>/src/react-helpers/"],
     resetMocks: true,
+    automock: false,
+    setupFiles: ["./setupJest.js"],
 };
 
 module.exports = createJestConfig(customJestConfig);

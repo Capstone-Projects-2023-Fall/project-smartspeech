@@ -82,6 +82,10 @@
 
         "jest-environment-jsdom": "^29.7.0",
 
+        "jest-fetch-mock": "^3.0.3",
+
+        "node-fetch": "^3.3.2",
+
         "typedoc": "0.25.0",
 
         "typedoc-plugin-rename-defaults": "^0.6.6",
