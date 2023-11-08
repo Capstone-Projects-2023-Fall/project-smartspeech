@@ -8,6 +8,7 @@ type BoundingBox = {
 
 let model: tf.LayersModel | null = null;
 let classNames: string[] = [];
+let isLoaded: boolean = false;
 
 function success(data: string): void {
     const lst = data.split(/\n/);
@@ -15,6 +16,7 @@ function success(data: string): void {
         let symbol = lst[i];
         classNames[i] = symbol;
     }
+    isLoaded = true;
     console.log('dictionary loaded and parsed.');
 }
 
@@ -31,8 +33,10 @@ async function loadDict(): Promise<void> {
 }
 
 export async function loadModel(): Promise<void> {
-    model = await tf.loadLayersModel('/model_assets/model.json');
-    console.log('model loaded');
-    model.predict(tf.zeros([1, 28, 28, 1])); // Dummy prediction to warm up the model
-    await loadDict();
+    if (isLoaded == false) {
+        model = await tf.loadLayersModel('/model_assets/model.json');
+        console.log('model loaded');
+        model.predict(tf.zeros([1, 28, 28, 1])); // Dummy prediction to warm up the model
+        await loadDict();
+    }
 }
