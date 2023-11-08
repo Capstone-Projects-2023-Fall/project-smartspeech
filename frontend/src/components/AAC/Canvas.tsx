@@ -9,6 +9,7 @@ interface ParentDivDims {
 
 const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
+    if (!parentRef.current) return;
 
     // Get the viewport height using the innerHeight property
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -16,7 +17,6 @@ const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
     // Get the total page height using the scrollHeight property
     const totalPageHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 
-    if (!parentRef.current) return;
     const boundRect = parentRef.current.getBoundingClientRect();
 
     // fallback view
