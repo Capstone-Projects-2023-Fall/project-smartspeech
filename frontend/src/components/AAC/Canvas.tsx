@@ -1,6 +1,7 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
+import { loadModel } from "../../model/tfModelUtils"
 
 interface pageProps {}
 
@@ -14,6 +15,9 @@ export default function Canvas(){
 
     const renderPage = useClientRender();
    
+    useEffect(() => {
+        loadModel()
+      }, []);
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
