@@ -19,7 +19,7 @@ export default function SuggestedTiles() {
 
     const fetchSuggestions = async() => {
         try{
-            const responce = await fetch('http://localhost:3000/similarity',{
+            const responce = await fetch('https://smart-speech.backend-aws.com',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,12 @@ export default function SuggestedTiles() {
             console.error('Error:', error);
         }
     }
-    
+
+    //hook to fetch suggestions when component is mounted
+    useEffect(() => {
+        fetchSuggestions();
+    }, []);
+
     return (
         <>
             <h1 className="tilesHeaderFont">Suggested Tiles</h1>
@@ -50,7 +55,9 @@ export default function SuggestedTiles() {
             </div>
             
             <div className="flex flex-cols-8 gap-6" data-testid="drawling-suggestion">
-                
+                {suggestions.map((suggestion, index) => (
+                    <li key = {index}>{suggestion}</li>
+                ))}
             </div>
         </>
     );
