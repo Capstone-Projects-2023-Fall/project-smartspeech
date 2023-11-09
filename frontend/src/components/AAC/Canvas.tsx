@@ -1,7 +1,8 @@
 import { FC, useState, useEffect } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { loadModel } from "../../model/tfModelUtils"
+import { loadModel } from "../../model/tfModelUtils";
+import { Draw } from "@/util/types/typing";
 
 interface pageProps {}
 
@@ -9,15 +10,15 @@ interface pageProps {}
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
  * Canvas also allows for clearing and submitting to server
  */
-export default function Canvas(){
+export default function Canvas() {
     const [color, setColor] = useState<string>("#000");
     const { canvasRef, onMouseDown, clear, promptUserRecogination } = useDraw(drawLine);
 
     const renderPage = useClientRender();
-   
+
     useEffect(() => {
-        loadModel()
-      }, []);
+        loadModel();
+    }, []);
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
@@ -38,17 +39,25 @@ export default function Canvas(){
         ctx.fill();
     }
 
-
-
     if (!renderPage) return null;
     return (
         <div className="mx-3">
             <div className="w-full h-full bg-white flex justify-center items-center relative">
                 <div className="flex flex-col gap-10">
-                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"  data-testid = "clearImage" onClick={clear}>
+                    <button
+                        type="button"
+                        className="p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"
+                        data-testid="clearImage"
+                        onClick={clear}
+                    >
                         Clear canvas
                     </button>
-                    <button type="button" className="p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold" data-testid = "checkImage" onClick={promptUserRecogination}>
+                    <button
+                        type="button"
+                        className="p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold"
+                        data-testid="checkImage"
+                        onClick={promptUserRecogination}
+                    >
                         Check Image
                     </button>
                 </div>
@@ -64,4 +73,4 @@ export default function Canvas(){
             </div>
         </div>
     );
-};
+}

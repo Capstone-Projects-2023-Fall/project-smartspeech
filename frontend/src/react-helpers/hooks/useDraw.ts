@@ -1,6 +1,4 @@
-import Tile from "@/components/AAC/Tile";
-import data from "@/data/AAC/Tiles";
-import { getAACAssets } from "@/util/AAC/getAACAssets";
+import { Draw, Point } from "@/util/types/typing";
 import { useEffect, useRef, useState } from "react";
 
 /**
