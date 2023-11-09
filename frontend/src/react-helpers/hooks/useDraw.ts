@@ -1,9 +1,9 @@
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
+import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
-import { useEffect, useRef, useState } from "react";
-
-
+import { Draw, Point, Points } from "@/util/types/typing";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 /**
  * useDraw provides functionality for drawing on an html canvas
@@ -14,13 +14,12 @@ import { useEffect, useRef, useState } from "react";
  * the user presses, and a function for clearning the canvas
  */
 
-const [stroke, setStroke] = useState([]);
-
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const prevPoint = useRef<null | Point>(null);
+    const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
 
     const onMouseDown = () => setMouseDown(true);
 
@@ -75,15 +74,12 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            console.log({ x, y }, mouseDown);
+            dispatchPointAction({
+                type: "add",
+                payload: { x, y },
+            });
             return { x, y };
         };
-
-        const createStroke = (e: MouseEvent) => {
-            const newPoint = computePointInCanvas(e);
-            setStroke((prev) => [...prev, newPoint]);
-            return setStroke;
-            };
 
         const mouseUpHandler = () => {
             setMouseDown(false);
@@ -100,6 +96,16 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             window.removeEventListener("mouseup", mouseUpHandler);
         };
     }, [onDraw]);
+
+    useEffect(() => {
+        // take no action if no no stoke has been recorded or if the mouse is down
+        if (!currentStroke.length || mouseDown) return;
+
+        console.log("Current Stroke:", currentStroke);
+        dispatchPointAction({
+            type: "clear",
+        });
+    }, [mouseDown]);
 
     return { canvasRef, onMouseDown, clear, promptUserRecogination };
 };

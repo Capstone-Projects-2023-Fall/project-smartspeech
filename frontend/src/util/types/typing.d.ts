@@ -8,3 +8,5 @@ type Draw = {
 }
 
 type Point = { x: number; y: number }
+
+export type Points = Point[]
