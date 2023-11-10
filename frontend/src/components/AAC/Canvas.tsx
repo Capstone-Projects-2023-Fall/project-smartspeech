@@ -1,7 +1,6 @@
-import { FC, useState, useRef, RefObject, useCallback, useEffect } from "react";
+import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { loadModel } from "../../model/tfModelUtils";
 import { Draw } from "@/util/types/typing";
 
 interface ParentDivDims {
@@ -49,6 +48,7 @@ export default function Canvas() {
     const [parentDim, setParentDims] = useState<ParentDivDims>({});
 
     const renderPage = useClientRender();
+
     const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine);
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
@@ -90,7 +90,6 @@ export default function Canvas() {
         resizeFn();
     }, []);
 
-    if (!renderPage) return null;
     return (
         <div className="ml-3 w-full" ref={parentDiv}>
             <div className="w-full h-full bg-white flex justify-center items-center relative">

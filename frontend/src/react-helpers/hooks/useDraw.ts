@@ -1,6 +1,9 @@
+import Tile from "@/components/AAC/Tile";
+import data from "@/data/AAC/Tiles";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
-import { Draw, Point } from "@/util/types/typing";
+import { getAACAssets } from "@/util/AAC/getAACAssets";
+import { Draw, Point, Points } from "@/util/types/typing";
 import { useEffect, useReducer, useRef, useState } from "react";
 
 /**
@@ -56,11 +59,6 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         }
     }
 
-    const mouseUpHandler = () => {
-        setMouseDown(false);
-        prevPoint.current = null;
-    };
-
     useEffect(() => {
         const handler = (e: MouseEvent | TouchEvent) => {
             if (!mouseDown) return;
@@ -105,6 +103,11 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             });
 
             return computedPoint;
+        };
+
+        const mouseUpHandler = () => {
+            setMouseDown(false);
+            prevPoint.current = null;
         };
 
         // Add event listeners
