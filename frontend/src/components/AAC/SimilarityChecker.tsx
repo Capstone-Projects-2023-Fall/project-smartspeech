@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Tile from './Tile';
+import data from '@/data/AAC/Tiles';
 
 interface SimilarityResponse {
   suggestions: string[];
