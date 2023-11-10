@@ -1,4 +1,10 @@
 import React, { useState } from 'react';
+import Tile from './Tile';
+import { stackReducer } from "@/react-state-management/reducers/stackReducer";
+import { TileAssets } from "./TileTypes";
+import { useTilesProvider } from "@/react-state-management/providers/tileProvider";
+import data from '@/data/AAC/Tiles';
+
 interface SimilarityResponse {
     suggestions: string[];
   }
@@ -9,7 +15,7 @@ interface SimilarityResponse {
     const getSimilarWords = async () => {
       try {
         // Set of words to send to the API
-        const wordsToCheck = ['apple', 'banana', 'orange'];
+        const wordsToCheck = ['blueberry'];
   
         // Create a data object with the words
         const data = { words: wordsToCheck };
@@ -25,7 +31,13 @@ interface SimilarityResponse {
   
         // Parse the JSON response
         const result: SimilarityResponse = await response.json();
-        setSuggestions(result.suggestions);
+        // Filter suggestions based on the tile data
+      const filteredSuggestions = result.suggestions.filter(suggestion =>
+        Object.values(data).some(tile => tile.text.toLowerCase() === suggestion.toLowerCase())
+      );
+
+      setSuggestions(filteredSuggestions);
+   
       } catch (error) {
         // Handle errors during the API request
         console.error('Error:', error);
