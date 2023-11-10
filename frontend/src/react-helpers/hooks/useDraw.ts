@@ -55,7 +55,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     }
 
     useEffect(() => {
-        const handler = (e: MouseEvent) => {
+        const handler = (e: MouseEvent | TouchEvent) => {
             if (!mouseDown) return;
             const currentPoint = computePointInCanvas(e);
 
@@ -66,19 +66,38 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             prevPoint.current = currentPoint;
         };
 
-        const computePointInCanvas = (e: MouseEvent) => {
+        const computePointInCanvas = (e: MouseEvent | TouchEvent) => {
+            e.preventDefault(); // prevent touch scrolling
+
             const canvas = canvasRef.current;
             if (!canvas) return;
 
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+
+            let computedPoint: Point;
+
+            if (e instanceof MouseEvent) {
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                computedPoint = { x, y };
+            }
+            // if not a mouse event then it has to be a touch event
+            else {
+                const primaryTouch = e.touches[0];
+
+                const x = primaryTouch.clientX - rect.left;
+                const y = primaryTouch.clientY - rect.top;
+
+                computedPoint = { x, y };
+            }
 
             dispatchPointAction({
                 type: "add",
-                payload: { x, y },
+                payload: computedPoint,
             });
-            return { x, y };
+
+            return computedPoint;
         };
 
         const mouseUpHandler = () => {
@@ -87,13 +106,23 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         };
 
         // Add event listeners
+        //* mouse
         canvasRef.current?.addEventListener("mousemove", handler);
         window.addEventListener("mouseup", mouseUpHandler);
 
+        //* touch
+        canvasRef.current?.addEventListener("touchmove", handler);
+        window.addEventListener("touchend", mouseUpHandler);
+
         // Remove event listeners
         return () => {
+            //* mouse
             canvasRef.current?.removeEventListener("mousemove", handler);
             window.removeEventListener("mouseup", mouseUpHandler);
+
+            //* touch
+            canvasRef.current?.removeEventListener("touchmove", handler);
+            window.removeEventListener("touchend", mouseUpHandler);
         };
     }, [onDraw]);
 
