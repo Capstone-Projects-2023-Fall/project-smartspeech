@@ -1,6 +1,7 @@
 import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
+import { Draw } from "@/util/types/typing";
 
 interface ParentDivDims {
     width?: number;
@@ -49,7 +50,6 @@ export default function Canvas() {
     const renderPage = useClientRender();
 
     const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine);
-
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;

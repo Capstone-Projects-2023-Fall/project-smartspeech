@@ -12,6 +12,7 @@ import TileProvider from "@/react-state-management/providers/tileProvider";
 import ModalProvider from "@/react-state-management/providers/ManualModalProvider";
 import ManualTilesPopup from "@/components/AAC/ManualTilesPopup";
 import ManualModeButton from "@/components/AAC/ManualModeButton";
+import StrokeProvider from "@/react-state-management/providers/StrokeProvider";
 
 /**
  *
@@ -23,20 +24,22 @@ export default function Home() {
             <TileProvider>
                 <RekognitionProvider>
                     <UtteredTilesProvider>
-                        <ModalProvider>
-                            <div className="relative">
-                                <SelectedTilesActionBar />
-                                <ManualTilesPopup />
-                            </div>
-                            <div className="flex gap-2 max-w-[100vw] shrink">
-                                <Canvas />
-                                <RecentlyClickedTiles />
-                            </div>
-                            <div className="flex gap-2 m-3 justify-between">
-                                <SuggestedTiles />
-                                <ManualModeButton />
-                            </div>
-                        </ModalProvider>
+                        <StrokeProvider>
+                            <ModalProvider>
+                                <div className="relative">
+                                    <SelectedTilesActionBar />
+                                    <ManualTilesPopup />
+                                </div>
+                                <div className="flex gap-2 max-w-[100vw] shrink">
+                                    <Canvas />
+                                    <RecentlyClickedTiles />
+                                </div>
+                                <div className="flex gap-2 m-3 justify-between">
+                                    <SuggestedTiles />
+                                    <ManualModeButton />
+                                </div>
+                            </ModalProvider>
+                        </StrokeProvider>
                     </UtteredTilesProvider>
                 </RekognitionProvider>
             </TileProvider>

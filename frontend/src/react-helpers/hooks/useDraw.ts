@@ -1,5 +1,6 @@
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
+import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { Draw, Point, Points } from "@/util/types/typing";
@@ -21,6 +22,8 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     const prevPoint = useRef<null | Point>(null);
     const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
 
+    const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
+
     const onMouseDown = () => setMouseDown(true);
 
     const clear = () => {
@@ -31,6 +34,8 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         if (!ctx) return;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        clearStoke(); // match state to reflect clearned state
     };
 
     async function promptUserRecogination() {
@@ -130,7 +135,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         // take no action if no no stoke has been recorded or if the mouse is down
         if (!currentStroke.length || mouseDown) return;
 
-        console.log("Current Stroke:", currentStroke);
+        addStoke([...currentStroke]);
         dispatchPointAction({
             type: "clear",
         });
