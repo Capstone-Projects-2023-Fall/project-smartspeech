@@ -2,14 +2,14 @@ import { Point } from "@/util/types/typing";
 import { loadLayersModel, zeros, browser, image, scalar, tidy } from "@tensorflow/tfjs";
 
 //tests
-import { LayersModel, Tensor, InferenceModel } from "@tensorflow/tfjs";
+import { LayersModel, Tensor } from "@tensorflow/tfjs";
 
 type BoundingBox = {
     min: Point;
     max: Point;
 };
 type InferenceData = { name: string; prob: number };
-
+ 
 // Define variables
 let model: LayersModel | null = null;
 let classNames: string[] = [];
@@ -18,7 +18,7 @@ let isLoaded: boolean = false;
 /**
  * Parse the dictionary file into a list of class names
  */
-function success(data: string): void {
+function success(data: string): void { 
     const lst = data.split(/\n/);
     for (let i = 0; i < lst.length - 1; i++) {
         let symbol = lst[i];
@@ -117,29 +117,49 @@ function preprocess(imgData: ImageData) {
     });
 }
 
-// function performInference(processedData: Tensor): Tensor {
-//   const pred = model.predict(preprocess(processedData)).dataSync();
-//   return pred;
-// }
+function performInference(processedData: Tensor): Tensor {
+  const pred = model.predict(processedData).dataSync();
+  return pred;
+}
 
-// function getInferenceData(inferenceResult: Tensor): InferenceData {}
+function getInferenceData(inferenceResult: Tensor): InferenceData[] {
+    // Convert the inference tensor into an array
+    const probabilities = Array.from(inferenceResult.dataSync() as Float32Array);
 
-// /**
-// * Process a drawing from coordinates and canvas object.
-// * Return predictions as an array of classes and probabilities.
-// */
-// export function processDrawing(coords: Coordinate[], canvas: HTMLCanvasElement): InferenceData {
-//   // Get minimum bounding box from coordinate array.
-//   const bb = getBoundingBox(coords);
-//   // Get image data from minimum bounding box and canvas element.
-//   const imgData = getImageData(bb, canvas);
-//   // Preprocess data for model inference.
-//   const processedData = preprocess(imgData);
+    type inferenceDataWithProb = { name: string; prob: number };
+    // Map each probability to an object with its value and class name
+    const inferenceDataWithProb = probabilities.map((prob, index) => ({
+        name: classNames[index],
+        prob: prob
+    }));
 
-//   // Perform inference with processed data.
-//   const inferenceResult = performInference(processedData);
+    // Sort the array by probability in descending order
+    const sortedInferenceData = inferenceDataWithProb.sort((a, b) => b.prob - a.prob);
 
-//   // Return inference data
-//   const infData = getInferenceData(inferenceResult);
-//   return infData;
-// }
+    // Slice the array to get the top 5
+    const top5InferenceData = sortedInferenceData.slice(0, 5);
+
+    // Return the top 5 inference data
+    return top5InferenceData.map(data => ({ name: data.name, prob: Math.round(data.prob * 100) / 100 }));
+}
+
+/**
+* Process a drawing from coordinates and canvas object.
+* Return predictions as an array of classes and probabilities.
+*/
+export async function processDrawing(coords: Point[], canvas: HTMLCanvasElement): Promise<InferenceData[]> {
+    await loadModel();
+    // Get minimum bounding box from coordinate array.
+    const bb = getBoundingBox(coords);
+    // Get image data from minimum bounding box and canvas element.
+    const imgData = getImageData(bb, canvas);
+    // Preprocess data for model inference.
+    const processedData = preprocess(imgData);
+
+    // Perform inference with processed data.
+    const inferenceResult = performInference(processedData);
+
+    // Return inference data
+    const infData = getInferenceData(inferenceResult);
+    return infData;
+}
