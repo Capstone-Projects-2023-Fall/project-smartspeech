@@ -1,11 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { stackReducer } from "@/react-state-management/reducers/stackReducer";
-import { getAACAssets } from "../../util/AAC/getAACAssets";
+import React from "react";
 import Tile from "./Tile";
-import { TileAssets } from "./TileTypes";
-import { mockSuggestedTileData } from "@/data/AAC/Tiles";
-import { useRekognition } from "@/react-state-management/providers/useRekognition";
-import { SampleSuggestedTilesData } from "@/data/testing/AAC/Tiles";
 import { useSuggestedTilesContext } from "@/react-state-management/providers/SuggestedTilesProvider";
 
 /**

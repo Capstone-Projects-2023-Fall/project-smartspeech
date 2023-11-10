@@ -2,8 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import SuggestedTiles from "./SuggestedTile";
 import { computeTileContainerName } from "./Tile";
-import RekognitionProvider from "../../react-state-management/providers/useRekognition";
-import { RekognitionProviderProps } from "@/react-state-management/providers/useRekognitionUtil";
+import SuggestedTilesProvider, { SuggestedTilesProviderProps } from "../../react-state-management/providers/SuggestedTilesProvider";
 
 const stopTile = {
     image: "/AAC_assets/img/standard/stop.png",
@@ -19,20 +18,20 @@ const goTile = {
     tileColor: "green",
 };
 
-jest.mock("../../react-state-management/providers/useRekognition", () => ({
+jest.mock("../../react-state-management/providers/SuggestedTilesProvider", () => ({
     __esModule: true,
-    default: ({ children }: RekognitionProviderProps) => <div>{children}</div>,
-    useRekognition: () => ({
-        items: [stopTile, goTile],
+    default: ({ children }: SuggestedTilesProviderProps) => <div>{children}</div>,
+    useSuggestedTilesContext: () => ({
+        tiles: [stopTile, goTile],
     }),
 }));
 
 describe("Renders placeholder text for suggested tiles", () => {
     it("should render", () => {
         render(
-            <RekognitionProvider>
+            <SuggestedTilesProvider>
                 <SuggestedTiles />
-            </RekognitionProvider>
+            </SuggestedTilesProvider>
         );
 
         const container = screen.getByTestId("tiles-container");

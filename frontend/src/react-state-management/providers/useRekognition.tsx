@@ -22,7 +22,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
     // provider state
     const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
-    const refresh = useTimedIncrement(2000);
+    const refresh = useTimedIncrement(10000);
 
     //! debug
     const [debug, setDebug] = useState<string>("");
