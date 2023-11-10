@@ -27,7 +27,7 @@ export default function SelectedTilesActionBar() {
     };
 
     return (
-        <div className="w-full flex gap-2 p-3" data-testid={actionBarDataTestIds.container}>
+        <div className="z-50 w-full flex gap-2 p-3" data-testid={actionBarDataTestIds.container}>
             <div
                 className="w-full border-black border-2 rounded-md shadow-lg p-1 min-h-[64px] flex gap-2 flex-wrap"
                 data-testid={actionBarDataTestIds.wordBox}
