@@ -1,7 +1,10 @@
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
+import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
+import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
-import { useEffect, useRef, useState } from "react";
+import { Draw, Point, Points } from "@/util/types/typing";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 /**
  * useDraw provides functionality for drawing on an html canvas
@@ -11,11 +14,15 @@ import { useEffect, useRef, useState } from "react";
  * @returns a reference to the html canvas, a function that should be called
  * the user presses, and a function for clearning the canvas
  */
+
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const prevPoint = useRef<null | Point>(null);
+    const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
+
+    const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
 
     const onMouseDown = () => setMouseDown(true);
 
@@ -27,6 +34,8 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         if (!ctx) return;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        clearStoke(); // match state to reflect clearned state
     };
 
     async function promptUserRecogination() {
@@ -87,7 +96,12 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
                 computedPoint = { x, y };
             }
-            console.log(computedPoint);
+
+            dispatchPointAction({
+                type: "add",
+                payload: computedPoint,
+            });
+
             return computedPoint;
         };
 
@@ -116,6 +130,16 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             window.removeEventListener("touchend", mouseUpHandler);
         };
     }, [onDraw]);
+
+    useEffect(() => {
+        // take no action if no no stoke has been recorded or if the mouse is down
+        if (!currentStroke.length || mouseDown) return;
+
+        addStoke([...currentStroke]);
+        dispatchPointAction({
+            type: "clear",
+        });
+    }, [mouseDown]);
 
     return { canvasRef, onMouseDown, clear, promptUserRecogination };
 };

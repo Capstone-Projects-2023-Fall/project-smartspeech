@@ -1,6 +1,7 @@
 import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
+import { Draw } from "@/util/types/typing";
 
 interface ParentDivDims {
     width?: number;
