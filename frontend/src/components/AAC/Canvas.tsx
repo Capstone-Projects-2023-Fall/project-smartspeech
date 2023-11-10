@@ -89,8 +89,6 @@ export default function Canvas() {
         resizeFn();
     }, []);
 
-    console.log(canvasRef.current?.width, canvasRef.current?.height);
-
     return (
         <div className="ml-3 w-full" ref={parentDiv}>
             <div className="w-full h-full bg-white flex justify-center items-center relative">
@@ -116,6 +114,7 @@ export default function Canvas() {
                 <canvas
                     ref={canvasRef}
                     onMouseDown={onMouseDown}
+                    onTouchStart={onMouseDown}
                     className="border-black border-2 shadow-lg rounded-md"
                     data-testid="my-canvas"
                     id="responsive-canvas"
