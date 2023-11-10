@@ -17,7 +17,7 @@ export default function SuggestedTiles() {
     const { items } = useRekognition();
 
     return (
-        <>
+        <section className="mx-3">
             <h1 className="tilesHeaderFont">Suggested Tiles</h1>
             <div className="flex flex-cols-8 gap-6" data-testid="tiles-container">
                 {(items ?? []).map((item, i) => {
@@ -25,6 +25,6 @@ export default function SuggestedTiles() {
                     return <Tile image={image} text={text} sound={sound} tileColor={tileColor} key={`${item.text}-${i}`} />;
                 })}
             </div>
-        </>
+        </section>
     );
 }
