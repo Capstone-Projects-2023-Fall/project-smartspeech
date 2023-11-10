@@ -5,65 +5,38 @@ import UtteredTilesProvider from "@/react-state-management/providers/useUtteredT
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
-import Tile from "@/components/AAC/Tile";
 
-export const ManualModeTestIds = {
-    manualBtn: "manual-button",
-    exitManualBtn: "return-button",
-};
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 import TileProvider from "@/react-state-management/providers/tileProvider";
+
+import ModalProvider from "@/react-state-management/providers/ManualModalProvider";
+import ManualTilesPopup from "@/components/AAC/ManualTilesPopup";
+import ManualModeButton from "@/components/AAC/ManualModeButton";
 
 /**
  *
  * @returns the homepage for this app
  */
 export default function Home() {
-    const [showTiles, setShowTiles] = useState(false);
-
-    const handleTilesClick = () => {
-        setShowTiles(true);
-    };
-
-    const handleTilesReturn = () => {
-        setShowTiles(false);
-    };
-
-    const itemsShownByDefault = (
-        <div className="">
-            <div className="flex gap-2 max-w-[100vw] shrink">
-                <Canvas />
-                <RecentlyClickedTiles />
-            </div>
-            <SuggestedTiles />
-        </div>
-    );
-
     return (
         <section className="font-inter max-h-screen max-w-[100vw]">
             <TileProvider>
                 <RekognitionProvider>
                     <UtteredTilesProvider>
-                        <SelectedTilesActionBar />
-                        {!showTiles && (
-                            <>
-                                {itemsShownByDefault}
-                                <br />
-                                <div onClick={handleTilesClick} data-testid={ManualModeTestIds.manualBtn}>
-                                    <Tile image="/AAC_assets/img/standard/manual.png" text="" tileColor="blue" />
-                                </div>
-                                <br />
-                            </>
-                        )}
-                        {showTiles && (
-                            <>
-                                <Tiles />
-                                <br />
-                                <div onClick={handleTilesReturn} data-testid={ManualModeTestIds.exitManualBtn}>
-                                    <Tile image="/AAC_assets/img/standard/back_arrow.png" text="Return" tileColor="blue" />
-                                </div>
-                            </>
-                        )}
+                        <ModalProvider>
+                            <div className="relative">
+                                <SelectedTilesActionBar />
+                                <ManualTilesPopup />
+                            </div>
+                            <div className="flex gap-2 max-w-[100vw] shrink">
+                                <Canvas />
+                                <RecentlyClickedTiles />
+                            </div>
+                            <div className="flex gap-2 m-3 justify-between">
+                                <SuggestedTiles />
+                                <ManualModeButton />
+                            </div>
+                        </ModalProvider>
                     </UtteredTilesProvider>
                 </RekognitionProvider>
             </TileProvider>
