@@ -13,6 +13,7 @@ export const ManualModeTestIds = {
 };
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 import TileProvider from "@/react-state-management/providers/tileProvider";
+import SimilarityChecker from "@/components/AAC/SimilarityChecker";
 
 /**
  *
@@ -34,6 +35,7 @@ export default function Home() {
             <Canvas />
             <RecentlyClickedTiles />
             <SuggestedTiles />
+            <SimilarityChecker />
         </>
     );
 
