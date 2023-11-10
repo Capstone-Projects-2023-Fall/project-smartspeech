@@ -16,11 +16,13 @@ export default function SuggestedTiles() {
     // State to store tile data and current location
     const { items } = useRekognition();
 
+    const suggestedTiles = items;
+
     return (
-        <section className="mx-3">
+        <section className="">
             <h1 className="tilesHeaderFont">Suggested Tiles</h1>
             <div className="flex flex-cols-8 gap-6" data-testid="tiles-container">
-                {(items ?? []).map((item, i) => {
+                {(suggestedTiles ?? []).map((item, i) => {
                     const { image, text, sound, tileColor } = item;
                     return <Tile image={image} text={text} sound={sound} tileColor={tileColor} key={`${item.text}-${i}`} />;
                 })}

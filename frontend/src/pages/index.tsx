@@ -32,8 +32,10 @@ export default function Home() {
                                 <Canvas />
                                 <RecentlyClickedTiles />
                             </div>
-                            <SuggestedTiles />
-                            <ManualModeButton />
+                            <div className="flex gap-2 m-3 justify-between">
+                                <SuggestedTiles />
+                                <ManualModeButton />
+                            </div>
                         </ModalProvider>
                     </UtteredTilesProvider>
                 </RekognitionProvider>
