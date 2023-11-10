@@ -1,5 +1,7 @@
+import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
+import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { Draw, Point } from "@/util/types/typing";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 /**
  * useDraw provides functionality for drawing on an html canvas
@@ -9,11 +11,15 @@ import { useEffect, useRef, useState } from "react";
  * @returns a reference to the html canvas, a function that should be called
  * the user presses, and a function for clearning the canvas
  */
+
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const prevPoint = useRef<null | Point>(null);
+    const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
+
+    const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
 
     const onMouseDown = () => setMouseDown(true);
 
@@ -25,6 +31,8 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         if (!ctx) return;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        clearStoke(); // match state to reflect clearned state
     };
 
     async function promptUserRecogination() {
@@ -54,7 +62,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     };
 
     useEffect(() => {
-        const handler = (e: MouseEvent) => {
+        const handler = (e: MouseEvent | TouchEvent) => {
             if (!mouseDown) return;
             const currentPoint = computePointInCanvas(e);
 
@@ -65,27 +73,70 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             prevPoint.current = currentPoint;
         };
 
-        const computePointInCanvas = (e: MouseEvent) => {
+        const computePointInCanvas = (e: MouseEvent | TouchEvent) => {
+            e.preventDefault(); // prevent touch scrolling
+
             const canvas = canvasRef.current;
             if (!canvas) return;
 
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
 
-            return { x, y };
+            let computedPoint: Point;
+
+            if (e instanceof MouseEvent) {
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                computedPoint = { x, y };
+            }
+            // if not a mouse event then it has to be a touch event
+            else {
+                const primaryTouch = e.touches[0];
+
+                const x = primaryTouch.clientX - rect.left;
+                const y = primaryTouch.clientY - rect.top;
+
+                computedPoint = { x, y };
+            }
+
+            dispatchPointAction({
+                type: "add",
+                payload: computedPoint,
+            });
+
+            return computedPoint;
         };
 
         // Add event listeners
+        //* mouse
         canvasRef.current?.addEventListener("mousemove", handler);
         window.addEventListener("mouseup", mouseUpHandler);
 
+        //* touch
+        canvasRef.current?.addEventListener("touchmove", handler);
+        window.addEventListener("touchend", mouseUpHandler);
+
         // Remove event listeners
         return () => {
+            //* mouse
             canvasRef.current?.removeEventListener("mousemove", handler);
             window.removeEventListener("mouseup", mouseUpHandler);
+
+            //* touch
+            canvasRef.current?.removeEventListener("touchmove", handler);
+            window.removeEventListener("touchend", mouseUpHandler);
         };
     }, [onDraw]);
+
+    useEffect(() => {
+        // take no action if no no stoke has been recorded or if the mouse is down
+        if (!currentStroke.length || mouseDown) return;
+
+        addStoke([...currentStroke]);
+        dispatchPointAction({
+            type: "clear",
+        });
+    }, [mouseDown]);
 
     return { canvasRef, onMouseDown, clear, promptUserRecogination };
 };

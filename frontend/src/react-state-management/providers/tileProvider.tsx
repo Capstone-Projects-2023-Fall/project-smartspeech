@@ -22,7 +22,7 @@ export interface TileProviderProps {
 }
 
 /**
- * Tile provider to expose collected tiles to the application. Current it only exposes the default tiles available.
+ * Tile provider to expose collected tiles to the application. Currently it only exposes the default tiles available.
  * @returns
  */
 export default function TileProvider({ children }: TileProviderProps) {

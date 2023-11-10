@@ -10,9 +10,9 @@ export const recentlyClickedTilesIds = {
 
 export default function RecentlyClickedTiles() {
     const { tileHistory } = useUtteredTiles();
-    
+
     return (
-        <section className="m-3 px-3 pt-1 pb-3 border-black border-2 rounded-md shadow-lg max-w-max" data-testid={recentlyClickedTilesIds.container}>
+        <section className="mr-3 px-3 pt-1 pb-3 border-black border-2 rounded-md shadow-lg max-w-max" data-testid={recentlyClickedTilesIds.container}>
             <h2 className="text-xl font-bold text-center mb-2 border-b-2" data-testid={recentlyClickedTilesIds.title}>
                 Recent Tiles
             </h2>
