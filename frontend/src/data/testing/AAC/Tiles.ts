@@ -70,4 +70,6 @@ const sampleData: TileAssets = {
     },
 };
 
+export const SampleSuggestedTilesData: TileProps[] = [sampleData.good, sampleData.ai];
+
 export default sampleData;

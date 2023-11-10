@@ -1,85 +1,94 @@
-import React from 'react';
-import { render, screen, act, fireEvent } from '@testing-library/react';
-import Login from './login';
-import "@testing-library/react"
+// patch tensorflow errors
+import React from "react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
+import Login from "./login";
+import "@testing-library/react";
 import "@testing-library/jest-dom";
 
 // Mock the next-auth/react module
-jest.mock('next-auth/react', () => ({
-  useSession: jest.fn(),
-  signIn: jest.fn(),
-  signOut: jest.fn(),
+jest.mock("next-auth/react", () => ({
+    useSession: jest.fn(),
+    signIn: jest.fn(),
+    signOut: jest.fn(),
 }));
 
-describe('Login Component', () => {
-  it('renders the login button when not authenticated', () => {
-    // Mock an unauthenticated session
-    require('next-auth/react').useSession.mockReturnValue({
-      data: null,
-      status: 'unauthenticated',
+import { loadModel } from "../model/tfModelUtils";
+
+jest.mock("../model/tfModelUtils");
+
+describe("Login Component", () => {
+    beforeEach(() => {
+        (loadModel as jest.Mock).mockResolvedValue(null);
     });
 
-    render(<Login />);
-    
-    const signInButton = screen.getByText('Sign In');
-    expect(signInButton).toBeInTheDocument();
-  });
+    it("renders the login button when not authenticated", () => {
+        // Mock an unauthenticated session
+        require("next-auth/react").useSession.mockReturnValue({
+            data: null,
+            status: "unauthenticated",
+        });
 
-  it('renders the signed-in content when authenticated', () => {
-    // Mock an authenticated session
-    require('next-auth/react').useSession.mockReturnValue({
-      data: {
-        user: {
-          email: 'cvto1021@gmail.com',
-        },
-      },
-      status: 'authenticated',
+        render(<Login />);
+
+        const signInButton = screen.getByText("Sign In");
+        expect(signInButton).toBeInTheDocument();
     });
 
-    render(<Login />);
-    
-    const signedInMessage = screen.getByText('Signed in as cvto1021@gmail.com');
-    const logoutButton = screen.getByText('Logout');
-    
-    expect(signedInMessage).toBeInTheDocument();
-    expect(logoutButton).toBeInTheDocument();
-  });
+    it("renders the signed-in content when authenticated", () => {
+        // Mock an authenticated session
+        require("next-auth/react").useSession.mockReturnValue({
+            data: {
+                user: {
+                    email: "cvto1021@gmail.com",
+                },
+            },
+            status: "authenticated",
+        });
 
-  it('calls signIn when clicking the Sign In button', () => {
-    // Mock an unauthenticated session
-    require('next-auth/react').useSession.mockReturnValue({
-      data: null,
-      status: 'unauthenticated',
+        render(<Login />);
+
+        const signedInMessage = screen.getByText("Signed in as cvto1021@gmail.com");
+        const logoutButton = screen.getByText("Logout");
+
+        expect(signedInMessage).toBeInTheDocument();
+        expect(logoutButton).toBeInTheDocument();
     });
 
-    render(<Login />);
-    
-    const signInButton = screen.getByText('Sign In');
-    act(() => {
-      fireEvent.click(signInButton);
+    it("calls signIn when clicking the Sign In button", () => {
+        // Mock an unauthenticated session
+        require("next-auth/react").useSession.mockReturnValue({
+            data: null,
+            status: "unauthenticated",
+        });
+
+        render(<Login />);
+
+        const signInButton = screen.getByText("Sign In");
+        act(() => {
+            fireEvent.click(signInButton);
+        });
+
+        expect(require("next-auth/react").signIn).toHaveBeenCalled();
     });
 
-    expect(require('next-auth/react').signIn).toHaveBeenCalled();
-  });
+    it("calls signOut when clicking the Logout button", () => {
+        // Mock an authenticated session
+        require("next-auth/react").useSession.mockReturnValue({
+            data: {
+                user: {
+                    email: "cvto1021@gmail.com",
+                },
+            },
+            status: "authenticated",
+        });
 
-  it('calls signOut when clicking the Logout button', () => {
-    // Mock an authenticated session
-    require('next-auth/react').useSession.mockReturnValue({
-      data: {
-        user: {
-          email: 'cvto1021@gmail.com',
-        },
-      },
-      status: 'authenticated',
+        render(<Login />);
+
+        const logoutButton = screen.getByText("Logout");
+        act(() => {
+            fireEvent.click(logoutButton);
+        });
+
+        expect(require("next-auth/react").signOut).toHaveBeenCalled();
     });
-
-    render(<Login />);
-    
-    const logoutButton = screen.getByText('Logout');
-    act(() => {
-      fireEvent.click(logoutButton);
-    });
-
-    expect(require('next-auth/react').signOut).toHaveBeenCalled();
-  });
 });

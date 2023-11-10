@@ -1,5 +1,3 @@
-import useModal, { useModalReturnType } from "@/react-helpers/hooks/useModal";
-import { EMPTY_FUNCTION } from "@/util/constants";
 import { Points } from "@/util/types/typing";
 import React, { createContext, useContext, useReducer } from "react";
 import { stackReducer } from "../reducers/stackReducer";

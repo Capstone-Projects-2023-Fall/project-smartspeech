@@ -24,6 +24,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
     const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
     const refresh = useTimedIncrement(10000);
 
+    //! debug
+    const [debug, setDebug] = useState<string>("");
+
     // webcam state
     const webcamRef = useRef<Webcam>(null);
     const [imgSrc, setImgSrc] = useState<string | null>(null);
@@ -50,6 +53,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
             if (!detectionResponse) return;
 
             console.log("server detection resp:", detectionResponse);
+            setDebug(JSON.stringify(detectionResponse, null, 2));
             const detectedTiles = detectionResponse.map((item) => flatList[item.name]).filter((item) => item);
 
             setItems(detectedTiles);
@@ -74,6 +78,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
                 videoConstraints={{ facingMode }}
             />
             {props.children}
+            <p>{debug}</p>
         </RekognitionContext.Provider>
     );
 }

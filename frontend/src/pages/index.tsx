@@ -13,6 +13,7 @@ import ModalProvider from "@/react-state-management/providers/ManualModalProvide
 import ManualTilesPopup from "@/components/AAC/ManualTilesPopup";
 import ManualModeButton from "@/components/AAC/ManualModeButton";
 import StrokeProvider from "@/react-state-management/providers/StrokeProvider";
+import SuggestedTilesProvider from "@/react-state-management/providers/SuggestedTilesProvider";
 
 /**
  *
@@ -34,8 +35,10 @@ export default function Home() {
                                     <Canvas />
                                     <RecentlyClickedTiles />
                                 </div>
-                                <div className="flex gap-2 m-3 justify-between">
-                                    <SuggestedTiles />
+                                <div className="flex gap-2 m-3 mt-1 justify-between items-center">
+                                    <SuggestedTilesProvider>
+                                        <SuggestedTiles />
+                                    </SuggestedTilesProvider>
                                     <ManualModeButton />
                                 </div>
                             </ModalProvider>
