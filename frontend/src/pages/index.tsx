@@ -5,15 +5,13 @@ import UtteredTilesProvider from "@/react-state-management/providers/useUtteredT
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
-import Tile from "@/components/AAC/Tile";
 
-export const ManualModeTestIds = {
-    manualBtn: "manual-button",
-    exitManualBtn: "return-button",
-};
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 import TileProvider from "@/react-state-management/providers/tileProvider";
-import ManualTiles from "@/components/AAC/ManualTiles";
+
+import ModalProvider from "@/react-state-management/providers/ManualModalProvider";
+import ManualTilesPopup from "@/components/AAC/ManualTilesPopup";
+import ManualModeButton from "@/components/AAC/ManualModeButton";
 
 /**
  *
@@ -25,15 +23,18 @@ export default function Home() {
             <TileProvider>
                 <RekognitionProvider>
                     <UtteredTilesProvider>
-                        <div className="relative">
-                            <SelectedTilesActionBar />
+                        <ModalProvider>
+                            <div className="relative">
+                                <SelectedTilesActionBar />
+                                <ManualTilesPopup />
+                            </div>
                             <div className="flex gap-2 max-w-[100vw] shrink">
                                 <Canvas />
                                 <RecentlyClickedTiles />
                             </div>
-                            <ManualTiles />
-                        </div>
-                        <SuggestedTiles />
+                            <SuggestedTiles />
+                            <ManualModeButton />
+                        </ModalProvider>
                     </UtteredTilesProvider>
                 </RekognitionProvider>
             </TileProvider>
