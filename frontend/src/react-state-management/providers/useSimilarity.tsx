@@ -4,38 +4,39 @@ import React from "react";
 import { useTilesProvider } from "./tileProvider";
 
 export interface SimilarityProviderProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export interface SimilarityState {
-    tiles: TileProps[];
-    setItems: (items: string[]) => void;
+  tiles: TileProps[];
+  setItems: (items: string[]) => void;
 }
 
 const SimilarityContext = createContext<SimilarityState>({
-    tiles: [],
-    setItems: () => {}
+  tiles: [],
+  setItems: () => {},
 });
 
 export const useSimilarity = () => useContext(SimilarityContext);
 
 export default function SimilarityProvider(props: SimilarityProviderProps) {
-    const { flatList } = useTilesProvider();
+  const { flatList } = useTilesProvider();
 
-    // provider state
-    const [tiles, setTiles] = useState<TileProps[]>([]);
-    const setItems = (items: string[]) => {
-        setTiles(items.map((item) => flatList[item]).filter((item) => item))
-    }
+  // provider state
+  const [tiles, setTiles] = useState<TileProps[]>([]);
+  const setItems = (items: string[]) => {
+    console.log(items);
+    setTiles(items.map((item) => flatList[item]).filter((item) => item));
+  };
 
-    const value = {
-        tiles,
-        setItems
-    };
+  const value = {
+    tiles,
+    setItems,
+  };
 
-    return (
-        <SimilarityContext.Provider value={value}>
-            {props.children}
-        </SimilarityContext.Provider>
-    )
+  return (
+    <SimilarityContext.Provider value={value}>
+      {props.children}
+    </SimilarityContext.Provider>
+  );
 }

@@ -20,32 +20,32 @@ import SuggestedTilesProvider from "@/react-state-management/providers/Suggested
  * @returns the homepage for this app
  */
 export default function Home() {
-    return (
-        <section className="font-inter max-h-screen max-w-[100vw]">
-            <TileProvider>
-                <RekognitionProvider>
-                    <UtteredTilesProvider>
-                        <StrokeProvider>
-                            <ModalProvider>
-                                <div className="relative">
-                                    <SelectedTilesActionBar />
-                                    <ManualTilesPopup />
-                                </div>
-                                <div className="flex gap-2 max-w-[100vw] shrink">
-                                    <Canvas />
-                                    <RecentlyClickedTiles />
-                                </div>
-                                <div className="flex gap-2 m-3 mt-1 justify-between items-center">
-                                    <SuggestedTilesProvider>
-                                        <SuggestedTiles />
-                                    </SuggestedTilesProvider>
-                                    <ManualModeButton />
-                                </div>
-                            </ModalProvider>
-                        </StrokeProvider>
-                    </UtteredTilesProvider>
-                </RekognitionProvider>
-            </TileProvider>
-        </section>
-    );
+  return (
+    <section className="font-inter max-h-screen max-w-[100vw]">
+      <TileProvider>
+        <RekognitionProvider>
+          <UtteredTilesProvider>
+            <StrokeProvider>
+              <ModalProvider>
+                <SuggestedTilesProvider>
+                  <div className="relative">
+                    <SelectedTilesActionBar />
+                    <ManualTilesPopup />
+                  </div>
+                  <div className="flex gap-2 max-w-[100vw] shrink">
+                    <Canvas />
+                    <RecentlyClickedTiles />
+                  </div>
+                  <div className="flex gap-2 m-3 mt-1 justify-between items-center">
+                    <SuggestedTiles />
+                    <ManualModeButton />
+                  </div>
+                </SuggestedTilesProvider>
+              </ModalProvider>
+            </StrokeProvider>
+          </UtteredTilesProvider>
+        </RekognitionProvider>
+      </TileProvider>
+    </section>
+  );
 }
