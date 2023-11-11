@@ -7,7 +7,8 @@ export async function getSimilarWords(wordsArray: string[]): Promise<string[]> {
   const data = { words: wordsArray };
 
   // Make a POST request to the similarity backend
-  const response = await fetch('http://localhost:8000/similarity', {
+  const url = process.env.NEXT_PUBLIC_PROG_MODE === 'PROD' ? process.env.NEXT_PUBLIC_BACKEND_URL_PROD : process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
+  const response = await fetch(url + '/similarity', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

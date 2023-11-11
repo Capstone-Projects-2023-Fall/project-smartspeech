@@ -2,6 +2,7 @@ import { getSimilarWords } from "@/components/AAC/SuggestedTile";
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
+import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { Draw, Point, Points } from "@/util/types/typing";
@@ -18,6 +19,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
+    const { setItems: setItems } = useSimilarity();
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const prevPoint = useRef<null | Point>(null);
@@ -53,6 +55,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
                 const drawingTopObjects = ['Blueberry', 'Circle'];
                 const similarityTopObjects = await getSimilarWords(drawingTopObjects);
+                setItems(similarityTopObjects);
 
                 //mock function accepting the canvas drawling
                 return drawingDataUrl;
