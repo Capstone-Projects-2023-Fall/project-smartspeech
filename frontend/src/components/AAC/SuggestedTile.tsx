@@ -34,8 +34,8 @@ export default function SuggestedTiles() {
       // Parse the JSON response
       const result = await response.json();
 
-      // Get the five most suggested tiles
-      const topFiveSuggestions = result.suggestions.slice(0, 5);
+      // Get the five most suggested tiles including the input word
+      const topFiveSuggestions = [inputWords, ...result.suggestions.slice(0, 4)];
 
       // Update the state with the suggested tiles
       setSuggestedTiles(topFiveSuggestions);
