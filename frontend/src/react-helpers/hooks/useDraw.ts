@@ -1,3 +1,4 @@
+import { getSimilarWords } from "@/components/AAC/SuggestedTile";
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
@@ -49,6 +50,9 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             if (canvas) {
                 const drawingDataUrl = canvas.toDataURL(); // Capture the drawing as a data URL
                 console.log("Captured drawing data URL:", drawingDataUrl);
+
+                const drawingTopObjects = ['Blueberry', 'Circle'];
+                const similarityTopObjects = await getSimilarWords(drawingTopObjects);
 
                 //mock function accepting the canvas drawling
                 return drawingDataUrl;
