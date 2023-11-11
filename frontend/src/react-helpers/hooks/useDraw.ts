@@ -18,10 +18,10 @@ import { useEffect, useReducer, useRef, useState } from "react";
  */
 
 export const useDraw = (
-  onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
+  onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void,
+  setItems: (items: string[]) => void
 ) => {
   const [mouseDown, setMouseDown] = useState(false);
-  const { setItems: setItems } = useSimilarity();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const prevPoint = useRef<null | Point>(null);
@@ -60,7 +60,7 @@ export const useDraw = (
 
         const drawingTopObjects = ["Blueberry", "Circle"];
         const similarityTopObjects = await getSimilarWords(drawingTopObjects);
-        console.log(similarityTopObjects);
+        console.log("In useDraw: " + similarityTopObjects);
         setItems(similarityTopObjects);
 
         //mock function accepting the canvas drawling
