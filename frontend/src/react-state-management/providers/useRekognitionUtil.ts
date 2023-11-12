@@ -35,6 +35,7 @@ export async function sendImageToBackendForLabeling(base64: string, mime_type: s
     try {
         resp = await axios.post<BackendRekognitionResponse>(url, {
             base64image,
+            max_labels: 2,
         });
     } catch {
         return null;
