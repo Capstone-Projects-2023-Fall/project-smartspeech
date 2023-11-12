@@ -2,6 +2,7 @@ import { TileProps } from "@/components/AAC/Tile";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useRekognition } from "./useRekognition";
 import { TileHistoryReducer } from "../reducers/tileHistoryReducer";
+import { useSimilarity } from "./useSimilarity";
 
 export const MAX_SUGGESTIONS = 5;
 
@@ -26,17 +27,9 @@ export type SuggestedTilesProviderProps = { children: React.ReactNode };
  */
 export default function SuggestedTilesProvider(props: SuggestedTilesProviderProps) {
     const { items: rekogSuggestions } = useRekognition();
+    const { tiles: simSuggestions } = useSimilarity();
 
     const [tiles, dispatchTileAction] = useReducer(TileHistoryReducer, []);
-
-    useEffect(() => {
-        rekogSuggestions.forEach((suggestedTile) => {
-            dispatchTileAction({
-                type: "add",
-                payload: suggestedTile,
-            });
-        });
-    }, [rekogSuggestions]);
 
     const suggestTile: SuggestTileFunction = (tile) => {
         dispatchTileAction({
@@ -44,6 +37,11 @@ export default function SuggestedTilesProvider(props: SuggestedTilesProviderProp
             payload: tile,
         });
     };
+
+    useEffect(() => {
+        rekogSuggestions.forEach(suggestTile);
+        simSuggestions.forEach(suggestTile);
+    }, [rekogSuggestions, simSuggestions]);
 
     // limit suggestions
     const suggestions = [...tiles];

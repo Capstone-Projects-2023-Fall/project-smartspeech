@@ -42,7 +42,7 @@ def parse_vocab():
 
 @router.post(SIMILARITY_ROUTE)
 async def similarity(base_words: SimilarityModel, nlp: Annotated[spacy.Language, Depends(load_model)], 
-                     vocab: Annotated[dict, Depends(parse_vocab)], count: int = 3) -> SimilarityResponseModel:
+                     vocab: Annotated[dict, Depends(parse_vocab)], count: int = 5) -> SimilarityResponseModel:
     """Get **count** words similar to **words**
     
     Picks the **count** most similar words from the manual tiles based on **words**.

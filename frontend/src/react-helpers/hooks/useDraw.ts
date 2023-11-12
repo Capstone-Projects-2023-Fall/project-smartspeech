@@ -1,6 +1,8 @@
+import { getSimilarWords } from "@/components/AAC/SuggestedTile";
 import Tile from "@/components/AAC/Tile";
 import data from "@/data/AAC/Tiles";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
+import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { Draw, Point, Points } from "@/util/types/typing";
@@ -15,131 +17,142 @@ import { useEffect, useReducer, useRef, useState } from "react";
  * the user presses, and a function for clearning the canvas
  */
 
-export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
-    const [mouseDown, setMouseDown] = useState(false);
+export const useDraw = (
+  onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void,
+  setItems: (items: string[]) => void
+) => {
+  const [mouseDown, setMouseDown] = useState(false);
 
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const prevPoint = useRef<null | Point>(null);
-    const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const prevPoint = useRef<null | Point>(null);
+  const [currentStroke, dispatchPointAction] = useReducer(
+    stackReducer<Point>,
+    []
+  );
 
-    const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
+  const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
 
-    const onMouseDown = () => setMouseDown(true);
+  const onMouseDown = () => setMouseDown(true);
 
-    const clear = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
+  const clear = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        clearStoke(); // match state to reflect clearned state
+    clearStoke(); // match state to reflect clearned state
+  };
+
+  async function promptUserRecogination() {
+    try {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      if (canvas) {
+        const drawingDataUrl = canvas.toDataURL(); // Capture the drawing as a data URL
+        console.log("Captured drawing data URL:", drawingDataUrl);
+
+        const drawingTopObjects = ["Blueberry", "Circle"];
+        const similarityTopObjects = await getSimilarWords(drawingTopObjects);
+        console.log("In useDraw: " + similarityTopObjects);
+        setItems(similarityTopObjects);
+
+        //mock function accepting the canvas drawling
+        return drawingDataUrl;
+      }
+    } catch (error) {
+      console.error("Error getting data", error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    const handler = (e: MouseEvent | TouchEvent) => {
+      if (!mouseDown) return;
+      const currentPoint = computePointInCanvas(e);
+
+      const ctx = canvasRef.current?.getContext("2d");
+      if (!ctx || !currentPoint) return;
+
+      onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
+      prevPoint.current = currentPoint;
     };
 
-    async function promptUserRecogination() {
-        try {
-            const canvas = canvasRef.current;
-            if (!canvas) return;
+    const computePointInCanvas = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault(); // prevent touch scrolling
 
-            const ctx = canvas.getContext("2d");
-            if (!ctx) return;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-            if (canvas) {
-                const drawingDataUrl = canvas.toDataURL(); // Capture the drawing as a data URL
-                console.log("Captured drawing data URL:", drawingDataUrl);
+      const rect = canvas.getBoundingClientRect();
 
-                //mock function accepting the canvas drawling
-                return drawingDataUrl;
-            }
-        } catch (error) {
-            console.error("Error getting data", error);
-            throw error;
-        }
-    }
+      let computedPoint: Point;
 
-    useEffect(() => {
-        const handler = (e: MouseEvent | TouchEvent) => {
-            if (!mouseDown) return;
-            const currentPoint = computePointInCanvas(e);
+      if (e instanceof MouseEvent) {
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-            const ctx = canvasRef.current?.getContext("2d");
-            if (!ctx || !currentPoint) return;
+        computedPoint = { x, y };
+      }
+      // if not a mouse event then it has to be a touch event
+      else {
+        const primaryTouch = e.touches[0];
 
-            onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
-            prevPoint.current = currentPoint;
-        };
+        const x = primaryTouch.clientX - rect.left;
+        const y = primaryTouch.clientY - rect.top;
 
-        const computePointInCanvas = (e: MouseEvent | TouchEvent) => {
-            e.preventDefault(); // prevent touch scrolling
+        computedPoint = { x, y };
+      }
 
-            const canvas = canvasRef.current;
-            if (!canvas) return;
+      dispatchPointAction({
+        type: "add",
+        payload: computedPoint,
+      });
 
-            const rect = canvas.getBoundingClientRect();
+      return computedPoint;
+    };
 
-            let computedPoint: Point;
+    const mouseUpHandler = () => {
+      setMouseDown(false);
+      prevPoint.current = null;
+    };
 
-            if (e instanceof MouseEvent) {
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+    // Add event listeners
+    //* mouse
+    canvasRef.current?.addEventListener("mousemove", handler);
+    window.addEventListener("mouseup", mouseUpHandler);
 
-                computedPoint = { x, y };
-            }
-            // if not a mouse event then it has to be a touch event
-            else {
-                const primaryTouch = e.touches[0];
+    //* touch
+    canvasRef.current?.addEventListener("touchmove", handler);
+    window.addEventListener("touchend", mouseUpHandler);
 
-                const x = primaryTouch.clientX - rect.left;
-                const y = primaryTouch.clientY - rect.top;
+    // Remove event listeners
+    return () => {
+      //* mouse
+      canvasRef.current?.removeEventListener("mousemove", handler);
+      window.removeEventListener("mouseup", mouseUpHandler);
 
-                computedPoint = { x, y };
-            }
+      //* touch
+      canvasRef.current?.removeEventListener("touchmove", handler);
+      window.removeEventListener("touchend", mouseUpHandler);
+    };
+  }, [onDraw]);
 
-            dispatchPointAction({
-                type: "add",
-                payload: computedPoint,
-            });
+  useEffect(() => {
+    // take no action if no no stoke has been recorded or if the mouse is down
+    if (!currentStroke.length || mouseDown) return;
 
-            return computedPoint;
-        };
+    addStoke([...currentStroke]);
+    dispatchPointAction({
+      type: "clear",
+    });
+  }, [mouseDown]);
 
-        const mouseUpHandler = () => {
-            setMouseDown(false);
-            prevPoint.current = null;
-        };
-
-        // Add event listeners
-        //* mouse
-        canvasRef.current?.addEventListener("mousemove", handler);
-        window.addEventListener("mouseup", mouseUpHandler);
-
-        //* touch
-        canvasRef.current?.addEventListener("touchmove", handler);
-        window.addEventListener("touchend", mouseUpHandler);
-
-        // Remove event listeners
-        return () => {
-            //* mouse
-            canvasRef.current?.removeEventListener("mousemove", handler);
-            window.removeEventListener("mouseup", mouseUpHandler);
-
-            //* touch
-            canvasRef.current?.removeEventListener("touchmove", handler);
-            window.removeEventListener("touchend", mouseUpHandler);
-        };
-    }, [onDraw]);
-
-    useEffect(() => {
-        // take no action if no no stoke has been recorded or if the mouse is down
-        if (!currentStroke.length || mouseDown) return;
-
-        addStoke([...currentStroke]);
-        dispatchPointAction({
-            type: "clear",
-        });
-    }, [mouseDown]);
-
-    return { canvasRef, onMouseDown, clear, promptUserRecogination };
+  return { canvasRef, onMouseDown, clear, promptUserRecogination };
 };
