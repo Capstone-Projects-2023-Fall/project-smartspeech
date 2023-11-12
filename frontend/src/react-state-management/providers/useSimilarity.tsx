@@ -14,7 +14,9 @@ export interface SimilarityState {
 
 const SimilarityContext = createContext<SimilarityState>({
   tiles: [],
-  setItems: () => {},
+  setItems: () => {
+    console.log("Inside Default SimilarityContext");
+  },
 });
 
 export const useSimilarity = () => useContext(SimilarityContext);
@@ -25,7 +27,7 @@ export default function SimilarityProvider(props: SimilarityProviderProps) {
   // provider state
   const [tiles, setTiles] = useState<TileProps[]>([]);
   const setItems = (items: string[]) => {
-    console.log(items);
+    console.log("In similarity provider: " + items);
     setTiles(items.map((item) => flatList[item]).filter((item) => item));
   };
 
