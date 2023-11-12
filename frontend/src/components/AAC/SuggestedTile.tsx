@@ -55,28 +55,6 @@ export default function SuggestedTiles() {
   return (
     <section className="">
       <h1 className="tilesHeaderFont">Suggested Tiles</h1>
-      <div className="flex flex-cols-8 gap-6" data-testid="tiles-container">
-        {/* Input for entering words */}
-        <input type="text" value={inputWords} onChange={handleInputChange} placeholder="Enter words..." />
-
-        {/* Button to trigger the API request */}
-        <button type="button" onClick={handleButtonClick}>
-          Get Similar Words
-        </button>
-
-        {/* Display the suggested tiles */}
-        {suggestedTiles.length > 0 ? (
-          <ul>
-            {/* Display each suggested tile as a list item */}
-            {suggestedTiles.map((suggestion, index) => (
-              <li key={index}>{suggestion}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No suggestions found.</p>
-        )}
-      </div>
-
       {/* Display the suggested tiles based on the context */}
       {tiles.map((item, i) => {
         const { image, text, sound, tileColor } = item;
