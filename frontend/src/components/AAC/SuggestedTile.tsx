@@ -56,10 +56,12 @@ export default function SuggestedTiles() {
     <section className="">
       <h1 className="tilesHeaderFont">Suggested Tiles</h1>
       {/* Display the suggested tiles based on the context */}
+      <div className="grid grid-cols-6 gap-6">
       {tiles.map((item, i) => {
         const { image, text, sound, tileColor } = item;
         return <Tile image={image} text={text} sound={sound} tileColor={tileColor} key={`${item.text}-${i}`} />;
       })}
+      </div>
     </section>
   );
 }
