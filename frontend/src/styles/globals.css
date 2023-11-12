@@ -7,3 +7,7 @@
     font-size: larger;
 }
 
+#responsive-canvas {
+    width: 100%;
+    height: 100%;
+}

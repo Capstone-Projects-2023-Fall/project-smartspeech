@@ -3,8 +3,9 @@ export type StackState<T> = T[];
 type AddAction<T> = { type: "add"; payload: T };
 type RmAction = { type: "remove" };
 type ClearAction = { type: "clear" };
+type MergeAction<T> = { type: "merge"; payload: T[] };
 
-export type StackAction<T> = AddAction<T> | RmAction | ClearAction;
+export type StackAction<T> = AddAction<T> | RmAction | ClearAction | MergeAction<T>;
 
 function emptyStateFactory<T>(): StackState<T> {
     return new Array<T>();
@@ -22,6 +23,13 @@ export function stackReducer<T>(state: StackState<T>, action: StackAction<T>): S
             const newState = [...state];
             newState.pop();
             return newState;
+        case "merge":
+            const { payload } = action;
+
+            const stateCopy = [...state];
+
+            
+
         case "clear":
             return emptyStateFactory();
     }

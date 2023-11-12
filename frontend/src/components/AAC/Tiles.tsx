@@ -7,6 +7,10 @@ import { useTilesProvider } from "@/react-state-management/providers/tileProvide
 
 export const BACK_BTN_TEXT = "back";
 
+export const TilesTestIds = {
+    mainContainer: "tiles-container",
+};
+
 /**
  *
  * @returns Component which will fetch tiles and display them
