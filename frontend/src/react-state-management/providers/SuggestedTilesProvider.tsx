@@ -40,8 +40,11 @@ export default function SuggestedTilesProvider(props: SuggestedTilesProviderProp
 
     useEffect(() => {
         rekogSuggestions.forEach(suggestTile);
+    }, [rekogSuggestions]);
+
+    useEffect(() => {
         simSuggestions.forEach(suggestTile);
-    }, [rekogSuggestions, simSuggestions]);
+    }, [simSuggestions]);
 
     // limit suggestions
     const suggestions = [...tiles];
@@ -51,8 +54,6 @@ export default function SuggestedTilesProvider(props: SuggestedTilesProviderProp
         tiles: suggestions,
         suggestTile,
     };
-
-    console.log("rerender", tiles);
 
     return <SuggestedTilesContext.Provider value={value}>{props.children}</SuggestedTilesContext.Provider>;
 }
