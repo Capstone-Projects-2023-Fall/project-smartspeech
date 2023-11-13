@@ -4,6 +4,7 @@ import useClientRender from "@/react-helpers/hooks/useClientRender";
 import { Draw } from "@/util/types/typing";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
+import { useSuggestedTilesContext } from "@/react-state-management/providers/SuggestedTilesProvider";
 
 interface ParentDivDims {
     width?: number;
@@ -47,6 +48,8 @@ export default function Canvas() {
     // Need to use similarity provider here then pass to hook
     const { setItems: setItems } = useSimilarity();
 
+    const { tiles } = useSuggestedTilesContext();
+
     const [color, setColor] = useState<string>("#000");
 
     const parentDiv = useRef<HTMLDivElement>(null);
@@ -61,15 +64,14 @@ export default function Canvas() {
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-      
-        const ctx = canvas.getContext('2d');
+
+        const ctx = canvas.getContext("2d");
         if (!ctx) return;
-      
+
         // Set background color to white
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }, []);
-      
+    }, []);
 
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
@@ -109,7 +111,7 @@ export default function Canvas() {
     useEffect(() => {
         resizeFn();
     }, []);
-    
+
     const handlePred = () => {
         if (!canvasRef.current) return;
         console.log("Tried to predict");
