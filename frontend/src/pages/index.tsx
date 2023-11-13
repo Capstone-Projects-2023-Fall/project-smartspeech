@@ -27,10 +27,10 @@ export default function Home() {
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
+                    <StrokeProvider>
                         <InferenceProvider>
                             <SuggestedTilesProvider>
-                                <UtteredTilesProvider>
-                                    <StrokeProvider>
+                                <UtteredTilesProvider>          
                                         <ModalProvider>
                                             <div className="relative">
                                                 <SelectedTilesActionBar />
@@ -45,10 +45,11 @@ export default function Home() {
                                                 <ManualModeButton />
                                             </div>
                                         </ModalProvider>
-                                    </StrokeProvider>
+                                    
                                 </UtteredTilesProvider>
                             </SuggestedTilesProvider>
                         </InferenceProvider>
+                        </StrokeProvider>
                     </SimilarityProvider>
                 </RekognitionProvider>
             </TileProvider>

@@ -69,17 +69,19 @@ export default function InferenceProvider(props: InferenceProviderProps) {
             });
     }, []);
 
-    const predict = (canvas: HTMLCanvasElement) => {
+    const predict = async (canvas: HTMLCanvasElement) => {
+        const len = points.length;
+        console.log({ model, wordDict, len });
         // return no preds if model is not yet loaded
         if (!model || !wordDict || (points.length === 0)) return [];
-
+        console.log('passed if');
         const strokes = points; // flatten array
 
         // model prediction
-        const prediction = processDrawing(model, wordDict, strokes, canvas);
+        const prediction = await processDrawing(model, wordDict, strokes, canvas);
         console.log(prediction);
         // use setter for predictions
-        setPrediction([...predictions]);
+        setPrediction([...prediction]);
         // setPrediction([
         //     {
         //         name: "cheese",
