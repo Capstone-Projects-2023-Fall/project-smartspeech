@@ -8,8 +8,8 @@ type BoundingBox = {
     min: Point;
     max: Point;
 };
-type InferenceData = { name: string; prob: number };
- 
+export type InferenceData = { name: string; prob: number };
+
 // Define variables
 let model: LayersModel | null = null;
 let classNames: string[] = [];
@@ -18,7 +18,7 @@ let isLoaded: boolean = false;
 /**
  * Parse the dictionary file into a list of class names
  */
-function success(data: string): void { 
+function success(data: string): void {
     const lst = data.split(/\n/);
     for (let i = 0; i < lst.length - 1; i++) {
         let symbol = lst[i];
@@ -118,8 +118,8 @@ function preprocess(imgData: ImageData) {
 }
 
 function performInference(processedData: Tensor): Tensor {
-  const pred = model.predict(processedData).dataSync();
-  return pred;
+    const pred = model.predict(processedData).dataSync();
+    return pred;
 }
 
 function getInferenceData(inferenceResult: Tensor): InferenceData[] {
@@ -130,7 +130,7 @@ function getInferenceData(inferenceResult: Tensor): InferenceData[] {
     // Map each probability to an object with its value and class name
     const inferenceDataWithProb = probabilities.map((prob, index) => ({
         name: classNames[index],
-        prob: prob
+        prob: prob,
     }));
 
     // Sort the array by probability in descending order
@@ -140,13 +140,13 @@ function getInferenceData(inferenceResult: Tensor): InferenceData[] {
     const top5InferenceData = sortedInferenceData.slice(0, 5);
 
     // Return the top 5 inference data
-    return top5InferenceData.map(data => ({ name: data.name, prob: Math.round(data.prob * 100) / 100 }));
+    return top5InferenceData.map((data) => ({ name: data.name, prob: Math.round(data.prob * 100) / 100 }));
 }
 
 /**
-* Process a drawing from coordinates and canvas object.
-* Return predictions as an array of classes and probabilities.
-*/
+ * Process a drawing from coordinates and canvas object.
+ * Return predictions as an array of classes and probabilities.
+ */
 export async function processDrawing(coords: Point[], canvas: HTMLCanvasElement): Promise<InferenceData[]> {
     await loadModel();
     // Get minimum bounding box from coordinate array.

@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useRekognition } from "./useRekognition";
 import { TileHistoryReducer } from "../reducers/tileHistoryReducer";
 import { useSimilarity } from "./useSimilarity";
+import { useInferenceContext } from "./InferenceProvider";
 
 export const MAX_SUGGESTIONS = 5;
 
@@ -28,6 +29,7 @@ export type SuggestedTilesProviderProps = { children: React.ReactNode };
 export default function SuggestedTilesProvider(props: SuggestedTilesProviderProps) {
     const { items: rekogSuggestions } = useRekognition();
     const { tiles: simSuggestions } = useSimilarity();
+    const { predictions } = useInferenceContext();
 
     const [tiles, dispatchTileAction] = useReducer(TileHistoryReducer, []);
 
@@ -45,6 +47,10 @@ export default function SuggestedTilesProvider(props: SuggestedTilesProviderProp
     useEffect(() => {
         simSuggestions.forEach(suggestTile);
     }, [simSuggestions]);
+
+    useEffect(() => {
+        console.log("Received predictions at suggestion provider:", predictions);
+    }, [predictions]);
 
     // limit suggestions
     const suggestions = [...tiles];
