@@ -1,5 +1,5 @@
 import { Point, Points } from "@/util/types/typing";
-import { loadLayersModel, zeros, browser, image, scalar, tidy } from "@tensorflow/tfjs";
+import { loadLayersModel, zeros, browser, image, scalar, tidy, Rank } from "@tensorflow/tfjs";
 
 //tests
 import { LayersModel, Tensor } from "@tensorflow/tfjs";
@@ -48,20 +48,18 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     const height = (bb.max.y - bb.min.y) * dpi;
     //console.log(x, y, width, height);
     if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
-        console.error('Invalid canvas dimensions', { x, y, width, height });
+        console.error("Invalid canvas dimensions", { x, y, width, height });
     }
-    
+
     if (width <= 0 || height <= 0) {
-        console.error('Canvas dimensions must be positive', { width, height });
+        console.error("Canvas dimensions must be positive", { width, height });
     }
     // Get the image data from the context
     const imgData = ctx.getImageData(x, y, width, height);
     return imgData;
 }
 
-
 function preprocess(imgData: ImageData) {
-
     return tidy(() => {
         // Convert to a tensor
         let tensor = browser.fromPixels(imgData, 1);
@@ -70,28 +68,25 @@ function preprocess(imgData: ImageData) {
 
         // Normalize
         const offset = scalar(255.0);
-        
+
         const normalized = scalar(1.0).sub(resized.div(offset));
 
         // We add a dimension to get a batch shape
         const batched = normalized.expandDims(0);
-        console.log('Shape:', batched.shape);
-        console.log('Data:', batched.dataSync());
+        console.log("Shape:", batched.shape);
+        console.log("Data:", batched.dataSync());
 
         return batched;
     });
 }
 
-function performInference(model: LayersModel, processedData: Tensor): Tensor {
-
+function performInference(model: LayersModel, processedData: Tensor) {
     const pred = model.predict(processedData);
-    console.log(pred.dataSync());
     //console.log("Raw prediction output:", pred.dataSync());
     return pred;
 }
 
-function getInferenceData(wordDict: string[], inferenceResult: Tensor): InferenceData[] {
-
+function getInferenceData(wordDict: string[], inferenceResult: Tensor<Rank>): InferenceData[] {
     // Convert the inference tensor into an array
     const probabilities = Array.from(inferenceResult.dataSync() as Float32Array);
 
@@ -113,7 +108,7 @@ function getInferenceData(wordDict: string[], inferenceResult: Tensor): Inferenc
 
 function convertCoords(coords: Points[]): Points {
     const allPoints: Point[] = [];
-    coords.forEach(points => {
+    coords.forEach((points) => {
         allPoints.push(...points);
     });
     return allPoints;
@@ -122,8 +117,8 @@ function convertCoords(coords: Points[]): Points {
 function drawBoundingBox(ctx: CanvasRenderingContext2D, bb: BoundingBox) {
     if (!ctx) return;
 
-    ctx.strokeStyle = 'red';  // Set the color for the bounding box
-    ctx.lineWidth = 2;        // Set the line width for the bounding box
+    ctx.strokeStyle = "red"; // Set the color for the bounding box
+    ctx.lineWidth = 2; // Set the line width for the bounding box
 
     // Draw a rectangle using the bounding box coordinates
     ctx.strokeRect(bb.min.x, bb.min.y, bb.max.x - bb.min.x, bb.max.y - bb.min.y);
@@ -147,7 +142,7 @@ export async function processDrawing(model: LayersModel, wordDict: string[], coo
     const inferenceResult = performInference(model, processedData);
 
     // Return inference data
-    const infData = getInferenceData(wordDict, inferenceResult);
+    const infData = getInferenceData(wordDict, inferenceResult as Tensor<Rank>);
     //console.log(infData);
     return infData;
 }
