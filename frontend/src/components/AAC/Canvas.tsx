@@ -58,6 +58,19 @@ export default function Canvas() {
 
     const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine, setItems);
 
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+      
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+      
+        // Set background color to white
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }, []);
+      
+
     function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
         const lineColor = color;
@@ -96,7 +109,7 @@ export default function Canvas() {
     useEffect(() => {
         resizeFn();
     }, []);
-
+    
     const handlePred = () => {
         if (!canvasRef.current) return;
         console.log("Tried to predict");

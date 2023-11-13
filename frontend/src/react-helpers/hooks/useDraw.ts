@@ -43,6 +43,10 @@ export const useDraw = (
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Set background color to white
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     clearStoke(); // match state to reflect clearned state
   };
 
@@ -95,8 +99,8 @@ export const useDraw = (
       let computedPoint: Point;
 
       if (e instanceof MouseEvent) {
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = e.clientX// - rect.left;
+        const y = e.clientY// - rect.top;
 
         computedPoint = { x, y };
       }
