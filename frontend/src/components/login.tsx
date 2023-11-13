@@ -18,14 +18,7 @@ export default function Login() {
                 </div>
 
                 <div>
-                    <section className="font-inter">
-                        <UtteredTilesProvider>
-                            <SelectedTilesActionBar />
-                            <Canvas />
-                            <SuggestedTiles />
-                            <Tiles />
-                        </UtteredTilesProvider>
-                    </section>
+                    <section className="font-inter"></section>
                 </div>
 
                 <div className="bg-white flex flex-col justify-center items-center">
