@@ -80,7 +80,20 @@ export default function Canvas() {
     // cache callbacks to optimze renders
     const resizeFn = useCallback(() => {
         const resizeCalcs = resizeCalc(parentDiv);
-        if (resizeCalcs) setParentDims(resizeCalcs);
+        if (!resizeCalcs) return; // failed to compute correct size
+        setParentDims(resizeCalcs);
+
+        // set background to white
+        const canvas = canvasRef.current;
+        if (!canvas) return; //reject null pointers
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        // fill with white
+        // ctx.fillStyle = "#FF0000";
+        // ctx.fillRect(0, 0, resizeCalcs.width, resizeCalcs.height);
+        // console.log("filled with red", resizeCalcs.width, resizeCalcs.height);
     }, [parentDiv, parentDim, setParentDims, renderPage]);
 
     // attach event on window resize to configure canvas
@@ -103,6 +116,11 @@ export default function Canvas() {
         predict(canvasRef.current);
     };
 
+    const handleClearCanvas = () => {
+        resizeFn();
+        clearCanvas();
+    };
+
     return (
         <div className="ml-3 w-full" ref={parentDiv}>
             <div className="w-full h-full bg-white flex justify-center items-center relative">
@@ -111,7 +129,7 @@ export default function Canvas() {
                         type="button"
                         className="z-10 p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"
                         data-testid="clearImage"
-                        onClick={clearCanvas}
+                        onClick={handleClearCanvas}
                     >
                         Clear canvas
                     </button>

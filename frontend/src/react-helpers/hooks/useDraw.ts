@@ -43,6 +43,10 @@ export const useDraw = (
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Set background color to white
+    ctx.fillStyle = '#FF0000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     clearStoke(); // match state to reflect clearned state
   };
 

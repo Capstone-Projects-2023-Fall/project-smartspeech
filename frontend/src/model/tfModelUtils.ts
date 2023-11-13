@@ -50,11 +50,11 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     const height = (bb.max.y - bb.min.y) * dpi;
 
     if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
-        console.error('Invalid canvas dimensions', { x, y, width, height });
+        console.error("Invalid canvas dimensions", { x, y, width, height });
     }
-    
+
     if (width <= 0 || height <= 0) {
-        console.error('Canvas dimensions must be positive', { width, height });
+        console.error("Canvas dimensions must be positive", { width, height });
     }
 
     // Get the image data from the context
@@ -63,7 +63,6 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
 }
 
 function preprocess(imgData: ImageData) {
-
     return tidy(() => {
         // Convert to a tensor
         let tensor = browser.fromPixels(imgData, 1);
@@ -77,18 +76,17 @@ function preprocess(imgData: ImageData) {
 
         // We add a dimension to get a batch shape
         const batched = normalized.expandDims(0);
+        console.log("BSC", batched.dataSync());
         return batched;
     });
 }
 
 function performInference(model: LayersModel, processedData: Tensor): Tensor {
-
     const pred = model.predict(processedData);
     return pred;
 }
 
 function getInferenceData(wordDict: string[], inferenceResult: Tensor): InferenceData[] {
-
     // Convert the inference tensor into an array
     const probabilities = Array.from(inferenceResult.dataSync() as Float32Array);
 
@@ -110,7 +108,7 @@ function getInferenceData(wordDict: string[], inferenceResult: Tensor): Inferenc
 
 function convertCoords(coords: Points[]): Points {
     const allPoints: Point[] = [];
-    coords.forEach(points => {
+    coords.forEach((points) => {
         allPoints.push(...points);
     });
     return allPoints;
