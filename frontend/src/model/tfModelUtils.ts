@@ -1,4 +1,4 @@
-import { Point } from "@/util/types/typing";
+import { Point, Points } from "@/util/types/typing";
 import { loadLayersModel, zeros, browser, image, scalar, tidy } from "@tensorflow/tfjs";
 
 //tests
@@ -11,49 +11,49 @@ type BoundingBox = {
 export type InferenceData = { name: string; prob: number };
 
 // Define variables
-let model: LayersModel | null = null;
-let classNames: string[] = [];
-let isLoaded: boolean = false;
+// let model: LayersModel | null = null;
+// let classNames: string[] = [];
+// let isLoaded: boolean = false;
 
 /**
  * Parse the dictionary file into a list of class names
  */
-function success(data: string): void {
-    const lst = data.split(/\n/);
-    for (let i = 0; i < lst.length - 1; i++) {
-        let symbol = lst[i];
-        classNames[i] = symbol;
-    }
-    isLoaded = true;
-    console.log("dictionary loaded and parsed.");
-}
+// function success(data: string): void {
+//     const lst = data.split(/\n/);
+//     for (let i = 0; i < lst.length - 1; i++) {
+//         let symbol = lst[i];
+//         classNames[i] = symbol;
+//     }
+//     isLoaded = true;
+//     console.log("dictionary loaded and parsed.");
+// }
 
 /**
  * Load the dictionary file.
  */
-export async function loadDict(): Promise<void> {
-    const loc = "/model_assets/class_names.txt";
+// export async function loadDict(): Promise<void> {
+//     const loc = "/model_assets/class_names.txt";
 
-    try {
-        const response = await fetch(loc);
-        const data = await response.text();
-        success(data);
-    } catch (error) {
-        console.error("Failed to load dictionary:", error);
-    }
-}
+//     try {
+//         const response = await fetch(loc);
+//         const data = await response.text();
+//         success(data);
+//     } catch (error) {
+//         console.error("Failed to load dictionary:", error);
+//     }
+// }
 
 /**
  * Load the model if it is not already loaded.
  */
-export async function loadModel(): Promise<void> {
-    if (isLoaded == false) {
-        model = await loadLayersModel("/model_assets/model.json");
-        console.log("model loaded");
-        model.predict(zeros([1, 28, 28, 1])); // Dummy prediction to warm up the model
-        await loadDict();
-    }
-}
+// export async function loadModel(): Promise<void> {
+//     if (isLoaded == false) {
+//         model = await loadLayersModel("/model_assets/model.json");
+//         console.log("model loaded");
+//         model.predict(zeros([1, 28, 28, 1])); // Dummy prediction to warm up the model
+//         await loadDict();
+//     }
+// }
 
 /**
  * Input the array of drawing coordinates.
@@ -62,7 +62,7 @@ function getBoundingBox(coords: Point[]): BoundingBox {
     // Get coordinate arrays
     const coorX = coords.map((p) => p.x);
     const coorY = coords.map((p) => p.y);
-
+    console.log('doing getBoundingBox');
     // Find top left and bottom right corners
     const min_coords: Point = {
         x: Math.min(...coorX),
@@ -82,7 +82,7 @@ function getBoundingBox(coords: Point[]): BoundingBox {
 
 function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     const dpi = window.devicePixelRatio;
-
+    console.log('doing getImageData');
     const ctx = canvas.getContext("2d");
     if (!ctx) {
         throw new Error("CanvasRenderingContext2D is not available");
@@ -94,12 +94,21 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     const width = (bb.max.x - bb.min.x) * dpi;
     const height = (bb.max.y - bb.min.y) * dpi;
 
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
+        console.error('Invalid canvas dimensions', { x, y, width, height });
+    }
+    
+    if (width <= 0 || height <= 0) {
+        console.error('Canvas dimensions must be positive', { width, height });
+    }
+
     // Get the image data from the context
     const imgData = ctx.getImageData(x, y, width, height);
     return imgData;
 }
 
 function preprocess(imgData: ImageData) {
+    console.log('doing preprocess');
     return tidy(() => {
         // Convert to a tensor
         let tensor = browser.fromPixels(imgData, 1);
@@ -117,19 +126,20 @@ function preprocess(imgData: ImageData) {
     });
 }
 
-function performInference(processedData: Tensor): Tensor {
+function performInference(model: LayersModel, processedData: Tensor): Tensor {
+    console.log('doing performInference');
     const pred = model.predict(processedData).dataSync();
     return pred;
 }
 
-function getInferenceData(inferenceResult: Tensor): InferenceData[] {
+function getInferenceData(wordDict: string[], inferenceResult: Tensor): InferenceData[] {
+    console.log('doing getInferenceData');
     // Convert the inference tensor into an array
     const probabilities = Array.from(inferenceResult.dataSync() as Float32Array);
 
-    type inferenceDataWithProb = { name: string; prob: number };
     // Map each probability to an object with its value and class name
     const inferenceDataWithProb = probabilities.map((prob, index) => ({
-        name: classNames[index],
+        name: wordDict[index],
         prob: prob,
     }));
 
@@ -143,23 +153,36 @@ function getInferenceData(inferenceResult: Tensor): InferenceData[] {
     return top5InferenceData.map((data) => ({ name: data.name, prob: Math.round(data.prob * 100) / 100 }));
 }
 
+function convertCoords(coords: Points[]): Points {
+    console.log('doing convertCoords');
+    const allPoints: Point[] = [];
+    coords.forEach(points => {
+        allPoints.push(...points);
+    });
+    return allPoints;
+}
+
 /**
  * Process a drawing from coordinates and canvas object.
  * Return predictions as an array of classes and probabilities.
  */
-export async function processDrawing(coords: Point[], canvas: HTMLCanvasElement): Promise<InferenceData[]> {
-    await loadModel();
+export async function processDrawing(model: LayersModel, wordDict: string[], coords: Points[], canvas: HTMLCanvasElement): Promise<InferenceData[]> {
+    console.log('processing drawing');
     // Get minimum bounding box from coordinate array.
-    const bb = getBoundingBox(coords);
+    const flat_coords = convertCoords(coords);
+    const bb = getBoundingBox(flat_coords);
     // Get image data from minimum bounding box and canvas element.
     const imgData = getImageData(bb, canvas);
     // Preprocess data for model inference.
     const processedData = preprocess(imgData);
+    // Rest of the function remains the same...
 
     // Perform inference with processed data.
-    const inferenceResult = performInference(processedData);
+    const inferenceResult = performInference(model, processedData);
 
     // Return inference data
-    const infData = getInferenceData(inferenceResult);
+    const infData = getInferenceData(wordDict, inferenceResult);
+    console.log('drawing processed.');
+    console.log(infData);
     return infData;
 }

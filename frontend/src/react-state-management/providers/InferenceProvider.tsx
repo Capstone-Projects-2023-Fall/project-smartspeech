@@ -1,4 +1,4 @@
-import { InferenceData } from "@/model/tfModelUtils";
+import { InferenceData, processDrawing } from "@/model/tfModelUtils";
 import { LoadModelResp } from "@/pages/api/model/load";
 import { LayersModel, loadLayersModel } from "@tensorflow/tfjs";
 
@@ -71,25 +71,25 @@ export default function InferenceProvider(props: InferenceProviderProps) {
 
     const predict = (canvas: HTMLCanvasElement) => {
         // return no preds if model is not yet loaded
-        if (!model || !wordDict) return [];
+        if (!model || !wordDict || (points.length === 0)) return [];
 
-        const flatStrokes = points; // flatten array
+        const strokes = points; // flatten array
 
-        // model preduction
-        // const prediction = predict(model, wordDict, canvas, flatStrokes)
-
+        // model prediction
+        const prediction = processDrawing(model, wordDict, strokes, canvas);
+        console.log(prediction);
         // use setter for predictions
-        //setPrediction([...prediction])
-        setPrediction([
-            {
-                name: "cheese",
-                prob: 0.5,
-            },
-            {
-                name: "blueberry",
-                prob: 0.35,
-            },
-        ]);
+        setPrediction([...predictions]);
+        // setPrediction([
+        //     {
+        //         name: "cheese",
+        //         prob: 0.5,
+        //     },
+        //     {
+        //         name: "blueberry",
+        //         prob: 0.35,
+        //     },
+        // ]);
     };
 
     const value: InferenceContextType = {
