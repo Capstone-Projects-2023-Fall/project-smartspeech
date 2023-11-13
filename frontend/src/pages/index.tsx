@@ -15,40 +15,44 @@ import ManualModeButton from "@/components/AAC/ManualModeButton";
 import StrokeProvider from "@/react-state-management/providers/StrokeProvider";
 import SuggestedTilesProvider from "@/react-state-management/providers/SuggestedTilesProvider";
 import SimilarityProvider from "@/react-state-management/providers/useSimilarity";
+import InferenceProvider from "@/react-state-management/providers/InferenceProvider";
 
 /**
  *
  * @returns the homepage for this app
  */
 export default function Home() {
-  return (
-    <section className="font-inter max-h-screen max-w-[100vw]">
-      <TileProvider>
-        <RekognitionProvider>
-          <SimilarityProvider>
-            <SuggestedTilesProvider>
-              <UtteredTilesProvider>
-                <StrokeProvider>
-                  <ModalProvider>
-                    <div className="relative">
-                      <SelectedTilesActionBar />
-                      <ManualTilesPopup />
-                    </div>
-                    <div className="flex gap-2 max-w-[100vw] shrink">
-                      <Canvas />
-                      <RecentlyClickedTiles />
-                    </div>
-                    <div className="flex gap-2 m-3 mt-1 justify-between items-center">
-                      <SuggestedTiles />
-                      <ManualModeButton />
-                    </div>
-                  </ModalProvider>
-                </StrokeProvider>
-              </UtteredTilesProvider>
-            </SuggestedTilesProvider>
-          </SimilarityProvider>
-        </RekognitionProvider>
-      </TileProvider>
-    </section>
-  );
+    return (
+        <section className="font-inter max-h-screen max-w-[100vw]">
+            <TileProvider>
+                <RekognitionProvider>
+                    <SimilarityProvider>
+                    <StrokeProvider>
+                        <InferenceProvider>
+                            <SuggestedTilesProvider>
+                                <UtteredTilesProvider>          
+                                        <ModalProvider>
+                                            <div className="relative">
+                                                <SelectedTilesActionBar />
+                                                <ManualTilesPopup />
+                                            </div>
+                                            <div className="flex gap-2 max-w-[100vw] shrink">
+                                                <Canvas />
+                                                <RecentlyClickedTiles />
+                                            </div>
+                                            <div className="flex gap-2 m-3 mt-1 justify-between items-center">
+                                                <SuggestedTiles />
+                                                <ManualModeButton />
+                                            </div>
+                                        </ModalProvider>
+                                    
+                                </UtteredTilesProvider>
+                            </SuggestedTilesProvider>
+                        </InferenceProvider>
+                        </StrokeProvider>
+                    </SimilarityProvider>
+                </RekognitionProvider>
+            </TileProvider>
+        </section>
+    );
 }

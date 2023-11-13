@@ -12,15 +12,9 @@ jest.mock("next-auth/react", () => ({
     signOut: jest.fn(),
 }));
 
-import { loadModel } from "../model/tfModelUtils";
-
 jest.mock("../model/tfModelUtils");
 
 describe("Login Component", () => {
-    beforeEach(() => {
-        (loadModel as jest.Mock).mockResolvedValue(null);
-    });
-
     it("renders the login button when not authenticated", () => {
         // Mock an unauthenticated session
         require("next-auth/react").useSession.mockReturnValue({

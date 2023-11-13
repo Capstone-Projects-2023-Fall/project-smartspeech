@@ -1,59 +1,14 @@
-import { Point } from "@/util/types/typing";
+import { Point, Points } from "@/util/types/typing";
 import { loadLayersModel, zeros, browser, image, scalar, tidy } from "@tensorflow/tfjs";
 
 //tests
-import { LayersModel, Tensor, InferenceModel } from "@tensorflow/tfjs";
+import { LayersModel, Tensor } from "@tensorflow/tfjs";
 
 type BoundingBox = {
     min: Point;
     max: Point;
 };
-type InferenceData = { name: string; prob: number };
-
-// Define variables
-let model: LayersModel | null = null;
-let classNames: string[] = [];
-let isLoaded: boolean = false;
-
-/**
- * Parse the dictionary file into a list of class names
- */
-function success(data: string): void {
-    const lst = data.split(/\n/);
-    for (let i = 0; i < lst.length - 1; i++) {
-        let symbol = lst[i];
-        classNames[i] = symbol;
-    }
-    isLoaded = true;
-    console.log("dictionary loaded and parsed.");
-}
-
-/**
- * Load the dictionary file.
- */
-export async function loadDict(): Promise<void> {
-    const loc = "/model_assets/class_names.txt";
-
-    try {
-        const response = await fetch(loc);
-        const data = await response.text();
-        success(data);
-    } catch (error) {
-        console.error("Failed to load dictionary:", error);
-    }
-}
-
-/**
- * Load the model if it is not already loaded.
- */
-export async function loadModel(): Promise<void> {
-    if (isLoaded == false) {
-        model = await loadLayersModel("/model_assets/model.json");
-        console.log("model loaded");
-        model.predict(zeros([1, 28, 28, 1])); // Dummy prediction to warm up the model
-        await loadDict();
-    }
-}
+export type InferenceData = { name: string; prob: number };
 
 /**
  * Input the array of drawing coordinates.
@@ -62,7 +17,6 @@ function getBoundingBox(coords: Point[]): BoundingBox {
     // Get coordinate arrays
     const coorX = coords.map((p) => p.x);
     const coorY = coords.map((p) => p.y);
-
     // Find top left and bottom right corners
     const min_coords: Point = {
         x: Math.min(...coorX),
@@ -72,7 +26,7 @@ function getBoundingBox(coords: Point[]): BoundingBox {
         x: Math.max(...coorX),
         y: Math.max(...coorY),
     };
-
+    //console.log(min_coords, max_coords);
     // Return as struct
     return {
         min: min_coords,
@@ -87,59 +41,113 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     if (!ctx) {
         throw new Error("CanvasRenderingContext2D is not available");
     }
-
     // Calculate the coordinates and size respecting the DPI
     const x = bb.min.x * dpi;
     const y = bb.min.y * dpi;
     const width = (bb.max.x - bb.min.x) * dpi;
     const height = (bb.max.y - bb.min.y) * dpi;
-
+    //console.log(x, y, width, height);
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
+        console.error('Invalid canvas dimensions', { x, y, width, height });
+    }
+    
+    if (width <= 0 || height <= 0) {
+        console.error('Canvas dimensions must be positive', { width, height });
+    }
     // Get the image data from the context
     const imgData = ctx.getImageData(x, y, width, height);
     return imgData;
 }
 
+
 function preprocess(imgData: ImageData) {
+
     return tidy(() => {
         // Convert to a tensor
         let tensor = browser.fromPixels(imgData, 1);
-
         // Resize
         const resized = image.resizeBilinear(tensor, [28, 28]).toFloat();
 
         // Normalize
         const offset = scalar(255.0);
+        
         const normalized = scalar(1.0).sub(resized.div(offset));
 
         // We add a dimension to get a batch shape
         const batched = normalized.expandDims(0);
+        console.log('Shape:', batched.shape);
+        console.log('Data:', batched.dataSync());
+
         return batched;
     });
 }
 
-// function performInference(processedData: Tensor): Tensor {
-//   const pred = model.predict(preprocess(processedData)).dataSync();
-//   return pred;
-// }
+function performInference(model: LayersModel, processedData: Tensor): Tensor {
 
-// function getInferenceData(inferenceResult: Tensor): InferenceData {}
+    const pred = model.predict(processedData);
+    console.log(pred.dataSync());
+    //console.log("Raw prediction output:", pred.dataSync());
+    return pred;
+}
 
-// /**
-// * Process a drawing from coordinates and canvas object.
-// * Return predictions as an array of classes and probabilities.
-// */
-// export function processDrawing(coords: Coordinate[], canvas: HTMLCanvasElement): InferenceData {
-//   // Get minimum bounding box from coordinate array.
-//   const bb = getBoundingBox(coords);
-//   // Get image data from minimum bounding box and canvas element.
-//   const imgData = getImageData(bb, canvas);
-//   // Preprocess data for model inference.
-//   const processedData = preprocess(imgData);
+function getInferenceData(wordDict: string[], inferenceResult: Tensor): InferenceData[] {
 
-//   // Perform inference with processed data.
-//   const inferenceResult = performInference(processedData);
+    // Convert the inference tensor into an array
+    const probabilities = Array.from(inferenceResult.dataSync() as Float32Array);
 
-//   // Return inference data
-//   const infData = getInferenceData(inferenceResult);
-//   return infData;
-// }
+    // Map each probability to an object with its value and class name
+    const inferenceDataWithProb = probabilities.map((prob, index) => ({
+        name: wordDict[index],
+        prob: prob,
+    }));
+    //console.log(inferenceDataWithProb);
+    // Sort the array by probability in descending order
+    const sortedInferenceData = inferenceDataWithProb.sort((a, b) => b.prob - a.prob);
+
+    // Slice the array to get the top 5
+    const top5InferenceData = sortedInferenceData.slice(0, 5);
+
+    // Return the top 5 inference data
+    return top5InferenceData.map((data) => ({ name: data.name, prob: Math.round(data.prob * 100) / 100 }));
+}
+
+function convertCoords(coords: Points[]): Points {
+    const allPoints: Point[] = [];
+    coords.forEach(points => {
+        allPoints.push(...points);
+    });
+    return allPoints;
+}
+
+function drawBoundingBox(ctx: CanvasRenderingContext2D, bb: BoundingBox) {
+    if (!ctx) return;
+
+    ctx.strokeStyle = 'red';  // Set the color for the bounding box
+    ctx.lineWidth = 2;        // Set the line width for the bounding box
+
+    // Draw a rectangle using the bounding box coordinates
+    ctx.strokeRect(bb.min.x, bb.min.y, bb.max.x - bb.min.x, bb.max.y - bb.min.y);
+}
+
+/**
+ * Process a drawing from coordinates and canvas object.
+ * Return predictions as an array of classes and probabilities.
+ */
+export async function processDrawing(model: LayersModel, wordDict: string[], coords: Points[], canvas: HTMLCanvasElement): Promise<InferenceData[]> {
+    // Get minimum bounding box from coordinate array.
+    const flat_coords = convertCoords(coords);
+    const bb = getBoundingBox(flat_coords);
+    // Get image data from minimum bounding box and canvas element.
+    const imgData = getImageData(bb, canvas);
+    // Preprocess data for model inference.
+    const processedData = preprocess(imgData);
+    // Rest of the function remains the same...
+
+    // Perform inference with processed data.
+    const inferenceResult = performInference(model, processedData);
+
+    // Return inference data
+    const infData = getInferenceData(wordDict, inferenceResult);
+    //console.log(infData);
+    return infData;
+}
