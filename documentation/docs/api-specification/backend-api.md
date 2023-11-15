@@ -5,4 +5,4 @@ hide_table_of_contents: true
 sidebar_position: 1
 ---
 
-Hosted Docs: [Backend Docs](http://3.81.111.13:8000/docs)
+Hosted Docs: [Backend Docs](http://18.215.233.130:8000/docs)

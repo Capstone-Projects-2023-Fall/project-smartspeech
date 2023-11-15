@@ -23,7 +23,7 @@ variable "exposed_ecs_ports" {
 #! Full deployment
 variable "is_full_deployment" {
   type        = bool
-  default     = true
+  default     = false
   description = "When we want a full deployment with LBs and ECS FG Services, set to true"
 }
 
