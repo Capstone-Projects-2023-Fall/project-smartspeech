@@ -2,15 +2,10 @@ import "@testing-library/react";
 import "@testing-library/jest-dom";
 import Canvas from "./Canvas";
 import { render, screen } from "@testing-library/react";
-import { loadModel } from "../../model/tfModelUtils";
 
 jest.mock("../../model/tfModelUtils");
 
 describe("Renders Canvas", () => {
-    beforeEach(() => {
-        (loadModel as jest.Mock).mockResolvedValue(null);
-    });
-
     it("should render", () => {
         render(<Canvas />);
         //checking for all three elements on page
