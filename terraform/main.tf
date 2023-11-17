@@ -33,6 +33,15 @@ module "vpc" {
   tags = merge(var.default_labels, {})
 }
 
+resource "aws_db_subnet_group" "ss_db_subnet_grp" {
+  name        = var.rds_mySQL_info.db_subnet_grp_name
+  subnet_ids  = module.vpc.public_subnets
+  description = "Subnet Group to be used my SmartSpeech Databases"
+  tags = merge(var.default_labels, {
+    "Name" : var.rds_mySQL_info.db_subnet_grp_name
+  })
+}
+
 resource "aws_security_group" "allow_web_sg" {
   name   = "Allow SSH and HTTP from anywhere"
   vpc_id = module.vpc.vpc_id
@@ -82,4 +91,49 @@ resource "aws_security_group" "allow_web_sg" {
   tags = merge(var.default_labels, {
     Name = "SS-allow-all-web-SG"
   })
+}
+
+resource "aws_db_instance" "my_sql_db" {
+  allocated_storage = 20 #GB
+  db_name           = var.rds_mySQL_info.name
+  engine            = "mysql"
+  identifier        = "mysql-ss-db"
+  license_model     = "general-public-license"
+
+  instance_class      = "db.t3.small"
+  username            = var.SmartSpeech_db_username
+  password            = var.SmartSpeech_db_password
+  skip_final_snapshot = true
+
+  # version-ing
+  engine_version              = "8.0.33"
+  allow_major_version_upgrade = false # never change db version
+  auto_minor_version_upgrade  = false
+
+  # networking
+  db_subnet_group_name   = var.rds_mySQL_info.db_subnet_grp_name
+  network_type           = "IPV4"
+  port                   = var.rds_mySQL_info.db_port
+  publicly_accessible    = true
+  vpc_security_group_ids = [aws_security_group.allow_web_sg.id]
+
+  # security
+  ca_cert_identifier                  = "rds-ca-2019"
+  iam_database_authentication_enabled = false
+
+
+  # storage
+  storage_encrypted = false #! NEEDS TO BE TRUE
+  storage_type      = "gp3" # general purpose SSD
+
+  tags = merge(var.default_labels, {
+    Name = var.rds_mySQL_info.name
+  })
+
+  depends_on = [aws_db_subnet_group.ss_db_subnet_grp]
+}
+
+
+output "custom_tiles_addr" {
+  value = aws_db_instance.my_sql_db.endpoint
 }

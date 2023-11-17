@@ -17,7 +17,7 @@ variable "vpc_info" {
 
 variable "exposed_ecs_ports" {
   type    = list(number)
-  default = [8000]
+  default = [8000, 3306]
 }
 
 #! Full deployment
@@ -74,4 +74,24 @@ variable "r53_domain_info" {
     cert_domain = "smart-speech.backend-aws.com"
     domain      = "backend-aws.com"
   }
+}
+
+variable "rds_mySQL_info" {
+  type = map(any)
+  default = {
+    name               = "SmartSpeechCustomTilesDB"
+    db_port            = 3306
+    db_subnet_grp_name = "ss-mysql-db-subnet-group"
+  }
+}
+
+variable "SmartSpeech_db_username" {
+  type      = string
+  sensitive = true
+}
+
+
+variable "SmartSpeech_db_password" {
+  type      = string
+  sensitive = true
 }
