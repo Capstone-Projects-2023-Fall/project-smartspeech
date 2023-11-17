@@ -1,5 +1,15 @@
 import mysql.connector
 
+from dotenv import load_dotenv
+from os import getenv
+
+load_status = load_dotenv(dotenv_path="./src/.env.local")
+
+DB_URL_ENV_VAR="CT_DB_URL"
+DB_PORT_ENV_VAR="CT_DB_PORT"
+DB_USERNAME_ENV_VAR="CT_DB_USERNAME"
+DB_PASSWORD_ENV_VAR="CT_DB_PASSWORD"
+
 #! File used for debugging connection to AWS RDS host
 def test_mysql_connection(host, port, user, password):
     try:
@@ -27,10 +37,10 @@ def test_mysql_connection(host, port, user, password):
             print("Connection closed.")
 
 # Replace these values with your actual database credentials
-host = "mysql-ss-db.ciuw2a2w7jpe.us-east-1.rds.amazonaws.com"
-port = 3306
-user = "???"
-password = "???"
+host = getenv(DB_URL_ENV_VAR)
+port = getenv(DB_PORT_ENV_VAR, 3306)
+user = getenv(DB_USERNAME_ENV_VAR)
+password = getenv(DB_PASSWORD_ENV_VAR)
 
 # Call the function to test the connection
 test_mysql_connection(host, port, user, password)
