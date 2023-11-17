@@ -34,8 +34,9 @@ module "vpc" {
 }
 
 resource "aws_db_subnet_group" "ss_db_subnet_grp" {
-  name       = var.rds_mySQL_info.db_subnet_grp_name
-  subnet_ids = module.vpc.public_subnets
+  name        = var.rds_mySQL_info.db_subnet_grp_name
+  subnet_ids  = module.vpc.public_subnets
+  description = "Subnet Group to be used my SmartSpeech Databases"
   tags = merge(var.default_labels, {
     "Name" : var.rds_mySQL_info.db_subnet_grp_name
   })
@@ -93,15 +94,15 @@ resource "aws_security_group" "allow_web_sg" {
 }
 
 resource "aws_db_instance" "my_sql_db" {
-  allocated_storage = 20
+  allocated_storage = 20 #GB
   db_name           = var.rds_mySQL_info.name
   engine            = "mysql"
   identifier        = "mysql-ss-db"
   license_model     = "general-public-license"
 
   instance_class      = "db.t3.small"
-  username            = "admin"
-  password            = "password"
+  username            = var.SmartSpeech_db_username
+  password            = var.SmartSpeech_db_password
   skip_final_snapshot = true
 
   # version-ing

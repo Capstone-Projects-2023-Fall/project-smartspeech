@@ -79,8 +79,19 @@ variable "r53_domain_info" {
 variable "rds_mySQL_info" {
   type = map(any)
   default = {
-    name                 = "SmartSpeechCustomTilesDB"
-    db_port              = 3306
-    db_subnet_grp_name   = "ss-mysql-db-subnet-group"
+    name               = "SmartSpeechCustomTilesDB"
+    db_port            = 3306
+    db_subnet_grp_name = "ss-mysql-db-subnet-group"
   }
+}
+
+variable "SmartSpeech_db_username" {
+  type      = string
+  sensitive = true
+}
+
+
+variable "SmartSpeech_db_password" {
+  type      = string
+  sensitive = true
 }
