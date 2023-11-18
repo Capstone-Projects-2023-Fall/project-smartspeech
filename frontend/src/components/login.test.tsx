@@ -12,7 +12,6 @@ jest.mock("next-auth/react", () => ({
     signOut: jest.fn(),
 }));
 
-jest.mock("../model/tfModelUtils");
 
 describe("Login Component", () => {
     it("renders the login button when not authenticated", () => {
