@@ -2,10 +2,20 @@ import mysql.connector
 from os import getenv
 from dotenv import load_dotenv
 
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+router = APIRouter()
 
 # types
 from mysql.connector import MySQLConnection
 PossibleMySQLConnection = MySQLConnection | None
+
+class InsertCustomTileModel(BaseModel):
+	image: str
+	sound: str = ""
+	text: str
+	tileColor: str
 
 
 load_dotenv(".env.local")
@@ -17,7 +27,7 @@ DB_PASSWORD_ENV_VAR="CT_DB_PASSWORD"
 
 
 class MySQLConnectionSingleton:
-	instance: PossibleMySQLConnection | None = None
+	instance = None
 
 	def __new__(cls, *args, **kwargs):
 		if not cls.instance:
