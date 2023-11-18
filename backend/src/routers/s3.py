@@ -39,6 +39,8 @@ def upload_file_to_s3_logic(file_binary: bytes, uploaded_file_name: str, force_u
     s3.upload_fileobj(BytesIO(file_binary), getenv(
         BUCKET_NAME_ENV_VAR), uploaded_file_name)
 
+    return f'{getenv(OBJECT_URL_ENV_VAR)}/{uploaded_file_name}'
+
 
 @router.post(UPLOAD_TO_S3_ROUTE)
 def upload_file_to_s3(body: UploadFileToS3Model):
@@ -57,13 +59,13 @@ def upload_file_to_s3(body: UploadFileToS3Model):
     """
     uploaded_file_name = f'{body.file_name}.{body.extension}'
 
-    upload_file_to_s3_logic(
+    uploadedURL = upload_file_to_s3_logic(
         b64decode(body.base64File), uploaded_file_name, body.force_unique)
 
     return {
         "message": "uploaded",
         "filename": uploaded_file_name,
-        "url": f'{getenv(OBJECT_URL_ENV_VAR)}/{uploaded_file_name}'
+        "url": uploadedURL
     }
 
 
