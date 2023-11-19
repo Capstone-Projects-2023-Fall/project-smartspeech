@@ -34,8 +34,6 @@ def upload_file_to_s3_logic(file_binary: bytes, uploaded_file_name: str, force_u
     if force_unique:
         uploaded_file_name = f"{uuid.uuid4().hex}-{uploaded_file_name}"
 
-    print('env bucket', getenv(BUCKET_NAME_ENV_VAR))
-
     s3.upload_fileobj(BytesIO(file_binary), getenv(
         BUCKET_NAME_ENV_VAR), uploaded_file_name)
 
