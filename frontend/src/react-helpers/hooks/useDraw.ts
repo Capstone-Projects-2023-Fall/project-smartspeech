@@ -17,7 +17,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
  * the user presses, and a function for clearning the canvas
  */
 
-export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void, setItems: (items: string[]) => void) => {
+export const useDraw = (setItems: (items: string[]) => void) => {
     const [mouseDown, setMouseDown] = useState(false);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,6 +28,25 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
     const onMouseDown = () => setMouseDown(true);
 
+    function onDraw({ prevPoint, currentPoint, ctx }: Draw) {
+        const { x: currX, y: currY } = currentPoint;
+        const lineColor = "#000"; // black
+        const lineWidth = 5;
+
+        let startPoint = prevPoint ?? currentPoint;
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = lineColor;
+        ctx.moveTo(startPoint.x, startPoint.y);
+        ctx.lineTo(currX, currY);
+        ctx.stroke();
+
+        ctx.fillStyle = lineColor;
+        ctx.beginPath();
+        ctx.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
     const clear = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -37,9 +56,9 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Set background color to white
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // // Set background color to white
+        // ctx.fillStyle = "#ffffff";
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         clearStoke(); // match state to reflect clearned state
     };

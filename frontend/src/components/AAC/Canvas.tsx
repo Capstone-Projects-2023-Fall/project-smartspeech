@@ -4,7 +4,7 @@ import useClientRender from "@/react-helpers/hooks/useClientRender";
 import { Draw } from "@/util/types/typing";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
-import { useSuggestedTilesContext } from "@/react-state-management/providers/SuggestedTilesProvider";
+import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
 
 interface ParentDivDims {
     width?: number;
@@ -26,8 +26,8 @@ const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
     // fallback view
     if (!viewportHeight || !totalPageHeight)
         return {
-            width: boundRect.width,
-            height: boundRect.height,
+            width: boundRect.width >> 0,
+            height: boundRect.height >> 0,
         };
 
     // find diff between page and screen length
@@ -35,8 +35,8 @@ const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
 
     // cut off high diff off canvas height
     return {
-        width: boundRect.width,
-        height: boundRect.height - hightDifferential,
+        width: boundRect.width >> 0,
+        height: (boundRect.height - hightDifferential) >> 0,
     };
 };
 
@@ -45,21 +45,18 @@ const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
  * Canvas also allows for clearing and submitting to server
  */
 export default function Canvas() {
-    // Need to use similarity provider here then pass to hook
-    const { setItems: setItems } = useSimilarity();
-
-    const { tiles } = useSuggestedTilesContext();
-
-    const [color, setColor] = useState<string>("#000");
-
+    // used to calc canvas size for diff screens
     const parentDiv = useRef<HTMLDivElement>(null);
     const [parentDim, setParentDims] = useState<ParentDivDims>({});
 
     const renderPage = useClientRender();
 
+    // call to trigger async pred
     const { predict } = useInferenceContext();
 
-    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine, setItems);
+    // Need to use similarity provider here then pass to hook
+    const { setItems: setItems } = useSimilarity();
+    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(setItems);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -69,33 +66,16 @@ export default function Canvas() {
         if (!ctx) return;
 
         // Set background color to white
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ctx.fillStyle = "#ffffff";
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, []);
-
-    function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-        const { x: currX, y: currY } = currentPoint;
-        const lineColor = color;
-        const lineWidth = 5;
-
-        let startPoint = prevPoint ?? currentPoint;
-        ctx.beginPath();
-        ctx.lineWidth = lineWidth;
-        ctx.strokeStyle = lineColor;
-        ctx.moveTo(startPoint.x, startPoint.y);
-        ctx.lineTo(currX, currY);
-        ctx.stroke();
-
-        ctx.fillStyle = lineColor;
-        ctx.beginPath();
-        ctx.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI);
-        ctx.fill();
-    }
 
     // cache callbacks to optimze renders
     const resizeFn = useCallback(() => {
         const resizeCalcs = resizeCalc(parentDiv);
         if (resizeCalcs) setParentDims(resizeCalcs);
+        clearCanvas(); //allow state to match a resize event (when a resize occurs canvas will be cleared)
+        console.log("resized at", resizeCalcs);
     }, [parentDiv, parentDim, setParentDims, renderPage]);
 
     // attach event on window resize to configure canvas
