@@ -177,6 +177,28 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	
 @router.get(UPLOAD_CUSTOM_TILE)
 def get_custom_tiles(email: str):
+	"""Gets all uploaded tile data based on the `email` they are saved under.
+
+	Args:
+		email (str)
+
+	Raises:
+		HTTPException: If `email` is invalid
+		HTTPException: If the Database fails to respond to connection reqeusts
+		HTTPException: If entries are not able to be read
+
+	Returns:
+		List (`[]`) of the following dict (json): 
+		```
+		{
+			'url': ImageURL,
+			'email': UserEmail,
+			'text': TextAssociated,
+			'sound': SoundAssociated,
+			'tileColor': TileColor
+		}
+		```
+	"""
 
 	# no need to query db if email is false
 	if not is_valid_email(email): raise HTTPException(status_code=400, detail="Email not in valid format")
