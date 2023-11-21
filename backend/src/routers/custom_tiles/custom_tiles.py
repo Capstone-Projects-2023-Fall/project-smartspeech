@@ -15,9 +15,10 @@ from mysql.connector import MySQLConnection
 
 PossibleMySQLConnection = MySQLConnection | None
 
-from .aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
-from .sql_query_constants import INSERT_CUSTOM_TILE_QUERY
-from .s3 import upload_file_to_s3_logic
+from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
+from .sql_query_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
+from ..s3 import upload_file_to_s3_logic
+from .DTO.CustomTilesDTO import mapCustomTileEntryToJson
 
 class InsertCustomTileModel(BaseModel):
 	image: str
@@ -78,6 +79,17 @@ def insertCustomTilesIntoDB(connection: MySQLConnection, dataToInsert: InsertDat
 	cursor.close()
 
 	return tile_no
+
+def getTilesByEmail(connection: MySQLConnection, email: str):
+	cursor = connection.cursor()
+	cursor.execute(GET_CUSTOM_TILE_QUERY, (email,))
+
+	rows = cursor.fetchall()
+
+	JSONrows = list(map(mapCustomTileEntryToJson, rows))
+
+	return JSONrows
+
 
 
 @router.post(UPLOAD_CUSTOM_TILE)
@@ -157,3 +169,20 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	}
 
 	
+@router.get(UPLOAD_CUSTOM_TILE)
+def get_custom_tiles(email: str):
+	# create SQL connection
+	connection = getNewMySQLConnection()
+	if connection is None: raise HTTPException(status_code=500, detail="DB failed to connect")
+
+	tiles = None
+
+	try:
+		tiles = getTilesByEmail(connection, email)
+	except Exception as e:
+		print(e)
+		raise HTTPException(status_code=500, detail="DB GET error")
+
+	return tiles
+
+
