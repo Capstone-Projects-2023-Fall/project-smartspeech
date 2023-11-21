@@ -23,14 +23,14 @@ import InferenceProvider from "@/react-state-management/providers/InferenceProvi
  */
 export default function Home() {
     return (
-        <section className="font-inter max-h-screen max-w-[100vw]">
+        <section className="font-inter max-h-screen max-w-[100vw] box-border">
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
-                    <StrokeProvider>
-                        <InferenceProvider>
-                            <SuggestedTilesProvider>
-                                <UtteredTilesProvider>          
+                        <StrokeProvider>
+                            <InferenceProvider>
+                                <SuggestedTilesProvider>
+                                    <UtteredTilesProvider>
                                         <ModalProvider>
                                             <div className="relative">
                                                 <SelectedTilesActionBar />
@@ -45,10 +45,9 @@ export default function Home() {
                                                 <ManualModeButton />
                                             </div>
                                         </ModalProvider>
-                                    
-                                </UtteredTilesProvider>
-                            </SuggestedTilesProvider>
-                        </InferenceProvider>
+                                    </UtteredTilesProvider>
+                                </SuggestedTilesProvider>
+                            </InferenceProvider>
                         </StrokeProvider>
                     </SimilarityProvider>
                 </RekognitionProvider>
