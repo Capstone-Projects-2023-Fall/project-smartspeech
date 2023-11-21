@@ -171,6 +171,9 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	
 @router.get(UPLOAD_CUSTOM_TILE)
 def get_custom_tiles(email: str):
+
+	#! need to validate email <--
+
 	# create SQL connection
 	connection = getNewMySQLConnection()
 	if connection is None: raise HTTPException(status_code=500, detail="DB failed to connect")
