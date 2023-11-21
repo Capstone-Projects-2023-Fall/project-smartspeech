@@ -18,8 +18,10 @@ PossibleMySQLConnection = MySQLConnection | None
 from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
 from .sql_query_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
 from ..s3 import upload_file_to_s3_logic
-from .DTO.CustomTilesDTO import mapCustomTileEntryToJson
-from ...util.is_valid_email import is_valid_email
+
+# util
+from ...DTO.CustomTilesDTO import mapCustomTileEntryToJson
+from ...util.text_util import is_valid_email, replace_white_space
 
 class InsertCustomTileModel(BaseModel):
 	image: str
@@ -135,11 +137,12 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 
 	# Save image first
 	b64ToBinImage = b64decode(insertData.image)
-	URL: str | None = None
+	saved_image_name = f"custom-tile.{image_extension}"
 
+	URL: str | None = None
 	try:
 		# generate a unique tile name to save in s3 via `force_unique=True`
-		URL = upload_file_to_s3_logic(b64ToBinImage, f"custom-tile.{image_extension}", force_unique=True) 
+		URL = upload_file_to_s3_logic(b64ToBinImage, saved_image_name, force_unique=True) 
 	except Exception as e:
 		print(e)
 		raise HTTPException(status_code=500, detail="Image could not be uploaded to storage")
@@ -152,7 +155,6 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 
 	# upload data to db
 	tile_no = None
-
 	try:
 		tile_no = insertCustomTilesIntoDB(connection, {
 			"ImageURL": URL,
