@@ -24,7 +24,7 @@ export const useDraw = (setItems: (items: string[]) => void) => {
     const prevPoint = useRef<null | Point>(null);
     const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
 
-    const { addStoke, clear: clearStoke } = useStrokeRecorderContext();
+    const { points, addStoke, clear: clearStoke } = useStrokeRecorderContext();
 
     const onMouseDown = () => setMouseDown(true);
 
@@ -62,6 +62,10 @@ export const useDraw = (setItems: (items: string[]) => void) => {
 
         clearStoke(); // match state to reflect clearned state
     };
+
+    useEffect(() => {
+        console.log(points);
+    }, [points]);
 
     async function promptUserRecogination() {
         try {

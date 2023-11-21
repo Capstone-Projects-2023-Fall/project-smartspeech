@@ -51,7 +51,7 @@ export default function Canvas() {
 
         const { width, height } = parentDim;
 
-        const isInitialRender = !width || !height
+        const isInitialRender = !width || !height;
 
         if (isInitialRender || newWidth !== width || newHeight !== height) {
             setParentDims({
@@ -74,7 +74,7 @@ export default function Canvas() {
 
     return (
         <div className="ml-3 w-full" ref={containerElement}>
-            <div className="w-full h-full bg-white flex justify-center items-center relative">
+            <div className="w-full bg-white flex justify-center items-center relative box-border">
                 <div className="flex flex-col gap-10">
                     <button
                         type="button"

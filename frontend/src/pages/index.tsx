@@ -36,7 +36,7 @@ export default function Home() {
                                                 <SelectedTilesActionBar />
                                                 <ManualTilesPopup />
                                             </div>
-                                            <div className="flex gap-2 max-w-[100vw] shrink">
+                                            <div className="flex gap-2 max-w-[100vw] max-h-96 shrink">
                                                 <Canvas />
                                                 <RecentlyClickedTiles />
                                             </div>
