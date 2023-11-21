@@ -85,8 +85,9 @@ def getTilesByEmail(connection: MySQLConnection, email: str):
 	cursor.execute(GET_CUSTOM_TILE_QUERY, (email,))
 
 	rows = cursor.fetchall()
-
 	JSONrows = list(map(mapCustomTileEntryToJson, rows))
+
+	cursor.close()
 
 	return JSONrows
 
@@ -185,6 +186,8 @@ def get_custom_tiles(email: str):
 	except Exception as e:
 		print(e)
 		raise HTTPException(status_code=500, detail="DB GET error")
+
+	connection.close()
 
 	return tiles
 
