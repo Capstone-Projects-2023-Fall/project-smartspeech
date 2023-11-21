@@ -19,6 +19,7 @@ from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
 from .sql_query_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
 from ..s3 import upload_file_to_s3_logic
 from .DTO.CustomTilesDTO import mapCustomTileEntryToJson
+from ...util.is_valid_email import is_valid_email
 
 class InsertCustomTileModel(BaseModel):
 	image: str
@@ -124,6 +125,10 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	```
 	"""
 
+
+	# no need to query db if email is false
+	if not is_valid_email(insertData.email): raise HTTPException(status_code=400, detail="Email not in valid format")
+
 	# check for invalid conditions
 	image_extension = insertData.imageExt
 	if image_extension.upper() in ['SVG']: raise HTTPException(status_code=400, detail="SVG Images not allowed")
@@ -173,7 +178,8 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 @router.get(UPLOAD_CUSTOM_TILE)
 def get_custom_tiles(email: str):
 
-	#! need to validate email <--
+	# no need to query db if email is false
+	if not is_valid_email(email): raise HTTPException(status_code=400, detail="Email not in valid format")
 
 	# create SQL connection
 	connection = getNewMySQLConnection()
