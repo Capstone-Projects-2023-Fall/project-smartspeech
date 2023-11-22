@@ -25,6 +25,8 @@ const config = {
             "xs1-max": { max: "464px" },
             "xs2-max": { max: "380px" },
             "xs3-max": { max: "320px" },
+            'ipad-1': { 'raw': '(min-height: 800px)' },
+            'ipad-2': { 'raw': '(min-height: 800px)' },
         },
     },
     plugins: [],

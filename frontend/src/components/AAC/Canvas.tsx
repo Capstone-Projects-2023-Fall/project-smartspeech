@@ -3,8 +3,8 @@ import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
-import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
 import useSize from "@/react-helpers/hooks/useSize";
+import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
 
 interface ParentDivDims {
     width?: number;
@@ -22,6 +22,7 @@ export default function Canvas() {
     const renderPage = useClientRender();
 
     const containerSize = useSize(containerElement);
+    const [isContainerShifting, setIsContainerShifting] = useState(false);
 
     // call to trigger async pred
     const { predict } = useInferenceContext();
@@ -59,12 +60,19 @@ export default function Canvas() {
                 height: newHeight,
             });
             clearCanvas();
-            console.log("Changing size", {
-                width: newWidth,
-                height: newHeight,
-            });
         }
     }, [containerSize]);
+
+    // record live if container is changing
+    useEffect(() => {
+        setIsContainerShifting(true);
+        const timeoutId = setTimeout(() => setIsContainerShifting(false), 1000);
+        return () => clearTimeout(timeoutId);
+    }, [parentDim.height]);
+
+    useEffect(() => {
+        console.log({ isContainerShifting });
+    }, [isContainerShifting]);
 
     const handlePred = () => {
         if (!canvasRef.current) return;
@@ -94,6 +102,10 @@ export default function Canvas() {
                     </button>
                 </div>
 
+                {
+                    /*Block actions when screen changes*/
+                    isContainerShifting && <LoadingScreenBlocker message="Screen change detected. Please Wait for resize" />
+                }
                 <canvas
                     ref={canvasRef}
                     onMouseDown={onMouseDown}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
 import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
@@ -22,6 +22,8 @@ import InferenceProvider from "@/react-state-management/providers/InferenceProvi
  * @returns the homepage for this app
  */
 export default function Home() {
+
+
     return (
         <section className="font-inter max-h-screen max-w-[100vw] box-border">
             <TileProvider>
