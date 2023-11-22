@@ -22,10 +22,8 @@ import InferenceProvider from "@/react-state-management/providers/InferenceProvi
  * @returns the homepage for this app
  */
 export default function Home() {
-
-
     return (
-        <section className="font-inter max-h-screen max-w-[100vw] box-border">
+        <section className="font-inter h-screen max-w-[100vw] box-border">
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
@@ -38,7 +36,7 @@ export default function Home() {
                                                 <SelectedTilesActionBar />
                                                 <ManualTilesPopup />
                                             </div>
-                                            <div className="flex gap-2 max-w-[100vw] max-h-96 shrink">
+                                            <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
                                                 <Canvas />
                                                 <RecentlyClickedTiles />
                                             </div>

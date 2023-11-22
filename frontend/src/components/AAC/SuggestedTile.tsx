@@ -54,7 +54,7 @@ export default function SuggestedTiles() {
 
   return (
     <section className="">
-      <h1 className="tilesHeaderFont">Suggested Tiles</h1>
+      <h2 className="font-bold text-xl">Suggested Tiles</h2>
       {/* Display the suggested tiles based on the context */}
       <div className="grid grid-cols-6 gap-6" data-testid="tiles-container">
       {tiles.map((item, i) => {
