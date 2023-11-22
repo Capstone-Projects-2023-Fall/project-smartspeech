@@ -29,19 +29,7 @@ export default function Canvas() {
 
     // Need to use similarity provider here then pass to hook
     const { setItems: setItems } = useSimilarity();
-    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(setItems);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-
-        // Set background color to white
-        // ctx.fillStyle = "#ffffff";
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }, []);
+    const { canvasRef, onMouseDown, clear: clearCanvas, undoStroke } = useDraw(setItems);
 
     useEffect(() => {
         if (!containerSize) return;
@@ -68,10 +56,10 @@ export default function Canvas() {
         setIsContainerShifting(true);
         const timeoutId = setTimeout(() => setIsContainerShifting(false), 1000);
         return () => clearTimeout(timeoutId);
-    }, [parentDim.height]);
+    }, [parentDim]);
 
     useEffect(() => {
-        console.log({ isContainerShifting });
+        if (!isContainerShifting) clearCanvas(); //when container done moving
     }, [isContainerShifting]);
 
     const handlePred = () => {
@@ -83,22 +71,30 @@ export default function Canvas() {
     return (
         <div className="ml-3 w-full" ref={containerElement}>
             <div className="w-full bg-white flex justify-center items-center relative box-border">
-                <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-3 absolute top-2 right-2">
                     <button
                         type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg absolute top-2 right-2 text-bold"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
                         data-testid="clearImage"
-                        onClick={clearCanvas}
+                        onClick={() => clearCanvas()}
                     >
                         Clear canvas
                     </button>
                     <button
                         type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg absolute top-13 right-2 text-bold"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
                         data-testid="checkImage"
                         onClick={handlePred}
                     >
                         Check Image
+                    </button>
+                    <button
+                        type="button"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
+                        data-testid="undo-stroke"
+                        onClick={undoStroke}
+                    >
+                        Undo
                     </button>
                 </div>
 
