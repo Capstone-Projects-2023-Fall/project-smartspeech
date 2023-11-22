@@ -1,65 +1,35 @@
 import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
 import { useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
-import { Draw } from "@/util/types/typing";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
-import { useSuggestedTilesContext } from "@/react-state-management/providers/SuggestedTilesProvider";
+import useSize from "@/react-helpers/hooks/useSize";
+import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
 
 interface ParentDivDims {
     width?: number;
     height?: number;
 }
-
-const resizeCalc = (parentRef: RefObject<HTMLDivElement>) => {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    if (!parentRef.current) return;
-
-    // Get the viewport height using the innerHeight property
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-    // Get the total page height using the scrollHeight property
-    const totalPageHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-
-    const boundRect = parentRef.current.getBoundingClientRect();
-
-    // fallback view
-    if (!viewportHeight || !totalPageHeight)
-        return {
-            width: boundRect.width,
-            height: boundRect.height,
-        };
-
-    // find diff between page and screen length
-    const hightDifferential = totalPageHeight - viewportHeight;
-
-    // cut off high diff off canvas height
-    return {
-        width: boundRect.width,
-        height: boundRect.height - hightDifferential,
-    };
-};
-
 /**
  * Renders a blank canvas, allowing the user to draw pictures with blank ink.
  * Canvas also allows for clearing and submitting to server
  */
 export default function Canvas() {
-    // Need to use similarity provider here then pass to hook
-    const { setItems: setItems } = useSimilarity();
-
-    const { tiles } = useSuggestedTilesContext();
-
-    const [color, setColor] = useState<string>("#000");
-
-    const parentDiv = useRef<HTMLDivElement>(null);
+    // used to calc canvas size for diff screens
+    const containerElement = useRef<HTMLDivElement>(null);
     const [parentDim, setParentDims] = useState<ParentDivDims>({});
 
     const renderPage = useClientRender();
 
+    const containerSize = useSize(containerElement);
+    const [isContainerShifting, setIsContainerShifting] = useState(false);
+
+    // call to trigger async pred
     const { predict } = useInferenceContext();
 
-    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(drawLine, setItems);
+    // Need to use similarity provider here then pass to hook
+    const { setItems: setItems } = useSimilarity();
+    const { canvasRef, onMouseDown, clear: clearCanvas, promptUserRecogination } = useDraw(setItems);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -69,48 +39,40 @@ export default function Canvas() {
         if (!ctx) return;
 
         // Set background color to white
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ctx.fillStyle = "#ffffff";
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, []);
 
-    function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-        const { x: currX, y: currY } = currentPoint;
-        const lineColor = color;
-        const lineWidth = 5;
-
-        let startPoint = prevPoint ?? currentPoint;
-        ctx.beginPath();
-        ctx.lineWidth = lineWidth;
-        ctx.strokeStyle = lineColor;
-        ctx.moveTo(startPoint.x, startPoint.y);
-        ctx.lineTo(currX, currY);
-        ctx.stroke();
-
-        ctx.fillStyle = lineColor;
-        ctx.beginPath();
-        ctx.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
-    // cache callbacks to optimze renders
-    const resizeFn = useCallback(() => {
-        const resizeCalcs = resizeCalc(parentDiv);
-        if (resizeCalcs) setParentDims(resizeCalcs);
-    }, [parentDiv, parentDim, setParentDims, renderPage]);
-
-    // attach event on window resize to configure canvas
     useEffect(() => {
-        const windowResizeListener = resizeFn;
+        if (!containerSize) return;
 
-        window.addEventListener("resize", windowResizeListener);
+        // round off observer measurements
+        const newWidth = containerSize.width >> 0;
+        const newHeight = containerSize.height >> 0;
 
-        return () => window.removeEventListener("resize", windowResizeListener);
-    }, [parentDim, setParentDims]);
+        const { width, height } = parentDim;
 
-    // one time on load resize to resize on initial page load
+        const isInitialRender = !width || !height;
+
+        if (isInitialRender || newWidth !== width || newHeight !== height) {
+            setParentDims({
+                width: newWidth,
+                height: newHeight,
+            });
+            clearCanvas();
+        }
+    }, [containerSize]);
+
+    // record live if container is changing
     useEffect(() => {
-        resizeFn();
-    }, []);
+        setIsContainerShifting(true);
+        const timeoutId = setTimeout(() => setIsContainerShifting(false), 1000);
+        return () => clearTimeout(timeoutId);
+    }, [parentDim.height]);
+
+    useEffect(() => {
+        console.log({ isContainerShifting });
+    }, [isContainerShifting]);
 
     const handlePred = () => {
         if (!canvasRef.current) return;
@@ -119,8 +81,8 @@ export default function Canvas() {
     };
 
     return (
-        <div className="ml-3 w-full" ref={parentDiv}>
-            <div className="w-full h-full bg-white flex justify-center items-center relative">
+        <div className="ml-3 w-full" ref={containerElement}>
+            <div className="w-full bg-white flex justify-center items-center relative box-border">
                 <div className="flex flex-col gap-10">
                     <button
                         type="button"
@@ -140,6 +102,10 @@ export default function Canvas() {
                     </button>
                 </div>
 
+                {
+                    /*Block actions when screen changes*/
+                    isContainerShifting && <LoadingScreenBlocker message="Screen change detected. Please Wait for resize" />
+                }
                 <canvas
                     ref={canvasRef}
                     onMouseDown={onMouseDown}

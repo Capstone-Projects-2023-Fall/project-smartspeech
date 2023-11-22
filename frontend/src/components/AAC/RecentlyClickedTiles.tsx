@@ -12,7 +12,10 @@ export default function RecentlyClickedTiles() {
     const { tileHistory } = useUtteredTiles();
 
     return (
-        <section className="mr-3 px-3 pt-1 pb-3 border-black border-2 rounded-md shadow-lg max-w-max" data-testid={recentlyClickedTilesIds.container}>
+        <section
+            className="mr-3 px-3 pt-1 pb-0 mb-0 border-black border-2 rounded-md shadow-lg max-w-max overflow-y-scroll overflow-x-visible w-full"
+            data-testid={recentlyClickedTilesIds.container}
+        >
             <h2 className="text-xl font-bold text-center mb-2 border-b-2" data-testid={recentlyClickedTilesIds.title}>
                 Recent Tiles
             </h2>
@@ -20,6 +23,7 @@ export default function RecentlyClickedTiles() {
                 {tileHistory.map((tile, idx) => (
                     <Tile image={tile.image} text={tile.text} tileColor={tile.tileColor} sound={tile.sound} key={`${tile.rank}-${idx}`} />
                 ))}
+                <div className="w-44 h-1"></div>
             </div>
         </section>
     );

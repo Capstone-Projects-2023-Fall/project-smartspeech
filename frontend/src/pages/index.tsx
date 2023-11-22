@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
 import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
@@ -23,20 +23,20 @@ import InferenceProvider from "@/react-state-management/providers/InferenceProvi
  */
 export default function Home() {
     return (
-        <section className="font-inter max-h-screen max-w-[100vw]">
+        <section className="font-inter h-screen max-w-[100vw] box-border">
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
-                    <StrokeProvider>
-                        <InferenceProvider>
-                            <SuggestedTilesProvider>
-                                <UtteredTilesProvider>          
+                        <StrokeProvider>
+                            <InferenceProvider>
+                                <SuggestedTilesProvider>
+                                    <UtteredTilesProvider>
                                         <ModalProvider>
                                             <div className="relative">
                                                 <SelectedTilesActionBar />
                                                 <ManualTilesPopup />
                                             </div>
-                                            <div className="flex gap-2 max-w-[100vw] shrink">
+                                            <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
                                                 <Canvas />
                                                 <RecentlyClickedTiles />
                                             </div>
@@ -45,10 +45,9 @@ export default function Home() {
                                                 <ManualModeButton />
                                             </div>
                                         </ModalProvider>
-                                    
-                                </UtteredTilesProvider>
-                            </SuggestedTilesProvider>
-                        </InferenceProvider>
+                                    </UtteredTilesProvider>
+                                </SuggestedTilesProvider>
+                            </InferenceProvider>
                         </StrokeProvider>
                     </SimilarityProvider>
                 </RekognitionProvider>

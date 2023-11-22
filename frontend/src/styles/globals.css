@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.tilesHeaderFont {
-    font-weight: bold;
-    font-size: larger;
-}
-
 #responsive-canvas {
     width: 100%;
+}
+
+.html {
     height: 100%;
+}
+
+@layer utilities {
+    .h-calc-vh {
+        height: calc(100vh - 384px);
+    }
 }
