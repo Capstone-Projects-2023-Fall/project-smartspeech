@@ -1,12 +1,16 @@
 import { getSimilarWords } from "@/components/AAC/SuggestedTile";
-import Tile from "@/components/AAC/Tile";
-import data from "@/data/AAC/Tiles";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
-import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
-import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { Draw, Point, Points } from "@/util/types/typing";
 import { useEffect, useReducer, useRef, useState } from "react";
+
+export const WHITE = "#FFFFFF";
+export const BLACK = "#000000";
+
+interface CanvasAndContext {
+    canvas: HTMLCanvasElement | null;
+    ctx: CanvasRenderingContext2D | null;
+}
 
 /**
  * useDraw provides functionality for drawing on an html canvas
@@ -24,13 +28,28 @@ export const useDraw = (setItems: (items: string[]) => void) => {
     const prevPoint = useRef<null | Point>(null);
     const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
 
-    const { points, addStoke, clear: clearStoke } = useStrokeRecorderContext();
+    const { points, addStoke, clear: clearStroke, removeLastStroke, getFlatPointArray } = useStrokeRecorderContext();
 
     const onMouseDown = () => setMouseDown(true);
 
+    const getCanvasAndContext = () => {
+        const values: CanvasAndContext = {
+            canvas: null,
+            ctx: null,
+        };
+
+        values.canvas = canvasRef.current;
+
+        if (!values.canvas) return values;
+
+        values.ctx = values.canvas.getContext("2d");
+
+        return values;
+    };
+
     function onDraw({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
-        const lineColor = "#000"; // black
+        const lineColor = BLACK; // black
         const lineWidth = 5;
 
         let startPoint = prevPoint ?? currentPoint;
@@ -47,33 +66,54 @@ export const useDraw = (setItems: (items: string[]) => void) => {
         ctx.fill();
     }
 
-    const clear = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
+    const fillCanvasWithColor = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, color: string = WHITE) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
 
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+    const clear = (clearBoard: boolean = true) => {
+        const { canvas, ctx } = getCanvasAndContext();
+        if (!canvas || !ctx) return;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // // Set background color to white
-        // ctx.fillStyle = "#ffffff";
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Set background color to white
+        fillCanvasWithColor(canvas, ctx);
 
-        clearStoke(); // match state to reflect clearned state
+        if (clearBoard) clearStroke(); // match state to reflect clearned state
     };
 
-    useEffect(() => {
-        console.log(points);
-    }, [points]);
+    const undoStroke = () => {
+        if (points.length < 2) return clear();
+
+        // detect canvas
+        const { ctx } = getCanvasAndContext();
+        if (!ctx) return;
+
+        // gather points
+        const prevStrokes = [...points];
+        prevStrokes.pop(); //remove last element
+        const flatStrokeArray = ([] as Points).concat(...prevStrokes);
+
+        //erase board
+        clear(false);
+
+        let prevPoint: Point | null = null;
+
+        // redraw!
+        flatStrokeArray.forEach((currentPoint) => {
+            onDraw({ prevPoint, currentPoint, ctx });
+            prevPoint = currentPoint;
+        });
+
+        // match drawing strokes to react state
+        removeLastStroke();
+    };
 
     async function promptUserRecogination() {
         try {
-            const canvas = canvasRef.current;
-            if (!canvas) return;
-
-            const ctx = canvas.getContext("2d");
-            if (!ctx) return;
+            const { canvas, ctx } = getCanvasAndContext();
+            if (!canvas || !ctx) return;
 
             if (canvas) {
                 const drawingDataUrl = canvas.toDataURL(); // Capture the drawing as a data URL
@@ -98,7 +138,7 @@ export const useDraw = (setItems: (items: string[]) => void) => {
             if (!mouseDown) return;
             const currentPoint = computePointInCanvas(e);
 
-            const ctx = canvasRef.current?.getContext("2d");
+            const { ctx } = getCanvasAndContext();
             if (!ctx || !currentPoint) return;
 
             onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
@@ -175,5 +215,5 @@ export const useDraw = (setItems: (items: string[]) => void) => {
         });
     }, [mouseDown]);
 
-    return { canvasRef, onMouseDown, clear, promptUserRecogination };
+    return { canvasRef, onMouseDown, clear, promptUserRecogination, undoStroke };
 };
