@@ -3,7 +3,14 @@ import "@testing-library/jest-dom";
 import Canvas from "./Canvas";
 import { render, screen } from "@testing-library/react";
 
-jest.mock("../../model/tfModelUtils");
+const useSizeMockRetVal = {
+    width: 640,
+    height: 320,
+};
+
+jest.mock("../../react-helpers/hooks/useSize", () => {
+    return jest.fn(() => useSizeMockRetVal);
+});
 
 describe("Renders Canvas", () => {
     it("should render", () => {
