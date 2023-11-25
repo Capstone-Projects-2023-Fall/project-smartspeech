@@ -5,6 +5,7 @@ import UtteredTilesProvider from "@/react-state-management/providers/useUtteredT
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
+import CaretakerPopup from "@/components/AAC/CaretakerPopup";
 
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 import TileProvider from "@/react-state-management/providers/tileProvider";
@@ -16,12 +17,23 @@ import StrokeProvider from "@/react-state-management/providers/StrokeProvider";
 import SuggestedTilesProvider from "@/react-state-management/providers/SuggestedTilesProvider";
 import SimilarityProvider from "@/react-state-management/providers/useSimilarity";
 import InferenceProvider from "@/react-state-management/providers/InferenceProvider";
+import CaretakerPopupProvider from "@/react-state-management/providers/CaretakerPopupProvider";
+
 
 /**
  *
  * @returns the homepage for this app
  */
 export default function Home() {
+
+    async function onClose() {
+        console.log("Modal has closed");
+    }
+
+    async function onOk() {
+        console.log("Ok was clicked");
+    }
+
     return (
         <section className="font-inter h-screen max-w-[100vw] box-border">
             <TileProvider>
@@ -32,18 +44,23 @@ export default function Home() {
                                 <SuggestedTilesProvider>
                                     <UtteredTilesProvider>
                                         <ModalProvider>
-                                            <div className="relative">
-                                                <SelectedTilesActionBar />
-                                                <ManualTilesPopup />
-                                            </div>
-                                            <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
-                                                <Canvas />
-                                                <RecentlyClickedTiles />
-                                            </div>
-                                            <div className="flex gap-2 m-3 mt-1 justify-between items-center">
-                                                <SuggestedTiles />
-                                                <ManualModeButton />
-                                            </div>
+                                            <CaretakerPopupProvider>
+                                                <div>
+                                                    <CaretakerPopup />
+                                                </div>
+                                                <div className="relative">
+                                                    <SelectedTilesActionBar />
+                                                    <ManualTilesPopup />
+                                                </div>
+                                                <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
+                                                    <Canvas />
+                                                    <RecentlyClickedTiles />
+                                                </div>
+                                                <div className="flex gap-2 m-3 mt-1 justify-between items-center">
+                                                    <SuggestedTiles />
+                                                    <ManualModeButton />
+                                                </div>
+                                            </CaretakerPopupProvider>
                                         </ModalProvider>
                                     </UtteredTilesProvider>
                                 </SuggestedTilesProvider>
