@@ -26,14 +26,6 @@ import CaretakerPopupProvider from "@/react-state-management/providers/Caretaker
  */
 export default function Home() {
 
-    async function onClose() {
-        console.log("Modal has closed");
-    }
-
-    async function onOk() {
-        console.log("Ok was clicked");
-    }
-
     return (
         <section className="font-inter h-screen max-w-[100vw] box-border">
             <TileProvider>
@@ -45,7 +37,7 @@ export default function Home() {
                                     <UtteredTilesProvider>
                                         <ModalProvider>
                                             <CaretakerPopupProvider>
-                                                <div>
+                                                <div className="fixed top-50 left-50 -translate-x-50 -translate-y-50 z-10 rounded-xl backdrop:bg-gray-800/50">
                                                     <CaretakerPopup />
                                                 </div>
                                                 <div className="relative">
