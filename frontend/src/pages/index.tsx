@@ -37,21 +37,19 @@ export default function Home() {
                                     <UtteredTilesProvider>
                                         <ModalProvider>
                                             <CaretakerPopupProvider>
-                                                <div className="fixed top-50 left-50 -translate-x-50 -translate-y-50 z-10 rounded-xl backdrop:bg-gray-800/50">
-                                                    <CaretakerPopup />
-                                                </div>
-                                                <div className="relative">
-                                                    <SelectedTilesActionBar />
-                                                    <ManualTilesPopup />
-                                                </div>
-                                                <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
-                                                    <Canvas />
-                                                    <RecentlyClickedTiles />
-                                                </div>
-                                                <div className="flex gap-2 m-3 mt-1 justify-between items-center">
-                                                    <SuggestedTiles />
-                                                    <ManualModeButton />
-                                                </div>
+                                                    <div className = "static">
+                                                        <SelectedTilesActionBar />
+                                                        <ManualTilesPopup />
+                                                        <CaretakerPopup />
+                                                    </div>
+                                                    <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
+                                                        <Canvas />
+                                                        <RecentlyClickedTiles />
+                                                    </div>
+                                                    <div className="flex gap-2 m-3 mt-1 justify-between items-center">
+                                                        <SuggestedTiles />
+                                                        <ManualModeButton />
+                                                    </div>
                                             </CaretakerPopupProvider>
                                         </ModalProvider>
                                     </UtteredTilesProvider>
