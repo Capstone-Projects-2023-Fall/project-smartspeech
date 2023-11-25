@@ -1,24 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-
 import { useCaretakerProviderContext } from "@/react-state-management/providers/CaretakerPopupProvider";
 
+import CaretakerPopupTitle from "@/components/AAC/CaretakerPopupTitle";
+import CaretakerPopupBody from "@/components/AAC/CaretakerPopupBody";
 
 export default function CaretakerPopup() {
-    const {title, onClose, onOk} = useCaretakerProviderContext();
-
-    const dialogRef = useRef<null | HTMLDialogElement>(null);
-    const [showDialog, setShowDialog] = useState(true);
-
-    useEffect(() => {
-        if(showDialog === true) {
-            dialogRef.current?.show();
-        } else {
-            dialogRef.current?.close();
-        }
-    }, [showDialog]);
+    const {title, onClose, onOk, isOpen, toggleDialog} = useCaretakerProviderContext();
 
     const closeDialog = () => {
-        dialogRef.current?.close();
+        toggleDialog();
         onClose();
     };
 
@@ -27,35 +16,16 @@ export default function CaretakerPopup() {
         closeDialog();
     };
 
-    const dialog: JSX.Element | null = showDialog === true 
-    ? (
-        <dialog ref={dialogRef}>
-            <div className="w-[500px] max-w-fullbg-gray-200 flex flex-col">
-                <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-yellow-400">
-                    <h1 className="text-2xl">{title}</h1>
-                    <button 
-                    onClick={closeDialog} 
-                    className="mb-2 py-1 px-2 cursor-pointer rounded border-none w-8 h-8 font-bold bg-red-600 text-white"
-                    >
-                        X
-                    </button>
+    return (
+        <>
+            {isOpen && (
+                <div className="absolute right-0 absolute top-1/2 left-1/2 transform -translate-x-1/3 -translate-y-1/2 z-20 backdrop:bg-gray-800/50">
+                    <section className="w-[500px] max-w-full bg-gray-200 flex flex-col rounded-lg">
+                        <CaretakerPopupTitle title={title} closeDialog={closeDialog}/>
+                        <CaretakerPopupBody bodyText="This is example caretaker instruction text" clickOk={clickOk}/>
+                    </section>
                 </div>
-                <div className="px-5 pb-6">
-                    <p>This is some dialog text</p>
-                    <div className="flex flex-row justify-end mt-2">
-                        <button 
-                        onClick={clickOk}
-                        className="bg-green-500 py-1 px-2 rounded border-none"
-                        >
-                            OK
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </dialog>
-    ) 
-    : null;
-
-
-    return dialog
+            )}  
+        </>
+        )
 }
