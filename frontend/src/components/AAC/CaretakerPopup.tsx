@@ -1,32 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export interface DialogProps {
-    /**
-     * Title of the dialog box
-     */
-    title: string,
-    /**
-     * Dialog close button handler 
-     * @returns void
-     */
-    onClose: () => void,
-    /**
-     * Dialog ok button handler
-     * @returns void
-     */
-    onOk: () => void,
-    /**
-     * Children of the dialog
-     */
-    children: React.ReactNode
-}
+import { useCaretakerProviderContext } from "@/react-state-management/providers/CaretakerPopupProvider";
 
-export default function Dialog({title, onClose, onOk, children}: DialogProps) {
+
+export default function CaretakerPopup() {
+    const {title, onClose, onOk} = useCaretakerProviderContext();
 
     const dialogRef = useRef<null | HTMLDialogElement>(null);
     const [showDialog, setShowDialog] = useState(true);
-
+    console.log(showDialog)
     useEffect(() => {
+        console.log(showDialog)
         if(showDialog === true) {
             dialogRef.current?.show();
         } else {
@@ -43,18 +27,18 @@ export default function Dialog({title, onClose, onOk, children}: DialogProps) {
         onOk();
         closeDialog();
     };
-
+    console.log(showDialog)
     const dialog: JSX.Element | null = showDialog === true 
     ? (
         <dialog ref={dialogRef}>
             <div>
                 <div>
-                    <h1>title</h1>
+                    <h1>{title}</h1>
                     <button onClick={closeDialog}
                     >X</button>
                 </div>
                 <div>
-                    {children}
+                    <p>This is some dialog text</p>
                     <div>
                         <button onClick={clickOk}
                         >OK</button>
@@ -64,6 +48,7 @@ export default function Dialog({title, onClose, onOk, children}: DialogProps) {
         </dialog>
     ) 
     : null;
+
 
     return dialog
 }
