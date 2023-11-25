@@ -1,22 +1,21 @@
+import useModal from "@/react-helpers/hooks/useModal";
 import React, { createContext, useContext } from "react";
 
 interface CaretakerPopupType {
     title: string,
     onClose: () => void,
     onOk: () => void,
+    isOpen: boolean,
+    toggleDialog: () => void
 }
 
 const CaretakerPopupContext = createContext<CaretakerPopupType>({
     title: "",
     onClose() {},
     onOk() {},
+    isOpen: true,
+    toggleDialog() {}
 });
-
-export type CaretakerPopupProps = { 
-    title: string, 
-    onClose: () => void,
-    onOk: () => void
-};
 
 export type CaretakerProviderProps = {children: React.ReactNode}
 
@@ -36,10 +35,15 @@ export default function CaretakerPopupProvider(props: CaretakerProviderProps) {
     const onOk = () => {
         console.log("Dialog ok was pressed");
     }
+
+    const [isOpen, toggleDialog] = useModal(true);
+
     const value: CaretakerPopupType = {
         title,
         onClose,
         onOk,
+        isOpen,
+        toggleDialog
     }
     return <CaretakerPopupContext.Provider value={value}>{props.children}</CaretakerPopupContext.Provider>;
 }
