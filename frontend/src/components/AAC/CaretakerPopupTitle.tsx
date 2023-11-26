@@ -1,15 +1,19 @@
+import { useCaretakerProviderContext } from "@/react-state-management/providers/CaretakerPopupProvider"
+
 interface CaretakerPopupTitleProps {
-    title: string,
     closeDialog: () => void
 }
 
 export const CaretakerPopupTitleTestIds = {
+    titleContainer: "caretaker-title-container",
     closePopupBtn: "close-button",
 }
 
-export default function CaretakerPopupTitle({title, closeDialog}: CaretakerPopupTitleProps){
+export default function CaretakerPopupTitle({closeDialog}: CaretakerPopupTitleProps){
+    const { title } = useCaretakerProviderContext();
     return (
-        <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-yellow-400 rounded-lg">
+        <div className="flex flex-row justify-between mb-4 pt-2 px-5 bg-yellow-400 rounded-lg"
+        data-testid={CaretakerPopupTitleTestIds.titleContainer}>
             <h1 className="text-2xl">{title}</h1>
             <button 
                 onClick={closeDialog} 

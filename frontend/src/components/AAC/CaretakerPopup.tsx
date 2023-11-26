@@ -2,34 +2,49 @@ import { useCaretakerProviderContext } from "@/react-state-management/providers/
 
 import CaretakerPopupTitle from "@/components/AAC/CaretakerPopupTitle";
 import CaretakerPopupBody from "@/components/AAC/CaretakerPopupBody";
+import { useEffect, useLayoutEffect } from "react";
 
 export const CaretakerPopupTestIds = {
     mainWindow: "popup-window"
 }
 
 export default function CaretakerPopup() {
-    const {title, onClose, onOk, isOpen, toggleDialog} = useCaretakerProviderContext();
+    const {onClose, showDialog, setShowDialog} = useCaretakerProviderContext();
+
+    useEffect(() => {
+        let userPreference = true;
+        try {
+            const localPreference = localStorage.getItem("SHOW_CARETAKER_POPUP");
+            if(localPreference !== null){
+                userPreference = localPreference === "true";
+                if(!userPreference){
+                    setShowDialog(userPreference);
+                }
+            }
+        } catch(e){
+            console.error("Failed to read user popup preferences");
+            userPreference = true;
+        }
+        const timeoutId = setTimeout(() => setShowDialog(userPreference), 1000);
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const closeDialog = () => {
-        toggleDialog();
+        setShowDialog(!showDialog);
         onClose();
-    };
-
-    const clickOk = () => {
-        onOk();
-        closeDialog();
     };
 
     return (
         <>
-            {isOpen && (
-                <div className="absolute right-0 absolute top-1/2 left-1/2 transform -translate-x-1/3 -translate-y-1/2 z-20 backdrop:bg-gray-800/50" data-testid={CaretakerPopupTestIds.mainWindow}>
-                    <section className="w-[500px] max-w-full bg-gray-200 flex flex-col rounded-lg">
-                        <CaretakerPopupTitle title={title} closeDialog={closeDialog}/>
-                        <CaretakerPopupBody bodyText="This is example caretaker instruction text" clickOk={clickOk}/>
+            {showDialog && (
+                <div className="z-50 backdrop-blur-md absolute left-0 top-0 w-screen h-screen flex justify-center items-center"
+                data-testid={CaretakerPopupTestIds.mainWindow}>
+                    <section className="w-[500px] bg-gray-200 flex flex-col rounded-lg">
+                        <CaretakerPopupTitle closeDialog={closeDialog}/>
+                        <CaretakerPopupBody />
                     </section>
                 </div>
             )}  
         </>
-        )
+        );
 }

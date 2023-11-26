@@ -1,20 +1,23 @@
-import useModal from "@/react-helpers/hooks/useModal";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, Dispatch, SetStateAction } from "react";
 
 interface CaretakerPopupType {
     title: string,
+    body: string,
     onClose: () => void,
     onOk: () => void,
-    isOpen: boolean,
-    toggleDialog: () => void
+    showDialog: boolean,
+    setShowDialog: Dispatch<SetStateAction<boolean>>,
+    doNotShow: (checked: boolean) => void,
 }
 
 const CaretakerPopupContext = createContext<CaretakerPopupType>({
     title: "",
+    body: "",
     onClose() {},
     onOk() {},
-    isOpen: true,
-    toggleDialog() {}
+    showDialog: false,
+    setShowDialog() {},
+    doNotShow() {}
 });
 
 export type CaretakerProviderProps = {children: React.ReactNode}
@@ -26,24 +29,38 @@ export const useCaretakerProviderContext = () => useContext(CaretakerPopupContex
  * @returns Provider with children rendered
  */
 export default function CaretakerPopupProvider(props: CaretakerProviderProps) {
-    const title = "Example Title";
+    const title = "Welcome to Smart Speech!";
+    const body = "To access Caretaker features, please long-press on the manual button";
+    const [showDialog, setShowDialog] = React.useState(false);
 
     const onClose = () => {
         console.log("Dialog close was pressed");
+        setShowDialog(false);
     }
 
     const onOk = () => {
         console.log("Dialog ok was pressed");
+        onClose();
     }
 
-    const [isOpen, toggleDialog] = useModal(true);
+    const doNotShow = (checked: boolean) => {
+        console.log("Don't show was clicked");
+        try{
+            localStorage.setItem("SHOW_CARETAKER_POPUP", String(checked));
+            console.log("User popup preference saved");
+        } catch(e){
+            console.log("Failed to save popup preferences");
+        }
+    }
 
     const value: CaretakerPopupType = {
         title,
+        body,
         onClose,
         onOk,
-        isOpen,
-        toggleDialog
+        showDialog,
+        setShowDialog,
+        doNotShow
     }
     return <CaretakerPopupContext.Provider value={value}>{props.children}</CaretakerPopupContext.Provider>;
 }
