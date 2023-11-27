@@ -62,11 +62,29 @@ export default function Canvas() {
         if (!isContainerShifting) clearCanvas(); //when container done moving
     }, [isContainerShifting]);
 
-    const handlePred = () => {
+    const handlePred = useCallback(() => {
         if (!canvasRef.current) return;
         console.log("Tried to predict");
         predict(canvasRef.current);
-    };
+    }, [canvasRef, predict]);
+    const [autoCheckEnabled, setAutoCheckEnabled] = useState(true);
+
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+        if (autoCheckEnabled) {
+            intervalId = setInterval(() => {
+            handlePred();
+           }, 5000);
+        }   
+        
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [autoCheckEnabled, handlePred]);
+
+    useEffect(() => {
+        setAutoCheckEnabled(true);
+    }, []);
 
     return (
         <div className="ml-3 w-full" ref={containerElement}>
@@ -80,14 +98,7 @@ export default function Canvas() {
                     >
                         Clear canvas
                     </button>
-                    <button
-                        type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
-                        data-testid="checkImage"
-                        onClick={handlePred}
-                    >
-                        Check Image
-                    </button>
+                    
                     <button
                         type="button"
                         className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
