@@ -100,7 +100,7 @@ export default function Canvas() {
 
                 {
                     /*Block actions when screen changes*/
-                    isContainerShifting && <LoadingScreenBlocker message="Screen change detected. Please Wait for resize" />
+                    false && <LoadingScreenBlocker message="Screen change detected. Please Wait for resize" />
                 }
                 <canvas
                     ref={canvasRef}

@@ -38,9 +38,9 @@ export default function Home() {
                                         <ModalProvider>
                                             <CaretakerPopupProvider>
                                                     <div className = "static">
+                                                        <CaretakerPopup />
                                                         <SelectedTilesActionBar />
                                                         <ManualTilesPopup />
-                                                        <CaretakerPopup />
                                                     </div>
                                                     <div className="flex gap-2 w-full h-96 shrink h-calc-vh">
                                                         <Canvas />

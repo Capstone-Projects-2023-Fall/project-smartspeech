@@ -2,14 +2,14 @@ import { useCaretakerProviderContext } from "@/react-state-management/providers/
 
 import CaretakerPopupTitle from "@/components/AAC/CaretakerPopupTitle";
 import CaretakerPopupBody from "@/components/AAC/CaretakerPopupBody";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 export const CaretakerPopupTestIds = {
     mainWindow: "popup-window"
 }
 
 export default function CaretakerPopup() {
-    const {onClose, showDialog, setShowDialog} = useCaretakerProviderContext();
+    const {showDialog, setShowDialog} = useCaretakerProviderContext();
 
     useEffect(() => {
         let userPreference = true;
@@ -29,18 +29,13 @@ export default function CaretakerPopup() {
         return () => clearTimeout(timeoutId);
     }, []);
 
-    const closeDialog = () => {
-        setShowDialog(!showDialog);
-        onClose();
-    };
-
     return (
         <>
             {showDialog && (
-                <div className="z-50 backdrop-blur-md absolute left-0 top-0 w-screen h-screen flex justify-center items-center"
+                <div className="transition ease-in duration-5000 z-50 backdrop-blur-md absolute left-0 top-0 w-screen h-screen flex justify-center items-center"
                 data-testid={CaretakerPopupTestIds.mainWindow}>
                     <section className="w-[500px] bg-gray-200 flex flex-col rounded-lg">
-                        <CaretakerPopupTitle closeDialog={closeDialog}/>
+                        <CaretakerPopupTitle />
                         <CaretakerPopupBody />
                     </section>
                 </div>

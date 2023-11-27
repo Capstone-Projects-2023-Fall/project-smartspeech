@@ -34,8 +34,6 @@ export const tests = describe("Caretaker Popup: [CaretakerPopup]", () => {
     });
 
     it("should close <CaretakerPopup /> when the X button is clicked", () => {
-       
-
         render(
             <CaretakerPopupProvider>
                 <CaretakerPopup />
