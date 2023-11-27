@@ -3,7 +3,7 @@ import path from "path";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const splitFileByNewLines = (fileContents: string) => fileContents.trim().split("\n");
+const splitFileByNewLines = (fileContents: string) => fileContents.trim().split(/\s+/);
 
 export interface LoadModelResp {
     dictContents?: string[];

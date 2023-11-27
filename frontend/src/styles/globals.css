@@ -10,6 +10,19 @@
     height: 100%;
 }
 
+img.clear-button {
+    width: 70px; 
+    height: auto;
+    cursor: pointer; 
+  }
+  
+@media (max-width: 600px) {
+    /* Adjust the size for smaller screens*/
+    img.clear-button {
+      width: 40px;
+    }
+  }
+
 @layer utilities {
     .h-calc-vh {
         height: calc(100vh - 384px);

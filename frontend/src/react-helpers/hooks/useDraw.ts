@@ -93,17 +93,23 @@ export const useDraw = (setItems: (items: string[]) => void) => {
         // gather points
         const prevStrokes = [...points];
         prevStrokes.pop(); //remove last element
-        const flatStrokeArray = ([] as Points).concat(...prevStrokes);
 
         //erase board
         clear(false);
 
-        let prevPoint: Point | null = null;
+        // redraw based on last points
+        prevStrokes.forEach((stroke) => {
+            let lastPoint: Point | null = null;
 
-        // redraw!
-        flatStrokeArray.forEach((currentPoint) => {
-            onDraw({ prevPoint, currentPoint, ctx });
-            prevPoint = currentPoint;
+            stroke.forEach((point) => {
+                onDraw({
+                    prevPoint: lastPoint,
+                    currentPoint: point,
+                    ctx,
+                });
+
+                lastPoint = point;
+            });
         });
 
         // match drawing strokes to react state
