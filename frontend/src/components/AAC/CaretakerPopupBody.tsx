@@ -3,7 +3,8 @@ import { useState } from "react";
 
 export const CaretakerPopupBodyTestIds = {
     bodyContainer: "body-component",
-    okPopupBtn: "ok-button"
+    okPopupBtn: "ok-button",
+    doNotShowBtn: "dont-show"
 }
 
 export default function CaretakerPopupBody() {
@@ -23,6 +24,7 @@ export default function CaretakerPopupBody() {
                 <div className="flex gap-2">
                     <input
                         type="checkbox"
+                        data-testid={CaretakerPopupBodyTestIds.doNotShowBtn}
                         checked={checked}
                         onChange={handleChange}
                         className="bg-green-500 py-1 px-2 rounded border-none"

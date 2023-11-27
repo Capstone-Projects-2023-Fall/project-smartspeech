@@ -1,4 +1,4 @@
-import React, { createContext, useContext, Dispatch, SetStateAction } from "react";
+import React, { createContext, useContext, useState, Dispatch, SetStateAction } from "react";
 
 interface CaretakerPopupType {
     title: string,
@@ -31,7 +31,7 @@ export const useCaretakerProviderContext = () => useContext(CaretakerPopupContex
 export default function CaretakerPopupProvider(props: CaretakerProviderProps) {
     const title = "Welcome to Smart Speech!";
     const body = "To access Caretaker features, please long-press on the manual button";
-    const [showDialog, setShowDialog] = React.useState(false);
+    const [showDialog, setShowDialog] = useState(false);
 
     const onClose = () => {
         console.log("Dialog close was pressed");
