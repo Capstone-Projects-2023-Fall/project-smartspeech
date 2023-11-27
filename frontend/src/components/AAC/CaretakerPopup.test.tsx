@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import React from "react";
-import { fireEvent, render, screen, act } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import CaretakerPopup, { CaretakerPopupTestIds } from "./CaretakerPopup";
 import CaretakerPopupProvider from "@/react-state-management/providers/CaretakerPopupProvider";
 import { CaretakerPopupTitleTestIds } from "./CaretakerPopupTitle";
@@ -93,10 +93,11 @@ export const tests = describe("Caretaker Popup: [CaretakerPopup]", () => {
             
             // popup will be closed
             fireEvent.click(doNotShowBtn);
-            
-            expect(window.localStorage.getItem("SHOW_CARETAKER_POPUP")).not.toBeNull();
-            expect(window.localStorage.getItem("SHOW_CARETAKER_POPUP")).not.toBeNull();
-            expect(window.localStorage.getItem("SHOW_CARETAKER_POPUP")).toBeFalsy();
+            const userPreference = window.localStorage.getItem("SHOW_CARETAKER_POPUP");
+            expect(userPreference).not.toBeNull();
+            expect(userPreference).not.toBeNaN();
+            expect(userPreference).not.toBeDefined();
+            expect(userPreference).toBeFalsy();
 
         }, 2000);
         
