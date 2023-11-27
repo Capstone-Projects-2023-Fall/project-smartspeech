@@ -25,14 +25,14 @@ export default function CaretakerPopup() {
             console.error("Failed to read user popup preferences");
             userPreference = true;
         }
-        const timeoutId = setTimeout(() => setShowDialog(userPreference), 1000);
+        const timeoutId = setTimeout(() => setShowDialog(userPreference), 10);
         return () => clearTimeout(timeoutId);
     }, []);
 
     return (
         <>
             {showDialog && (
-                <div className="transition ease-in duration-5000 z-50 backdrop-blur-md absolute left-0 top-0 w-screen h-screen flex justify-center items-center"
+                <div className="custom-fade-in z-50 backdrop-blur-md absolute left-0 top-0 w-screen h-screen flex justify-center items-center"
                 data-testid={CaretakerPopupTestIds.mainWindow}>
                     <section className="w-[500px] bg-gray-200 flex flex-col rounded-lg">
                         <CaretakerPopupTitle />
