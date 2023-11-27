@@ -36,9 +36,10 @@ export default function Home() {
                                 <SuggestedTilesProvider>
                                     <UtteredTilesProvider>
                                         <ModalProvider>
-                                            <CaretakerPopupProvider>
                                                     <div className = "static">
-                                                        <CaretakerPopup />
+                                                        <CaretakerPopupProvider>
+                                                            <CaretakerPopup />
+                                                        </CaretakerPopupProvider>
                                                         <SelectedTilesActionBar />
                                                         <ManualTilesPopup />
                                                     </div>
@@ -50,7 +51,6 @@ export default function Home() {
                                                         <SuggestedTiles />
                                                         <ManualModeButton />
                                                     </div>
-                                            </CaretakerPopupProvider>
                                         </ModalProvider>
                                     </UtteredTilesProvider>
                                 </SuggestedTilesProvider>

@@ -8,6 +8,9 @@ export const CaretakerPopupTestIds = {
     mainWindow: "popup-window"
 }
 
+/**
+ * Displays a popup overtop of the page to instruct caretakers on how to use the app
+ */
 export default function CaretakerPopup() {
     const {showDialog, setShowDialog} = useCaretakerProviderContext();
 
