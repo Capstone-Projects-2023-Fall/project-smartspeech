@@ -7,6 +7,8 @@ interface CaretakerPopupType {
     onOk: () => void,
     showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>,
+    preferenceCheck: boolean,
+    setPreferenceCheck: Dispatch<SetStateAction<boolean>>,
     doNotShow: (checked: boolean) => void,
 }
 
@@ -17,6 +19,8 @@ const CaretakerPopupContext = createContext<CaretakerPopupType>({
     onOk() {},
     showDialog: false,
     setShowDialog() {},
+    preferenceCheck: false,
+    setPreferenceCheck() {},
     doNotShow() {}
 });
 
@@ -32,6 +36,7 @@ export default function CaretakerPopupProvider(props: CaretakerProviderProps) {
     const title = "Welcome to Smart Speech!";
     const body = "To access Caretaker features, please long-press on the manual button";
     const [showDialog, setShowDialog] = useState(false);
+    const [preferenceCheck, setPreferenceCheck] = useState(false);
 
     const onClose = () => {
         console.log("Dialog close was pressed");
@@ -60,7 +65,9 @@ export default function CaretakerPopupProvider(props: CaretakerProviderProps) {
         onOk,
         showDialog,
         setShowDialog,
-        doNotShow
+        doNotShow,
+        preferenceCheck,
+        setPreferenceCheck
     }
     return <CaretakerPopupContext.Provider value={value}>{props.children}</CaretakerPopupContext.Provider>;
 }

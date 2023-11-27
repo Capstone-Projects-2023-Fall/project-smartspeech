@@ -8,12 +8,12 @@ export const CaretakerPopupBodyTestIds = {
 }
 
 export default function CaretakerPopupBody() {
-    const { onOk, doNotShow, body } = useCaretakerProviderContext();
-    const [ checked, setChecked ] = useState(false);
+    const { onOk, doNotShow, body, preferenceCheck, setPreferenceCheck} = useCaretakerProviderContext();
+
     
     const handleChange = () => {
-        setChecked(!checked);
-        doNotShow(checked);
+        setPreferenceCheck(!preferenceCheck);
+        doNotShow(preferenceCheck);
     }
 
     return (
@@ -25,7 +25,7 @@ export default function CaretakerPopupBody() {
                     <input
                         type="checkbox"
                         data-testid={CaretakerPopupBodyTestIds.doNotShowBtn}
-                        checked={checked}
+                        checked={preferenceCheck}
                         onChange={handleChange}
                         className="bg-green-500 py-1 px-2 rounded border-none"
                     />
