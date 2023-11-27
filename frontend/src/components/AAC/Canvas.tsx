@@ -97,9 +97,7 @@ export default function Canvas() {
                         className="z-10 p-2 rounded-md border-black border-2 shadow-lg clear-button"
                         data-testid="clearImage"
                         onClick={() => clearCanvas()}
-                    >
-                        Clear canvas
-                    </button>
+                    />   
                     
                     <button
                         type="button"
