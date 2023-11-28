@@ -2,25 +2,35 @@ import pytest
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from ..custom_tiles.custom_tiles import router as custom_tiles_router, getNewMySQLConnection
-from ..s3 import upload_file_to_s3_logic
+from ..custom_tiles import custom_tiles
 
-from ..aws_constants import UPLOAD_CUSTOM_TILE, SAMPLE_BASE64_IMAGE, GET_CUSTOM_TILES
+from .. import aws_constants
+from ..custom_tiles import sql_constants
 
+def mock_getNewMySQLConnection_FAILURE():
+	return None
 
 @pytest.fixture()
-def client():
+def client_invalid_SQL_Connection():
     from ...main import app
 
-    app.include_router(custom_tiles_router)
+    app.include_router(custom_tiles.router)
+	
+    app.dependency_overrides.update({
+        custom_tiles.getNewMySQLConnection: mock_getNewMySQLConnection_FAILURE
+    })	
 
     with TestClient(app) as test_client:
         yield test_client
 
 
-def test_upload_custom_tile_failure(client):
+def test_upload_custom_tile_failure(client_invalid_SQL_Connection):
 	test_data = {
 		"email": "test@example.com"
 	}
 
-	assert 200 == 200
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={test_data["email"]}'
+	resp = client_invalid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
+
+	assert resp.status_code == 500
+	assert resp.json()['detail'] == sql_constants.DB_CONNECT_FAILURE_MSG

@@ -4,50 +4,28 @@ from dotenv import load_dotenv
 from base64 import b64decode
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 
-from typing import Dict, Literal
-
-router = APIRouter()
-
-# types
 from mysql.connector import MySQLConnection
 
-PossibleMySQLConnection = MySQLConnection | None
-
+# Constants
 from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
-from .sql_query_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
+from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
+from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV_VAR, DB_URL_ENV_VAR
+from .sql_constants import DB_CONNECT_FAILURE_MSG
+
+from .types import InsertDataType, InsertCustomTileModel
+
 from ..s3 import upload_file_to_s3_logic
 
 # util
 from ...DTO.CustomTilesDTO import mapCustomTileEntryToJson
-from ...util.text_util import is_valid_email, replace_white_space
+from ...util.text_util import is_valid_email
 
-class InsertCustomTileModel(BaseModel):
-	image: str
-	imageExt: str
-	sound: str = ""
-	text: str
-	tileColor: str
-	email: str
-
-InsertDataType = Dict[
-	Literal[
-		"ImageURL", 
-		"UserEmail", 
-		"TextAssociated", 
-		"SoundAssociated", 
-		"TileColor",
-		], 
-	str
-]
 
 load_dotenv(".env.local")
+router = APIRouter()
 
-DB_URL_ENV_VAR="CT_DB_URL"
-DB_PORT_ENV_VAR="CT_DB_PORT"
-DB_USERNAME_ENV_VAR="CT_DB_USERNAME"
-DB_PASSWORD_ENV_VAR="CT_DB_PASSWORD"
+# Error Constants
 
 
 def getNewMySQLConnection():
@@ -58,17 +36,17 @@ def getNewMySQLConnection():
 		'port': getenv(DB_PORT_ENV_VAR)
 	}
 
-	cxn: PossibleMySQLConnection = None
-
 	try:
 		cxn = mysql.connector.connect(**config)
 		cxn.cursor()
 		if not cxn.is_connected(): raise RuntimeError("Failed to Connect to database")
 
+		return cxn
+
 	except Exception as e:
 		print(f"Error: {e}")
 
-	return cxn
+	return None
 
 
 def insertCustomTilesIntoDB(connection: MySQLConnection, dataToInsert: InsertDataType):
@@ -177,7 +155,7 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	}
 
 	
-@router.get(UPLOAD_CUSTOM_TILE)
+@router.get(GET_CUSTOM_TILES)
 def get_custom_tiles(email: str):
 	"""Gets all uploaded tile data based on the `email` they are saved under.
 
@@ -207,7 +185,7 @@ def get_custom_tiles(email: str):
 
 	# create SQL connection
 	connection = getNewMySQLConnection()
-	if connection is None: raise HTTPException(status_code=500, detail="DB failed to connect")
+	if connection is None: raise HTTPException(status_code=500, detail=DB_CONNECT_FAILURE_MSG)
 
 	tiles = None
 
