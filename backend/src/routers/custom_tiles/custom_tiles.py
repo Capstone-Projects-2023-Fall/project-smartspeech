@@ -37,10 +37,10 @@ def getNewMySQLConnection():
 	}
 
 	try:
+		print('getNewMySQLConnection', "called")
 		cxn = mysql.connector.connect(**config)
 		cxn.cursor()
 		if not cxn.is_connected(): raise RuntimeError("Failed to Connect to database")
-
 		return cxn
 
 	except Exception as e:
@@ -185,6 +185,7 @@ def get_custom_tiles(email: str):
 
 	# create SQL connection
 	connection = getNewMySQLConnection()
+	print('get_custom_tiles', connection)
 	if connection is None: raise HTTPException(status_code=500, detail=DB_CONNECT_FAILURE_MSG)
 
 	tiles = None
