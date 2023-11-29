@@ -25,9 +25,9 @@ class InsertCustomTileModel(BaseModel):
 	tileColor: str
 	email: str
 """
-gen_FAKE_REQ = lambda email: {
+gen_FAKE_REQ = lambda email, ext=".png": {
 	'image': SAMPLE_BASE64_IMAGE, 
-	'imageExt': 'png',
+	'imageExt': ext,
 	'sound': 'test_sound',
 	'text': 'test_text',
 	'tileColor': 'test_tileColor',

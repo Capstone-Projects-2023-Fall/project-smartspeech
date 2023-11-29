@@ -11,7 +11,7 @@ from mysql.connector import MySQLConnection
 from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
 from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
 from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV_VAR, DB_URL_ENV_VAR
-from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG
+from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG, INVALID_IMAGE_FORMAT_MSG
 
 from .types import InsertDataType, InsertCustomTileModel
 from ..s3 import upload_file_to_s3_logic, getS3Instance
@@ -106,11 +106,11 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 
 
 	# no need to query db if email is false
-	if not is_valid_email(insertData.email): raise HTTPException(status_code=400, detail="Email not in valid format")
+	if not is_valid_email(insertData.email): raise HTTPException(status_code=400, detail=EMAIL_INVALID_MSG)
 
 	# check for invalid conditions
 	image_extension = insertData.imageExt
-	if image_extension.upper() in ['SVG']: raise HTTPException(status_code=400, detail="SVG Images not allowed")
+	if image_extension.upper() in ['SVG']: raise HTTPException(status_code=400, detail=INVALID_IMAGE_FORMAT_MSG)
 
 	# Save image first
 	b64ToBinImage = b64decode(insertData.image)

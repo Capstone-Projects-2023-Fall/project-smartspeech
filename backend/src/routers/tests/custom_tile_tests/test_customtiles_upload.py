@@ -60,15 +60,7 @@ def client_valid_SQL_Connection():
 	return TestClient(app)
 
 
-def test_upload_custom_tile_failure(client_invalid_SQL_Connection, moto_create_s3_bucket):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
-	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
-
-	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
-		
-	assert resp.status_code == 500
-	assert resp.json()['detail'] == sql_constants.DB_CONNECT_FAILURE_MSG
-
+# green
 def test_upload_custom_tile_success(client_valid_SQL_Connection, moto_create_s3_bucket):
 	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
 	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
@@ -80,3 +72,34 @@ def test_upload_custom_tile_success(client_valid_SQL_Connection, moto_create_s3_
 
 	assert tile_db_index == MOCK_DB_TILE_IDX
 	assert img_url.startswith("https://smart-speech-media.s3.amazonaws.com")
+
+# red
+def test_upload_custom_tile_failure_invalid_DB_conn(client_invalid_SQL_Connection, moto_create_s3_bucket):
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
+
+	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
+		
+	assert resp.status_code == 500
+	assert resp.json()['detail'] == sql_constants.DB_CONNECT_FAILURE_MSG
+
+# red
+def test_upload_custom_tile_failure_invalid_email(client_invalid_SQL_Connection, moto_create_s3_bucket):
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	FAKE_REQ = gen_FAKE_REQ(INVALID_EMAIL)
+
+	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
+		
+	assert resp.status_code == 400
+	assert resp.json()['detail'] == sql_constants.EMAIL_INVALID_MSG
+
+# red
+def test_upload_custom_tile_failure_invalid_img_format(client_invalid_SQL_Connection, moto_create_s3_bucket):
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL, 'svg')
+
+	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
+		
+	assert resp.status_code == 400
+	assert resp.json()['detail'] == sql_constants.INVALID_IMAGE_FORMAT_MSG
+
