@@ -10,6 +10,7 @@ DB_CONNECT_FAILURE_MSG="DB_FAILED_TO_CONNECT"
 DB_GET_TILES_FAILURE_MSG="DB GET error"
 EMAIL_INVALID_MSG="Email not in valid format"
 INVALID_IMAGE_FORMAT_MSG="SVG Images not allowed"
+DB_TILE_INSERT_ERROR="Failed to save Tile Info"
 
 INSERT_CUSTOM_TILE_QUERY = (
 	"INSERT INTO SmartSpeechCustomTiles.CustomTiles "

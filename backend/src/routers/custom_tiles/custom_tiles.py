@@ -7,11 +7,11 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from mysql.connector import MySQLConnection
 
-# Constants
-from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES
+from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES, S3_IMAGE_UPLOAD_FAILURE_MSG
+
 from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
 from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV_VAR, DB_URL_ENV_VAR
-from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG, INVALID_IMAGE_FORMAT_MSG
+from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG, INVALID_IMAGE_FORMAT_MSG, DB_TILE_INSERT_ERROR
 
 from .types import InsertDataType, InsertCustomTileModel
 from ..s3 import upload_file_to_s3_logic, getS3Instance
@@ -122,7 +122,7 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 		URL = upload_file_to_s3_logic(s3, b64ToBinImage, saved_image_name, force_unique=True) 
 	except Exception as e:
 		print(e)
-		raise HTTPException(status_code=500, detail="Image could not be uploaded to storage")
+		raise HTTPException(status_code=500, detail=S3_IMAGE_UPLOAD_FAILURE_MSG)
 
 
 	# check SQL connection
@@ -131,8 +131,6 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 
 	# upload data to db
 	tile_no = None
-
-	print("here")
 
 	try:
 		tile_no = insertCustomTilesIntoDB(connection, {
@@ -145,12 +143,10 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 
 	except Exception as e:
 		print(e)
-		raise HTTPException(status_code=500, detail="Failed to save Tile Info")
+		raise HTTPException(status_code=500, detail=DB_TILE_INSERT_ERROR)
 
 	# clean up
 	connection.close()
-
-	print("here")
 
 	return {
 		'imageUrl': URL,
