@@ -14,7 +14,7 @@ from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV
 from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG
 
 from .types import InsertDataType, InsertCustomTileModel
-from ..s3 import upload_file_to_s3_logic
+from ..s3 import upload_file_to_s3_logic, getS3Instance
 
 # util
 from ...DTO.CustomTilesDTO import mapCustomTileEntryToJson
@@ -74,7 +74,7 @@ def getTilesByEmail(connection: MySQLConnection, email: str):
 
 
 @router.post(UPLOAD_CUSTOM_TILE)
-def upload_custom_tile(insertData: InsertCustomTileModel):
+def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)], s3: Annotated[any, Depends(getS3Instance)]):
 	"""
 	Args:
 		insertData (InsertCustomTileModel): Data required to upload a custom tiles. Needs:
@@ -119,19 +119,21 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 	URL: str | None = None
 	try:
 		# generate a unique tile name to save in s3 via `force_unique=True`
-		URL = upload_file_to_s3_logic(b64ToBinImage, saved_image_name, force_unique=True) 
+		URL = upload_file_to_s3_logic(s3, b64ToBinImage, saved_image_name, force_unique=True) 
 	except Exception as e:
 		print(e)
 		raise HTTPException(status_code=500, detail="Image could not be uploaded to storage")
 
 
-	# create SQL connection
-	connection = getNewMySQLConnection()
-	if connection is None: raise HTTPException(status_code=500, detail="DB failed to connect")
+	# check SQL connection
+	if connection is None: raise HTTPException(status_code=500, detail=DB_CONNECT_FAILURE_MSG)
 
 
 	# upload data to db
 	tile_no = None
+
+	print("here")
+
 	try:
 		tile_no = insertCustomTilesIntoDB(connection, {
 			"ImageURL": URL,
@@ -147,6 +149,8 @@ def upload_custom_tile(insertData: InsertCustomTileModel):
 
 	# clean up
 	connection.close()
+
+	print("here")
 
 	return {
 		'imageUrl': URL,

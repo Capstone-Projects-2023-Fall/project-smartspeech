@@ -14,6 +14,7 @@ FAKE_DB_RESP = [
 	(FAKE_RESP['url'], FAKE_RESP['email'], FAKE_RESP['text'], FAKE_RESP['sound'], FAKE_RESP['tileColor'])
 ]
 
+MOCK_DB_TILE_IDX = 100
 
 """
 class InsertCustomTileModel(BaseModel):
