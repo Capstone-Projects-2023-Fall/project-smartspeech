@@ -12,10 +12,10 @@ import {
   sendImageToBackendForLabeling,
 } from "./useRekognitionUtil";
 import useTimedIncrement from "@/react-helpers/hooks/useTimedIncrement";
-import Webcam from "react-webcam";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { useTilesProvider } from "./tileProvider";
 import { TileProps } from "@/components/AAC/Tile";
+import CameraFeed from "./CameraFeed";
 
 const RekognitionContext = createContext<RekognitionState>({
   items: [],
@@ -84,17 +84,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <Webcam
-        muted={false}
-        width={0}
-        height={0}
-        ref={webcamRef}
-        style={{ position: "absolute", top: "-10000px" }}
-        screenshotFormat={MIME_TYPE}
-        minScreenshotHeight={768}
-        minScreenshotWidth={1024}
-        videoConstraints={{ facingMode }}
-      />
+      <CameraFeed sendFile={() => {}} />
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
