@@ -12,7 +12,6 @@ import {
   sendImageToBackendForLabeling,
 } from "./useRekognitionUtil";
 import useTimedIncrement from "@/react-helpers/hooks/useTimedIncrement";
-import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { useTilesProvider } from "./tileProvider";
 import { TileProps } from "@/components/AAC/Tile";
 import CameraFeed, { GetScreenshotHandle } from "./CameraFeed";
@@ -23,8 +22,6 @@ const RekognitionContext = createContext<RekognitionState>({
 
 export const useRekognition = () => useContext(RekognitionContext);
 
-const FACING_MODE_USER = "user";
-const FACING_MODE_ENVIRONMENT = "environment";
 export const MIME_TYPE = "image/png";
 
 export default function RekognitionProvider(props: RekognitionProviderProps) {
@@ -41,8 +38,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // webcam state
   const webcamRef = useRef<GetScreenshotHandle>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const facingMode =
-    refresh % 2 == 0 ? FACING_MODE_USER : FACING_MODE_ENVIRONMENT; //swap cams every image
+
+  // switching cameras
+  const [cameraNum, setCameraNum] = useState(0);
 
   // create a capture function
   const capture = useCallback(() => {
@@ -55,6 +53,12 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   useEffect(() => {
     capture();
+
+    // After we capture, we want to increment the camera number to
+    // signal CameraFeed to use a different device
+    return function () {
+      setCameraNum(cameraNum + 1);
+    };
   }, [refresh]);
 
   useEffect(() => {
@@ -84,7 +88,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed ref={webcamRef} />
+      <CameraFeed ref={webcamRef} cameraNum={cameraNum} />
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>

@@ -3,9 +3,12 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 
-type CameraFeedProps = {};
+type CameraFeedProps = {
+  cameraNum: number;
+};
 
 export type GetScreenshotHandle = {
   getScreenshot: () => string;
@@ -19,10 +22,10 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
 
+  const { cameraNum } = props;
+
   /**
    * Sets the active device and starts playing the feed
-   * @memberof CameraFeed
-   * @instance
    */
   const setDevice = async (device: MediaDeviceInfo) => {
     if (!videoPlayer.current) return;
@@ -39,16 +42,13 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
 
   /**
    * Processes available devices and identifies one by the label
-   * @memberof CameraFeed
-   * @instance
    */
   const processDevices = (devices: MediaDeviceInfo[]) => {
-    devices.forEach((device) => {
-      console.log(device.label);
-      setDevice(device);
-    });
+    const videoDevices = devices.filter((info) => info.kind == "videoinput");
+    setDevice(videoDevices[cameraNum % videoDevices.length]);
   };
 
+  // On component mounting, we want to select a camera to take pictures from
   useEffect(() => {
     (async () => {
       const cameras = await navigator.mediaDevices.enumerateDevices();
@@ -58,10 +58,10 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
 
   /**
    * Handles taking a still image from the video feed on the camera
-   * @memberof CameraFeed
-   * @instance
    */
   const getScreenshot = () => {
+    console.log(cameraNum);
+
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
 
@@ -69,10 +69,12 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
     if (!context) return;
     context.drawImage(videoPlayer.current, 0, 0, 680, 360);
     const url = canvas.current.toDataURL();
+
     return url;
   };
 
   // https://stackoverflow.com/a/69292925
+  // To allow the parent to call getScreenshot, we use a forwardRef
   useImperativeHandle(
     ref,
     () => ({
@@ -89,7 +91,7 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
         ref={videoPlayer}
         width="1024"
         height="768"
-        style={{ position: "absolute", top: "-10000px" }}
+        style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
       />
       <canvas
         width="1024"
