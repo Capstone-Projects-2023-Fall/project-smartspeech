@@ -84,15 +84,20 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   );
 
   return (
-    <div className="c-camera-feed">
-      <div className="c-camera-feed__viewer">
-        <video ref={videoPlayer} width="680" height="360" />
-      </div>
-      <button onClick={getScreenshot}>Take photo!</button>
-      <div className="c-camera-feed__stage">
-        <canvas width="680" height="360" ref={canvas} />
-      </div>
-    </div>
+    <>
+      <video
+        ref={videoPlayer}
+        width="1024"
+        height="768"
+        style={{ position: "absolute", top: "-10000px" }}
+      />
+      <canvas
+        width="1024"
+        height="768"
+        ref={canvas}
+        style={{ position: "absolute", top: "-10000px" }}
+      />
+    </>
   );
 });
 
