@@ -1,11 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
-interface CameraFeedProps {
-  sendFile: (url: string) => void;
-}
+type CameraFeedProps = {};
+
+export type GetScreenshotHandle = {
+  getScreenshot: () => string;
+};
 
 /** Courtesy of https://codesandbox.io/p/sandbox/74pzm9lkq6?file=%2Fsrc%2Fcomponents%2Fcamera-feed.jsx%3A60%2C23 */
-export default function CameraFeed(props: CameraFeedProps) {
+const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
+  props,
+  ref
+) {
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
 
@@ -51,9 +61,7 @@ export default function CameraFeed(props: CameraFeedProps) {
    * @memberof CameraFeed
    * @instance
    */
-  const takePhoto = () => {
-    const { sendFile } = props;
-
+  const getScreenshot = () => {
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
 
@@ -61,18 +69,31 @@ export default function CameraFeed(props: CameraFeedProps) {
     if (!context) return;
     context.drawImage(videoPlayer.current, 0, 0, 680, 360);
     const url = canvas.current.toDataURL();
-    sendFile(url);
+    return url;
   };
+
+  // https://stackoverflow.com/a/69292925
+  useImperativeHandle(
+    ref,
+    () => ({
+      getScreenshot() {
+        return getScreenshot() ?? "";
+      },
+    }),
+    []
+  );
 
   return (
     <div className="c-camera-feed">
       <div className="c-camera-feed__viewer">
         <video ref={videoPlayer} width="680" height="360" />
       </div>
-      <button onClick={takePhoto}>Take photo!</button>
+      <button onClick={getScreenshot}>Take photo!</button>
       <div className="c-camera-feed__stage">
         <canvas width="680" height="360" ref={canvas} />
       </div>
     </div>
   );
-}
+});
+
+export default CameraFeed;

@@ -15,7 +15,7 @@ import useTimedIncrement from "@/react-helpers/hooks/useTimedIncrement";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { useTilesProvider } from "./tileProvider";
 import { TileProps } from "@/components/AAC/Tile";
-import CameraFeed from "./CameraFeed";
+import CameraFeed, { GetScreenshotHandle } from "./CameraFeed";
 
 const RekognitionContext = createContext<RekognitionState>({
   items: [],
@@ -39,7 +39,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   const [debug, setDebug] = useState<string>("");
 
   // webcam state
-  const webcamRef = useRef<Webcam>(null);
+  const webcamRef = useRef<GetScreenshotHandle>(null);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const facingMode =
     refresh % 2 == 0 ? FACING_MODE_USER : FACING_MODE_ENVIRONMENT; //swap cams every image
@@ -84,11 +84,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed
-        sendFile={(url: string) => {
-          console.log(url);
-        }}
-      />
+      <CameraFeed ref={webcamRef} />
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
