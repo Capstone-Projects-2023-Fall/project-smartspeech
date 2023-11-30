@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 interface CameraFeedProps {
-  sendFile: BlobCallback;
+  sendFile: (url: string) => void;
 }
 
 /** Courtesy of https://codesandbox.io/p/sandbox/74pzm9lkq6?file=%2Fsrc%2Fcomponents%2Fcamera-feed.jsx%3A60%2C23 */
@@ -60,7 +60,8 @@ export default function CameraFeed(props: CameraFeedProps) {
     if (!videoPlayer.current) return;
     if (!context) return;
     context.drawImage(videoPlayer.current, 0, 0, 680, 360);
-    canvas.current.toBlob(sendFile);
+    const url = canvas.current.toDataURL();
+    sendFile(url);
   };
 
   return (

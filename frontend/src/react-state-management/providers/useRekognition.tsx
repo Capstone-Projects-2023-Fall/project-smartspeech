@@ -84,7 +84,11 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed sendFile={() => {}} />
+      <CameraFeed
+        sendFile={(url: string) => {
+          console.log(url);
+        }}
+      />
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
