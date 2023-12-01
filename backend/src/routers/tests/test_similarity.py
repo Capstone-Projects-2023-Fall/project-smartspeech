@@ -4,7 +4,7 @@ import spacy
 from functools import cache
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from . import similarity
+from .. import similarity
 
 @cache
 def mock_load_model():

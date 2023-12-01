@@ -7,9 +7,9 @@ import pytest
 import requests
 import requests_mock
 
-from . import tts
+from .. import tts
 
-from .s3 import get_file_from_s3_logic, upload_file_to_s3_logic
+from ..s3 import get_file_from_s3_logic, upload_file_to_s3_logic
 
 
 MOCK_TTS_ENDPOINT = 'mock://tts.com'
