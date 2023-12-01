@@ -8,6 +8,8 @@ import React, {
 
 type CameraFeedProps = {
   cameraNum: number;
+  width: number;
+  height: number;
 };
 
 export type GetScreenshotHandle = {
@@ -41,10 +43,13 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   /**
    * Processes available devices and identifies one by the label
    */
-  const processDevices = useCallback((devices: MediaDeviceInfo[]) => {
-    const videoDevices = devices.filter((info) => info.kind == "videoinput");
-    setDevice(videoDevices[props.cameraNum % videoDevices.length]);
-  }, [props.cameraNum]);
+  const processDevices = useCallback(
+    (devices: MediaDeviceInfo[]) => {
+      const videoDevices = devices.filter((info) => info.kind == "videoinput");
+      setDevice(videoDevices[props.cameraNum % videoDevices.length]);
+    },
+    [props.cameraNum]
+  );
 
   // On component mounting, we want to select a camera to take pictures from
   useEffect(() => {
@@ -63,7 +68,13 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
 
     if (!videoPlayer.current) return;
     if (!context) return;
-    context.drawImage(videoPlayer.current, 0, 0, 680, 360);
+    context.drawImage(
+      videoPlayer.current,
+      0,
+      0,
+      videoPlayer.current.videoWidth,
+      videoPlayer.current.videoHeight
+    );
     const url = canvas.current.toDataURL();
 
     return url;
@@ -85,15 +96,15 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
     <>
       <video
         ref={videoPlayer}
-        width="1024"
-        height="768"
-        style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
+        width={props.width}
+        height={props.height}
+        // style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
       />
       <canvas
-        width="1024"
-        height="768"
+        width={props.width}
+        height={props.height}
         ref={canvas}
-        style={{ position: "absolute", top: "-10000px" }}
+        // style={{ position: "absolute", top: "-10000px" }}
       />
     </>
   );

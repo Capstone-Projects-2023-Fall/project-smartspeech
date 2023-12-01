@@ -21,7 +21,7 @@ const RekognitionContext = createContext<RekognitionState>({
 });
 
 export const MIME_TYPE = "image/png";
-export const INCREMENT_INTERVAL = 10000
+export const INCREMENT_INTERVAL = 10000;
 
 export const useRekognition = () => useContext(RekognitionContext);
 
@@ -54,10 +54,12 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   useEffect(() => {
     capture();
 
-    setCameraNum(prevNum => prevNum + 1)
+    setCameraNum((prevNum) => prevNum + 1);
   }, [refresh]);
 
-  useEffect(() => {console.log({cameraNum})}, [cameraNum])
+  useEffect(() => {
+    console.log({ cameraNum });
+  }, [cameraNum]);
 
   useEffect(() => {
     if (!imgSrc) return;
@@ -86,7 +88,12 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed ref={webcamRef} cameraNum={cameraNum} />
+      <CameraFeed
+        ref={webcamRef}
+        cameraNum={cameraNum}
+        width={768}
+        height={1024}
+      />
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
