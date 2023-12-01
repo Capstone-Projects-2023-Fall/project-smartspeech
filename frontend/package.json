@@ -58,8 +58,6 @@
 
         "react-icons": "^4.11.0",
 
-        "react-webcam": "^7.2.0",
-
         "standardized-audio-context": "^25.3.57",
 
         "tailwindcss": "3.3.3",
