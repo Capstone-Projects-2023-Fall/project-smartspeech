@@ -46,6 +46,8 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   const processDevices = useCallback(
     (devices: MediaDeviceInfo[]) => {
       const videoDevices = devices.filter((info) => info.kind == "videoinput");
+      console.log(videoDevices);
+      console.log(videoDevices[props.cameraNum % videoDevices.length]);
       setDevice(videoDevices[props.cameraNum % videoDevices.length]);
     },
     [props.cameraNum]
@@ -57,7 +59,7 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
       const cameras = await navigator.mediaDevices.enumerateDevices();
       processDevices(cameras);
     })();
-  }, []);
+  }, [props.cameraNum]);
 
   /**
    * Handles taking a still image from the video feed on the camera
@@ -99,6 +101,7 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
         width={props.width}
         height={props.height}
         // style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
+        playsInline={true}
       />
       <canvas
         width={props.width}
