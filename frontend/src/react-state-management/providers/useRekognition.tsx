@@ -49,16 +49,14 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
-  }, [webcamRef]);
-
-  useEffect(() => {
-    capture();
 
     // After we capture, we want to increment the camera number to
     // signal CameraFeed to use a different device
-    return function () {
-      setCameraNum(cameraNum + 1);
-    };
+    setCameraNum((cameraNum) => cameraNum + 1);
+  }, [webcamRef, cameraNum]);
+
+  useEffect(() => {
+    capture();
   }, [refresh]);
 
   useEffect(() => {
