@@ -40,24 +40,13 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
     videoPlayer.current.play();
   };
 
-  /**
-   * Processes available devices and identifies one by the label
-   */
-  const processDevices = useCallback(
-    (devices: MediaDeviceInfo[]) => {
-      const videoDevices = devices.filter((info) => info.kind == "videoinput");
-      console.log(videoDevices);
-      console.log(videoDevices[props.cameraNum % videoDevices.length]);
-      setDevice(videoDevices[props.cameraNum % videoDevices.length]);
-    },
-    [props.cameraNum]
-  );
-
   // On component mounting, we want to select a camera to take pictures from
   useEffect(() => {
     (async () => {
       const cameras = await navigator.mediaDevices.enumerateDevices();
-      processDevices(cameras);
+
+      const videoDevices = cameras.filter((info) => info.kind == "videoinput");
+      setDevice(videoDevices[props.cameraNum % videoDevices.length]);
     })();
   }, [props.cameraNum]);
 

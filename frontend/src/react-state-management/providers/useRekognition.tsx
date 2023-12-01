@@ -47,7 +47,6 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log("In capture", imageSrc);
     setImgSrc(imageSrc);
   }, [webcamRef]);
 
@@ -56,10 +55,6 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
     setCameraNum((prevNum) => prevNum + 1);
   }, [refresh]);
-
-  useEffect(() => {
-    console.log({ cameraNum });
-  }, [cameraNum]);
 
   useEffect(() => {
     if (!imgSrc) return;
