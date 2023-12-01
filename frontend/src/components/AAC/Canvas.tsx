@@ -5,8 +5,6 @@ import { useSimilarity } from "@/react-state-management/providers/useSimilarity"
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
 import useSize from "@/react-helpers/hooks/useSize";
 import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
-import { useDisableZoom } from "@/react-helpers/hooks/useDisableZoom";
-
 
 interface ParentDivDims {
     width?: number;
@@ -17,8 +15,6 @@ interface ParentDivDims {
  * Canvas also allows for clearing and submitting to server
  */
 export default function Canvas() {
-    useDisableZoom();
-
     // used to calc canvas size for diff screens
     const containerElement = useRef<HTMLDivElement>(null);
     const [parentDim, setParentDims] = useState<ParentDivDims>({});

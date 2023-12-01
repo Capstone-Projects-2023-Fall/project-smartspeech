@@ -16,15 +16,18 @@ import StrokeProvider from "@/react-state-management/providers/StrokeProvider";
 import SuggestedTilesProvider from "@/react-state-management/providers/SuggestedTilesProvider";
 import SimilarityProvider from "@/react-state-management/providers/useSimilarity";
 import InferenceProvider from "@/react-state-management/providers/InferenceProvider";
-import DisableZoom from "@/components/AAC/DisableZoom";
 
+import useDisableZoom from "@/react-helpers/hooks/useDisableZoom";
 /**
  *
  * @returns the homepage for this app
  */
 export default function Home() {
+    
+    useDisableZoom();
+
     return (
-        <section className="font-inter h-screen max-w-[100vw] box-border">        
+        <section className="font-inter h-screen max-w-[100vw] box-border">
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
