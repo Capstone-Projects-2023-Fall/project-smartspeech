@@ -2,25 +2,13 @@ import pytest
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from ..custom_tiles import custom_tiles
+from ...custom_tiles import custom_tiles
 
-from .. import aws_constants
-from ..custom_tiles import sql_constants
+from ... import aws_constants
+from ...custom_tiles import sql_constants
 from unittest.mock import Mock
 
-VALID_EMAIL = "test@parth.fr"
-INVALID_EMAIL = "I_LOVE_APPLES"
-
-FAKE_RESP = {
-	"url": "FAKE_URL.url",
-	"email": "parth@gmail.com",
-	"text": "Base64",
-	"sound": "Base64",
-	"tileColor": "red"
-}
-FAKE_DB_RESP = [
-	(FAKE_RESP['url'], FAKE_RESP['email'], FAKE_RESP['text'], FAKE_RESP['sound'], FAKE_RESP['tileColor'])
-]
+from .constants import *
 
 @pytest.fixture()
 def client_invalid_SQL_Connection():
@@ -28,7 +16,7 @@ def client_invalid_SQL_Connection():
 	def mock_getNewMySQLConnection_FAILURE():
 		return None
 
-	from ...main import app
+	from ....main import app
 
 	app.include_router(custom_tiles.router)
 	app.dependency_overrides.update({
@@ -77,7 +65,7 @@ def client_valid_SQL_Connection_sql_query_error():
 
 	return TestClient(app)
 
-def test_upload_custom_tile_success(client_valid_SQL_Connection):
+def test_get_custom_tile_success(client_valid_SQL_Connection):
 	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
 	resp = client_valid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
@@ -88,21 +76,21 @@ def test_upload_custom_tile_success(client_valid_SQL_Connection):
 		FAKE_RESP
 	]
 
-def test_upload_custom_tile_invalid_email(client_valid_SQL_Connection):
+def test_get_custom_tile_invalid_email(client_valid_SQL_Connection):
 	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={INVALID_EMAIL}'
 	resp = client_valid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 400
 	assert resp.json()['detail'] == sql_constants.EMAIL_INVALID_MSG
 
-def test_upload_custom_tile_internal_query_error(client_valid_SQL_Connection_sql_query_error):
+def test_get_custom_tile_internal_query_error(client_valid_SQL_Connection_sql_query_error):
 	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
 	resp = client_valid_SQL_Connection_sql_query_error.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 500
 	assert resp.json()['detail'] == sql_constants.DB_GET_TILES_FAILURE_MSG
 
-def test_upload_custom_tile_failure(client_invalid_SQL_Connection):
+def test_get_custom_tile_failure(client_invalid_SQL_Connection):
 	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
 	resp = client_invalid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
