@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, HTTPException
+from fastapi import APIRouter, UploadFile, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import uuid
@@ -6,21 +6,26 @@ import uuid
 from dotenv import load_dotenv
 from os import getenv
 import boto3
+
 from base64 import b64decode
 from io import BytesIO
 
 from .aws_constants import UPLOAD_TO_S3_ROUTE, GET_FROM_S3_ROUTE
 from .aws_constants import BUCKET_NAME_ENV_VAR, ACCESS_KEY_ENV_VAR, SECRET_KEY_ENV_VAR, OBJECT_URL_ENV_VAR, AWS_REGION_ENV_VAR
 
+from typing import Any, Annotated
+
 router = APIRouter()
 load_dotenv(dotenv_path=".env.local")
 
-s3 = boto3.client('s3',
+def getS3Instance():
+    s3 = boto3.client('s3',
                   aws_access_key_id=getenv(ACCESS_KEY_ENV_VAR),
                   aws_secret_access_key=getenv(SECRET_KEY_ENV_VAR),
                   region_name=getenv(AWS_REGION_ENV_VAR)
                   )
 
+    return s3
 
 class UploadFileToS3Model(BaseModel):
     base64File: str
@@ -29,7 +34,7 @@ class UploadFileToS3Model(BaseModel):
     force_unique: bool = True
 
 
-def upload_file_to_s3_logic(file_binary: bytes, uploaded_file_name: str, force_unique: bool):
+def upload_file_to_s3_logic(s3: Any, file_binary: bytes, uploaded_file_name: str, force_unique: bool):
     # prefix with uuid if user wants it to be unique
     if force_unique:
         uploaded_file_name = f"{uuid.uuid4().hex}-{uploaded_file_name}"
@@ -41,7 +46,7 @@ def upload_file_to_s3_logic(file_binary: bytes, uploaded_file_name: str, force_u
 
 
 @router.post(UPLOAD_TO_S3_ROUTE)
-def upload_file_to_s3(body: UploadFileToS3Model):
+def upload_file_to_s3(body: UploadFileToS3Model, s3: Annotated[Any, Depends(getS3Instance)]):
     """Upload file to S3 bucket
 
     Args:
@@ -57,8 +62,7 @@ def upload_file_to_s3(body: UploadFileToS3Model):
     """
     uploaded_file_name = f'{body.file_name}.{body.extension}'
 
-    uploadedURL = upload_file_to_s3_logic(
-        b64decode(body.base64File), uploaded_file_name, body.force_unique)
+    uploadedURL = upload_file_to_s3_logic(s3, b64decode(body.base64File), uploaded_file_name, body.force_unique)
 
     return {
         "message": "uploaded",
@@ -67,7 +71,7 @@ def upload_file_to_s3(body: UploadFileToS3Model):
     }
 
 
-def get_file_from_s3_logic(filename: str, get_url: bool = False):
+def get_file_from_s3_logic(s3: Any, filename: str, get_url: bool = False):
     try:
         response = s3.get_object(
             Bucket=getenv(BUCKET_NAME_ENV_VAR),
@@ -88,7 +92,7 @@ def get_file_from_s3_logic(filename: str, get_url: bool = False):
 
 
 @router.get(GET_FROM_S3_ROUTE)
-def get_file_from_s3(filename: str, get_url: bool = False):
+def get_file_from_s3(filename: str, s3: Annotated[Any, Depends(getS3Instance)],get_url: bool = False):
     """get file upload to s3 if possible
 
     Args:
@@ -102,7 +106,7 @@ def get_file_from_s3(filename: str, get_url: bool = False):
             dict["url":, str] : if get_url is `true` it will return a `{url: "..."}`
             StreamingResponse : if get_url is `false` it will return the literal object
     """
-    (object_content, object_content_type) = get_file_from_s3_logic(filename, get_url)
+    (object_content, object_content_type) = get_file_from_s3_logic(s3, filename, get_url)
     return StreamingResponse(
         content=object_content,
         media_type=object_content_type,  # Set the based on s3 resp

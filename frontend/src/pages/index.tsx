@@ -20,11 +20,14 @@ import InferenceProvider from "@/react-state-management/providers/InferenceProvi
 import CaretakerPopupProvider from "@/react-state-management/providers/CaretakerPopupProvider";
 
 
+import useDisableZoom from "@/react-helpers/hooks/useDisableZoom";
 /**
  *
  * @returns the homepage for this app
  */
 export default function Home() {
+    
+    useDisableZoom();
 
     return (
         <section className="font-inter h-screen max-w-[100vw] box-border">

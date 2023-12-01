@@ -43,9 +43,77 @@
     100% { opacity: 1; }
   }
 
+img.clear-button {
+    width: 70px; 
+    height: auto;
+    cursor: pointer; 
+  }
+  
+@media (max-width: 600px) {
+    /* Adjust the size for smaller screens*/
+    img.clear-button {
+      width: 40px;
+    }
+  }
 
 @layer utilities {
     .h-calc-vh {
         height: calc(100vh - 384px);
     }
+}
+
+@media (max-width: 400px){
+  #tileResize {
+    width: 50px; 
+    height: 50px; 
+  }
+
+  #tileResize h2 {
+    font-size: 50%; 
+  }
+}
+
+@media (min-width: 401px) and (max-width: 600px) {
+  #tileResize {
+    width: 60px; 
+    height: 60px; 
+  }
+
+  #tileResize h2 {
+    font-size: 70%; 
+  }
+}
+
+
+@media (min-width: 601px) and (max-width: 800px) {
+  #tileResize {
+    width: 80px; 
+    height: 80px; 
+  }
+
+  #tileResize h2 {
+    font-size: 90%; 
+  }
+}
+
+
+@media (min-width: 801px) and (max-width: 1000px) {
+  #tileResize {
+    width: 100px; 
+    height: 100px; 
+  }
+
+  #tileResize h2 {
+    font-size: 100%; 
+  }
+}
+@media (min-width: 1001px) and (max-width: 1200px) {
+  #tileResize {
+    width: 120px; 
+    height: 120px; 
+  }
+
+  #tileResize h2 {
+    font-size: 120%; 
+  }
 }

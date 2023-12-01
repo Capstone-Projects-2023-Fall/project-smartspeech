@@ -16,7 +16,7 @@ describe("Renders Canvas", () => {
     it("should render", () => {
         render(<Canvas />);
         //checking for all three elements on page
-        const clearButton = screen.getByText("Clear canvas");
+        const clearButton = screen.getByTestId("clearImage");
         expect(clearButton).toBeInTheDocument;
         const checkButton = screen.getByText("Check Image");
         expect(checkButton).toBeInTheDocument;

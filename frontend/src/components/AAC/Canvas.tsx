@@ -72,14 +72,13 @@ export default function Canvas() {
         <div className="ml-3 w-full" ref={containerElement}>
             <div className="w-full bg-white flex justify-center items-center relative box-border">
                 <div className="flex flex-col gap-3 absolute top-2 right-2">
-                    <button
-                        type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
+                    <img
+                        src="/AAC_assets/img/standard/eraserX.png"
+                        alt="Clear canvas"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg clear-button"
                         data-testid="clearImage"
                         onClick={() => clearCanvas()}
-                    >
-                        Clear canvas
-                    </button>
+                    />
                     <button
                         type="button"
                         className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
@@ -100,7 +99,7 @@ export default function Canvas() {
 
                 {
                     /*Block actions when screen changes*/
-                    isContainerShifting && <LoadingScreenBlocker message="Screen change detected. Please Wait for resize" />
+                    isContainerShifting && <LoadingScreenBlocker message="Screen change detected. Please wait for resize" />
                 }
                 <canvas
                     ref={canvasRef}
