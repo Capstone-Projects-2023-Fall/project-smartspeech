@@ -57,8 +57,8 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
 
-    if (!videoPlayer.current) return;
-    if (!context) return;
+    if (!videoPlayer.current || !context) return;
+
     context.drawImage(
       videoPlayer.current,
       0,
@@ -66,6 +66,7 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
       videoPlayer.current.videoWidth,
       videoPlayer.current.videoHeight
     );
+
     const url = canvas.current.toDataURL();
 
     return url;
