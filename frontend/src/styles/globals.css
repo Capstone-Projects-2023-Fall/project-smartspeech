@@ -28,3 +28,48 @@ img.clear-button {
         height: calc(100vh - 384px);
     }
 }
+
+@media screen and (max-width: 600px) {
+  #tileResize {
+    width: 60px; 
+    height: 60px; 
+  }
+
+  #tileResize h2 {
+    font-size: 70%; 
+  }
+}
+
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+  #tileResize {
+    width: 80px; 
+    height: 80px; 
+  }
+
+  #tileResize h2 {
+    font-size: 90%; 
+  }
+}
+
+
+@media screen and (min-width: 801px) and (max-width: 1000px) {
+  #tileResize {
+    width: 100px; 
+    height: 100px; 
+  }
+
+  #tileResize h2 {
+    font-size: 100%; 
+  }
+}
+@media screen and (min-width: 1001px) and (max-width: 1200px) {
+  #tileResize {
+    width: 120px; 
+    height: 120px; 
+  }
+
+  #tileResize h2 {
+    font-size: 120%; 
+  }
+}
