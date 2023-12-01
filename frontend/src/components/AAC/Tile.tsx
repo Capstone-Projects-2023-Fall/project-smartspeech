@@ -56,8 +56,10 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
     <div
       className={`bg-${tileColor}-300 w-44 h-44 flex flex-col justify-center items-center rounded-lg shadow-lg hover:shadow-xl hover:cursor-pointer p-4`}
       onClick={handleTileClick}
+      id="tileResize"
       data-testid={computeTileContainerName(text)}
     >
+      
       <h2 className="font-bold text-2xl" data-testid="tile-text">
         {text}
       </h2>
