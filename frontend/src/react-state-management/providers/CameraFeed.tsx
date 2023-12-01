@@ -1,9 +1,9 @@
 import React, {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
-  useState,
 } from "react";
 
 type CameraFeedProps = {
@@ -21,8 +21,6 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
 ) {
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-
-  const { cameraNum } = props;
 
   /**
    * Sets the active device and starts playing the feed
@@ -43,10 +41,10 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   /**
    * Processes available devices and identifies one by the label
    */
-  const processDevices = (devices: MediaDeviceInfo[]) => {
+  const processDevices = useCallback((devices: MediaDeviceInfo[]) => {
     const videoDevices = devices.filter((info) => info.kind == "videoinput");
-    setDevice(videoDevices[cameraNum % videoDevices.length]);
-  };
+    setDevice(videoDevices[props.cameraNum % videoDevices.length]);
+  }, [props.cameraNum]);
 
   // On component mounting, we want to select a camera to take pictures from
   useEffect(() => {
@@ -60,8 +58,6 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
    * Handles taking a still image from the video feed on the camera
    */
   const getScreenshot = () => {
-    console.log(cameraNum);
-
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
 

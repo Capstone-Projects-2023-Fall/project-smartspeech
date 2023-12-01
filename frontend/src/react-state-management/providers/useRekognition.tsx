@@ -20,9 +20,10 @@ const RekognitionContext = createContext<RekognitionState>({
   items: [],
 });
 
-export const useRekognition = () => useContext(RekognitionContext);
-
 export const MIME_TYPE = "image/png";
+export const INCREMENT_INTERVAL = 10000
+
+export const useRekognition = () => useContext(RekognitionContext);
 
 export default function RekognitionProvider(props: RekognitionProviderProps) {
   // read tiles
@@ -30,7 +31,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   // provider state
   const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
-  const refresh = useTimedIncrement(10000);
+  const refresh = useTimedIncrement(INCREMENT_INTERVAL);
 
   //! debug
   const [debug, setDebug] = useState<string>("");
@@ -44,20 +45,19 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   // create a capture function
   const capture = useCallback(() => {
-    console.log("In capture");
     if (!webcamRef.current) return;
-
     const imageSrc = webcamRef.current.getScreenshot();
+    console.log("In capture", imageSrc);
     setImgSrc(imageSrc);
-
-    // After we capture, we want to increment the camera number to
-    // signal CameraFeed to use a different device
-    setCameraNum((cameraNum) => cameraNum + 1);
-  }, [webcamRef, cameraNum]);
+  }, [webcamRef]);
 
   useEffect(() => {
     capture();
+
+    setCameraNum(prevNum => prevNum + 1)
   }, [refresh]);
+
+  useEffect(() => {console.log({cameraNum})}, [cameraNum])
 
   useEffect(() => {
     if (!imgSrc) return;
