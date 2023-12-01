@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function DisableZoom () {
+export const useDisableZoom = (): void =>  {
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
@@ -26,6 +26,5 @@ export default function DisableZoom () {
     };
   }, []);
 
-  return null;
 };
 

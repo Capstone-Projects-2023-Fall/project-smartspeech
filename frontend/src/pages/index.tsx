@@ -24,8 +24,7 @@ import DisableZoom from "@/components/AAC/DisableZoom";
  */
 export default function Home() {
     return (
-        <section className="font-inter h-screen max-w-[100vw] box-border">
-            <DisableZoom />
+        <section className="font-inter h-screen max-w-[100vw] box-border">        
             <TileProvider>
                 <RekognitionProvider>
                     <SimilarityProvider>
