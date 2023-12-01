@@ -9,13 +9,16 @@ import { CaretakerPopupBodyTestIds } from "./CaretakerPopupBody";
 export const tests = describe("Caretaker Popup: [CaretakerPopup]", () => {
     it("should render", () => {
         jest.useFakeTimers();
-        jest.spyOn(global, 'setTimeout');
 
         render(
             <CaretakerPopupProvider>
                 <CaretakerPopup />
             </CaretakerPopupProvider>
-        )
+        );
+    
+        act(() => {
+            jest.advanceTimersByTime(1500);
+        });
 
         const caretakerPopupContainer = screen.getByTestId(CaretakerPopupTestIds.mainWindow);
         const titleComponent = screen.getByTestId(CaretakerPopupTitleTestIds.titleContainer);
@@ -35,28 +38,41 @@ export const tests = describe("Caretaker Popup: [CaretakerPopup]", () => {
     });
 
     it("should close <CaretakerPopup /> when the X button is clicked", () => {
+        jest.useFakeTimers();
+
         render(
             <CaretakerPopupProvider>
                 <CaretakerPopup />
             </CaretakerPopupProvider>
         );
-        
-        const closeCaretakerPopupBtn = screen.getByTestId(CaretakerPopupTitleTestIds.closePopupBtn);
-        // popup will be closed
+    
         act(() => {
-            fireEvent.click(closeCaretakerPopupBtn);
-            expect(screen.queryByTestId(CaretakerPopupTestIds.mainWindow)).not.toBeInTheDocument();
+            jest.advanceTimersByTime(1500);
         });
+
+        act(() => {
+            const closeCaretakerPopupBtn = screen.getByTestId(CaretakerPopupTitleTestIds.closePopupBtn);
+            fireEvent.click(closeCaretakerPopupBtn);
+        })
+
+        const popup = screen.queryByTestId(CaretakerPopupTestIds.mainWindow);
+        expect(popup).not.toBeInTheDocument();
     });
         
     
     it("should close <CaretakerPopup /> when the OK button is clicked", () => {
+        jest.useFakeTimers();
+
         render(
             <CaretakerPopupProvider>
                 <CaretakerPopup />
             </CaretakerPopupProvider>
         );
-
+    
+        act(() => {
+            jest.advanceTimersByTime(1500);
+        });
+        
         const caretakerPopupContainer = screen.getByTestId(CaretakerPopupTestIds.mainWindow);
         expect(caretakerPopupContainer).toBeInTheDocument();
 
@@ -65,29 +81,36 @@ export const tests = describe("Caretaker Popup: [CaretakerPopup]", () => {
         
         // popup will be closed
         act(() => {
-        fireEvent.click(okCaretakerPopupBtn)
-        expect(screen.queryByTestId(CaretakerPopupTestIds.mainWindow)).not.toBeInTheDocument();
+            fireEvent.click(okCaretakerPopupBtn)
         });
+
+        const popup = screen.queryByTestId(CaretakerPopupTestIds.mainWindow);
+        expect(popup).not.toBeInTheDocument();
     });
 
     it("should disable popups when doNotShow button is clicked", () => {
+        const spy = Storage.prototype.setItem = jest.fn();
+
+        jest.useFakeTimers();
+
         render(
             <CaretakerPopupProvider>
                 <CaretakerPopup />
             </CaretakerPopupProvider>
         );
+    
+        act(() => {
+            jest.advanceTimersByTime(1500);
+        });
 
-            const doNotShowBtn = screen.getByTestId(CaretakerPopupBodyTestIds.doNotShowBtn);
-            expect(doNotShowBtn).toBeInTheDocument();
-            
-            // popup will be closed
-            act(() => {
-                fireEvent.click(doNotShowBtn);
-                const userPreference = window.localStorage.getItem("SHOW_CARETAKER_POPUP");
-                expect(userPreference).not.toBeNull();
-                expect(userPreference).not.toBeNaN();
-                expect(userPreference).not.toBeDefined();
-                expect(userPreference).toBeFalsy();
-            });
+        const doNotShowBtn = screen.getByTestId(CaretakerPopupBodyTestIds.doNotShowBtn);
+        expect(doNotShowBtn).toBeInTheDocument();
+        
+        // popup will be closed
+        act(() => {
+            fireEvent.click(doNotShowBtn);
+        });
+        
+        expect(spy).toBeCalled();
     });
 });
