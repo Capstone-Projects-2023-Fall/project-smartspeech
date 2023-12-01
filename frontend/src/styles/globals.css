@@ -29,7 +29,18 @@ img.clear-button {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 400px){
+  #tileResize {
+    width: 50px; 
+    height: 50px; 
+  }
+
+  #tileResize h2 {
+    font-size: 50%; 
+  }
+}
+
+@media (min-width: 401px) and (max-width: 600px) {
   #tileResize {
     width: 60px; 
     height: 60px; 
@@ -41,7 +52,7 @@ img.clear-button {
 }
 
 
-@media screen and (min-width: 601px) and (max-width: 800px) {
+@media (min-width: 601px) and (max-width: 800px) {
   #tileResize {
     width: 80px; 
     height: 80px; 
@@ -53,7 +64,7 @@ img.clear-button {
 }
 
 
-@media screen and (min-width: 801px) and (max-width: 1000px) {
+@media (min-width: 801px) and (max-width: 1000px) {
   #tileResize {
     width: 100px; 
     height: 100px; 
@@ -63,7 +74,7 @@ img.clear-button {
     font-size: 100%; 
   }
 }
-@media screen and (min-width: 1001px) and (max-width: 1200px) {
+@media (min-width: 1001px) and (max-width: 1200px) {
   #tileResize {
     width: 120px; 
     height: 120px; 
