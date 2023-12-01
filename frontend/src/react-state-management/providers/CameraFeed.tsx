@@ -90,14 +90,14 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
         ref={videoPlayer}
         width={props.width}
         height={props.height}
-        // style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
+        style={{ position: "absolute", top: "-10000px" }} // Hide from user's eyes
         playsInline={true}
       />
       <canvas
         width={props.width}
         height={props.height}
         ref={canvas}
-        // style={{ position: "absolute", top: "-10000px" }}
+        style={{ position: "absolute", top: "-10000px" }}
       />
     </>
   );
