@@ -35,7 +35,7 @@ function getBoundingBox(coords: Point[]): BoundingBox {
 }
 
 function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
-    //const dpi = window.devicePixelRatio;
+    const dpi = window.devicePixelRatio;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
@@ -73,8 +73,8 @@ function preprocess(imgData: ImageData) {
 
         // We add a dimension to get a batch shape
         const batched = normalized.expandDims(0);
-        //console.log("Shape:", batched.shape);
-        //console.log("Data:", batched.dataSync());
+        console.log("Shape:", batched.shape);
+        console.log("Data:", batched.dataSync());
 
         return batched;
     });
