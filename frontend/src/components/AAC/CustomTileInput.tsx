@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface FormProps {
-    onSubmit: (data: FormData) => void;
+    onSubmit: (data: UserData) => void;
   }
   
-  interface FormData {
+  export interface UserData {
     image: string;
     sound?: string;
     text: string;
@@ -12,8 +12,8 @@ interface FormProps {
   }
 
 
-  export default function CustomTileInputForm({ onSubmit }: FormProps) {
-    const [formData, setFormData] = React.useState<FormData>({ text: '',  image: '', sound: '', tileColor: ''});
+  export default function CustomTileInput({ onSubmit }: FormProps) {
+    const [formData, setFormData] = React.useState<UserData>({ text: '',  image: '', sound: '', tileColor: ''});
 
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -36,7 +36,7 @@ interface FormProps {
    
 
     return (
-       <form>
+       <form onSubmit={handleSubmit}>
             <h1>Customize Tiles</h1>
             <label>
                 Upload Tile Image:
@@ -69,4 +69,4 @@ interface FormProps {
 
        </form>
     );
-}
+};

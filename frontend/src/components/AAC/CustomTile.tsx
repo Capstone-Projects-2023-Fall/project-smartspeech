@@ -1,42 +1,15 @@
 import React from 'react'
+import CustomTileInput from './CustomTileInput';
+import { UserData } from './CustomTileInput';
 
-interface FormProps {
-  onSubmit: (data: FormData) => void;
-}
-
-interface FormData {
-  name: string;
-  age: number;
-}
-
-function Form({ onSubmit }: FormProps) {
-  const [formData, setFormData] = React.useState<FormData>({ name: '', age: 0 });
-
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    onSubmit(formData);
+export default function CustomTile() {
+  function handleSubmit(formData: UserData) {
+    console.log(formData);
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" name="name" value={formData.name} onChange={handleInputChange} />
-      </label>
-      <br />
-      <label>
-        Age:
-        <input type="number" name="age" value={formData.age} onChange={handleInputChange} />
-      </label>
-      <br />
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <CustomTileInput onSubmit={handleSubmit} />
+    </div>
   );
-}
-
-export default Form;
+};
