@@ -42,10 +42,10 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
         throw new Error("CanvasRenderingContext2D is not available");
     }
     // Calculate the coordinates and size respecting the DPI
-    const x = bb.min.x * dpi;
-    const y = bb.min.y * dpi;
-    const width = (bb.max.x - bb.min.x) * dpi;
-    const height = (bb.max.y - bb.min.y) * dpi;
+    const x = bb.min.x; //* dpi;
+    const y = bb.min.y; //* dpi;
+    const width = (bb.max.x - bb.min.x); //* dpi;
+    const height = (bb.max.y - bb.min.y); //* dpi;
     //console.log(x, y, width, height);
     if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
         console.error("Invalid canvas dimensions", { x, y, width, height });
