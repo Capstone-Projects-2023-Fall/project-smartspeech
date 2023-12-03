@@ -37,7 +37,7 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
     });
 
     videoPlayer.current.srcObject = stream;
-    videoPlayer.current.play();
+    videoPlayer.current.play().catch(e => console.log("Could not start video player"));
   };
 
   // On component mounting, we want to select a camera to take pictures from
