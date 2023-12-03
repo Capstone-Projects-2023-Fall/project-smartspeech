@@ -3,7 +3,7 @@ variable "default_labels" {
   default = {
     environment = "prod"
     app         = "smart-speech"
-    sprint      = 4
+    sprint      = "milestone-3-demo"
   }
 }
 
@@ -57,7 +57,7 @@ variable "ecs_backend_container_info" {
 variable "docker_image_info" {
   type = map(string)
   default = {
-    "name" = "parth099/smart-speech:milestone-2.0"
+    "name" = "parth099/smart-speech:milestone-3.0"
   }
 }
 
