@@ -36,9 +36,8 @@ export default function Tiles() {
     }, [tiles, dataLocation]);
 
     return (
-        <>
-            <h1 className="tilesHeaderFont">Standard Tiles</h1>
-            <div className="grid grid-cols-8 gap-6" data-testid="tiles-container">
+        <section className="w-full flex justify-center">
+            <div className="grid grid-cols-8 gap-4 2xl-max:grid-cols-7 md-max:gap-2" data-testid="tiles-container">
                 {Object.keys(currentFrame).map((key) => {
                     const tileData = currentFrame[key];
                     const { image, text, sound, tileColor, subTiles } = tileData;
@@ -66,6 +65,6 @@ export default function Tiles() {
                     </div>
                 )}
             </div>
-        </>
+        </section>
     );
 }

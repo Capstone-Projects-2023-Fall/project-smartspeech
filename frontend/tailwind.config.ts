@@ -26,6 +26,7 @@ const config = {
             "mid-max": { max: "900px" },
             "md-max": { max: "750px" },
             "sm-max": { max: "639px" },
+            "xs-max": { max: "550px" },
             "xs1-max": { max: "464px" },
             "xs2-max": { max: "380px" },
             "xs3-max": { max: "320px" },
