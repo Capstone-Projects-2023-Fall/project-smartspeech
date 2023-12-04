@@ -32,9 +32,9 @@ spoon
 pants
 pizza
 blueberry
-sock
+socks
 flower
 chair
 car
-t-shirt
-shoe
+shirt
+shoes
