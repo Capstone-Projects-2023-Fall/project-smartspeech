@@ -11,23 +11,16 @@ export const ManualBtnTestIds = {
 
 export default function ManualModeButton() {
     const [isOpen, toggleModal] = useManualModeModelContext();
-    const [isLoginOpen, setLoginOpen] = useLoginProviderContext();
+    const [isLoginOpen, toggleLoginOpen] = useLoginProviderContext();
 
-    const toggleLoginOpen = () => setLoginOpen((prev) => !prev);
 
     const toggleModelHandler = () => {
         toggleModal();
     }
 
-    // const callback = useCallback(() => {
-    //     console.log(isLoginOpen);
-    //   }, []);
-
     const bind = useLongPress(() => {}, {
         onFinish: () => {
-            console.log(isLoginOpen);
             toggleLoginOpen();
-            console.log(isLoginOpen);
         },
         onCancel: toggleModelHandler,
         filterEvents: () => true, // All events can potentially trigger long press (same as 'undefined')

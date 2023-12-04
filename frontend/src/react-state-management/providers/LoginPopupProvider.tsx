@@ -1,7 +1,7 @@
 import { EMPTY_FUNCTION } from "@/util/constants";
 import React, { createContext, useContext, useState, Dispatch, SetStateAction } from "react";
 
-type LoginPopupType = [boolean, Dispatch<SetStateAction<boolean>>];
+type LoginPopupType = [boolean, () => void];
 
 const LoginPopupContext = createContext<LoginPopupType>([false, EMPTY_FUNCTION]);
 
@@ -15,8 +15,7 @@ export const useLoginProviderContext = () => useContext(LoginPopupContext);
  */
 export default function LoginPopupProvider(props: LoginPopupProviderProps) {
     const [isLoginOpen, setLoginOpen] = useState(false);
+    const toggleLoginOpen = () => setLoginOpen((prev) => !prev);
 
-    const value: LoginPopupType = [isLoginOpen, setLoginOpen];
-
-    return <LoginPopupContext.Provider value={value}>{props.children}</LoginPopupContext.Provider>;
+    return <LoginPopupContext.Provider value={[isLoginOpen, toggleLoginOpen]}>{props.children}</LoginPopupContext.Provider>;
 }
