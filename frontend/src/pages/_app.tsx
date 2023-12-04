@@ -8,7 +8,6 @@ import Head from "next/head";
 import ProvidersWrapper from "@/react-state-management/providers/providersWrapper";
 import { Provider, useEffect } from "react";
 import React, {Component} from "react";
-import Login from "@/components/login";
 import { getBackendUrl } from "@/util/backend-url";
 
 const inter = Inter({
