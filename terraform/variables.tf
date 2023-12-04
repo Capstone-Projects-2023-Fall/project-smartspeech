@@ -3,7 +3,7 @@ variable "default_labels" {
   default = {
     environment = "prod"
     app         = "smart-speech"
-    sprint      = 4
+    sprint      = "milestone-3-demo"
   }
 }
 
@@ -23,7 +23,7 @@ variable "exposed_ecs_ports" {
 #! Full deployment
 variable "is_full_deployment" {
   type        = bool
-  default     = false
+  default     = true
   description = "When we want a full deployment with LBs and ECS FG Services, set to true"
 }
 
@@ -57,7 +57,7 @@ variable "ecs_backend_container_info" {
 variable "docker_image_info" {
   type = map(string)
   default = {
-    "name" = "parth099/smart-speech:milestone-2.0"
+    "name" = "parth099/smart-speech:milestone-3.0"
   }
 }
 

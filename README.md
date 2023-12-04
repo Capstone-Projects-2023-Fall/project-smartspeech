@@ -57,19 +57,55 @@ This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and Ass
 <table>
 <tr>
     <td align="center">
-        <a href="https://github.com/ApplebaumIan">
-            <img src="https://avatars.githubusercontent.com/u/9451941?v=4" width="100;" alt="ApplebaumIan"/>
+        <a href="https://github.com/Parth099">
+            <img src="https://avatars.githubusercontent.com/u/33704202?s=96&v=4" width="100;" alt="ParthPatel"/>
             <br />
-            <sub><b>Ian Tyler Applebaum</b></sub>
+            <sub><b>Parth Patel</b></sub>
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/leighflagg">
-            <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
+        <a href="https://github.com/LandenLloyd">
+            <img src="https://avatars.githubusercontent.com/u/70919337?s=64&v=4" width="100;" alt="LandenLloyd"/>
             <br />
-            <sub><b>Null</b></sub>
+            <sub><b>Landen Lloyd</b></sub>
         </a>
-    </td></tr>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Zahmadgit">
+            <img src="https://avatars.githubusercontent.com/u/112338853?s=64&v=4" width="100;" alt="ZeshanAhmad"/>
+            <br />
+            <sub><b>Zeshan Ahmad</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/anthonyjromann">
+            <img src="https://avatars.githubusercontent.com/u/76930172?s=64&v=4" width="100;" alt="AnthonyRoman"/>
+            <br />
+            <sub><b>Anthony Roman</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/cvto1021">
+            <img src="https://avatars.githubusercontent.com/u/67194501?s=64&v=4" width="100;" alt="CynthiaTo"/>
+            <br />
+            <sub><b>Cynthia To</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/triplehamburger">
+            <img src="https://avatars.githubusercontent.com/u/50925468?s=64&v=4" width="100;" alt="AlexanderRajasekaran"/>
+            <br />
+            <sub><b>Alexander Rajasekaran</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/ruuffian">
+            <img src="https://avatars.githubusercontent.com/u/58525247?s=64&v=4" width="100;" alt="LiamMackay"/>
+            <br />
+            <sub><b>Liam Mackay</b></sub>
+        </a>
+    </td>
+</tr>
 </table>
 
 [//]: # ( readme: collaborators -end )
