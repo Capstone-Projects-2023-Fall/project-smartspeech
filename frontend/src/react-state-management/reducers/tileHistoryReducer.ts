@@ -2,7 +2,7 @@ import { TileProps } from "@/components/AAC/Tile";
 import { blacklist } from "@/data/AAC/Tiles";
 import { compareTiles } from "@/util/AAC/compareTiles";
 
-export const MAX_TILES_TO_KEEP_IN_MEMORY = 3;
+export const MAX_TILES_TO_KEEP_IN_MEMORY = 5;
 
 export type StackState<T> = T[];
 
