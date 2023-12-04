@@ -1,7 +1,7 @@
 // patch tensorflow errors
 import React from "react";
 import { render, screen, act, fireEvent } from "@testing-library/react";
-import Login from "./login";
+import Login from "./Login";
 import "@testing-library/react";
 import "@testing-library/jest-dom";
 
