@@ -68,7 +68,9 @@ export const tests = describe("Manual Mode: [ManualTilesPopup, ManualModeButton]
         expect(actionBarContainer).toBeInTheDocument();
     });
 
-    it("should close <ManualTilesPopup/> when return is clicked", () => {
+    it("should close <ManualTilesPopup/> when return is clicked", async () => {
+        const user = userEvent.setup();
+
         render(
             <TileProvider>
                 <ModalProvider>
@@ -81,7 +83,7 @@ export const tests = describe("Manual Mode: [ManualTilesPopup, ManualModeButton]
         const openModalFromHomeBtn = screen.getByTestId(ManualBtnTestIds.toggleManualBtn);
         expect(openModalFromHomeBtn).toBeInTheDocument();
 
-        fireEvent.click(openModalFromHomeBtn);
+        await user.click(openModalFromHomeBtn);
 
         // model should open with tile selector!
         const tilesContainer = screen.getByTestId(TilesTestIds.mainContainer);
@@ -94,7 +96,7 @@ export const tests = describe("Manual Mode: [ManualTilesPopup, ManualModeButton]
         const returnBtn = screen.getByTestId(ManualPopupTestIds.exitManualBtn);
         expect(returnBtn).toBeInTheDocument();
 
-        fireEvent.click(returnBtn);
+        await user.click(returnBtn);
 
         expect(screen.queryByTestId(TilesTestIds.mainContainer)).not.toBeInTheDocument();
     });
