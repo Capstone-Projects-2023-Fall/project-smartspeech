@@ -835,6 +835,66 @@ const flatList: FlatTileAssets = {
         sound: "TV",
         tileColor: "red",
     },
+    hand: {
+        image: "/AAC_assets/img/body/hand.png",
+        text: "Hand",
+        sound: "Hand",
+        tileColor: "blue",
+    },
+    foot: {
+        image: "/AAC_assets/img/body/foot.png",
+        text: "Foot",
+        sound: "Foot",
+        tileColor: "blue",
+    },
+    sun: {
+        image: "/AAC_assets/img/sky/sun.png",
+        text: "Sun",
+        sound: "Sun",
+        tileColor: "blue",
+    },
+    door: {
+        image: "/AAC_assets/img/house/door.png",
+        text: "Door",
+        sound: "Door",
+        tileColor: "blue",
+    },
+    moon: {
+        image: "/AAC_assets/img/sky/moon.png",
+        text: "Moon",
+        sound: "Moon",
+        tileColor: "yellow",
+    },
+    sock: {
+        image: "/AAC_assets/img/clothes/socks.png",
+        text: "Socks",
+        sound: "Socks",
+        tileColor: "red",
+    },
+    chair: {
+        image: "/AAC_assets/img/house/chair.png",
+        text: "Chair",
+        sound: "Chair",
+        tileColor: "blue",
+    },
+    church: {
+        image: "/AAC_assets/img/locations/church.png",
+        text: "Church",
+        sound: "Church",
+        tileColor: "blue",
+    },
+    lightning: {
+        image: "/AAC_assets/img/sky/lightning.png",
+        text: "Lightning",
+        sound: "Lightning",
+        tileColor: "yellow",
+    },
+    finger: {
+        image: "/AAC_assets/img/body/finger.png",
+        text: "Finger",
+        sound: "Finger",
+        tileColor: "blue",
+    },
 };
 
 export function getTileFlatList() {
