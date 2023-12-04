@@ -17,38 +17,32 @@ export default function Login() {
     if (status === "authenticated") {
         return ( 
             <>
-                { isLoginOpen && (
-                    <>
-                        <div className="bg-white flex flex-col justify-center items-center">
-                            <p>Signed in as {session?.user?.email}</p>
-                        </div>
+                <div className="bg-white flex flex-col justify-center items-center">
+                    <p>Signed in as {session?.user?.email}</p>
+                </div>
 
-                        <div>
-                            <section className="font-inter"></section>
-                        </div>
+                <div>
+                    <section className="font-inter"></section>
+                </div>
 
-                        <div className="bg-white flex flex-col justify-center items-center">
-                            <br />
-                            <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() => signOut()}>
-                                Logout
-                            </button>
-                            <br />
-                        </div>
-                    </>
-                )}
+                <div className="bg-white flex flex-col justify-center items-center">
+                    <br />
+                    <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() => signOut()}>
+                        Logout
+                    </button>
+                    <br />
+                </div>
             </>
         );
     }
 
     return (
-        <>
-            { isLoginOpen && (
-                <div className="bg-white flex flex-col justify-center items-center">
-                    <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() => signIn()}>
-                        Sign In
-                    </button>
-                </div>
-            )}
+        <>                
+            <div className="bg-white flex flex-col justify-center items-center">
+                <button className="bg-gray-300 p-2 rounded hover:shadow-xl" onClick={() => signIn()}>
+                    Sign In
+                </button>
+            </div>
         </>
     );
 }
