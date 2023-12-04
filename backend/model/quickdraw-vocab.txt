@@ -1,13 +1,12 @@
-airplane
-ant
 blueberry
 car
 carrot
 chair
+church
 circle
-clock
 diamond
 door
+finger
 flower
 foot
 fork
@@ -16,8 +15,8 @@ hammer
 hand
 hat
 hospital
-house
 knife
+lightning
 moon
 mountain
 paintbrush
@@ -27,13 +26,14 @@ pizza
 scissors
 screwdriver
 shoe
+smiley face
 sock
 spoon
 square
-stairs
-star
+stop sign
+strawberry
 sun
-toilet
+television
 tree
 triangle
 t-shirt
