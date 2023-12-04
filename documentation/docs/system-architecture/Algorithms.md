@@ -7,11 +7,12 @@ Below are the algorithms that will be utilized in this project.
 
 ### Sketch Recognition
 
-To classify drawings we have implemented a Convolutional Neural Network (CNN) with around one million parameters. This neural network was constructed with the help of the TensorFlow Keras library, exported for use in TensorFlowJS. The training data used was from the [Google Quick, Draw! dataset](https://quickdraw.withgoogle.com/data). The model currently recognizes 33 different drawings which are all directly mapped to tiles in our dictionary. The model is lightweight enough to be run on mobile devices with a quick inference time. 
+To classify drawings we have implemented a Convolutional Neural Network (CNN) with around 100,000 parameters. This neural network was constructed with the help of the TensorFlow Keras library, exported for use in TensorFlowJS. This architecture consists of three convolutional layers followed by max-pooling layers to learn hierarchical features from the input image. Then, it flattens the output and passes it through two fully connected layers, with the final layer using softmax activation for class probabilities. The training data used was from the [Google Quick, Draw! dataset](https://quickdraw.withgoogle.com/data). The model currently recognizes 38 different drawings which are all directly mapped to tiles in our dictionary. The model is lightweight enough to be run on mobile devices with a quick inference time. See the model architecture below. 
+![CNN Architecture Diagram](../../static/img/CNN_diagram.png)
 
 ### Image Recognition
 
-To identify what objects are being captured by the devices camera, this project has implemented an image classifier to achieve this task. The model is connected to Amazon Rekognition, which uses a pre-trained model to label and classify images in real time.
+To identify what objects are being captured by the devices camera, this project has implemented an image classifier to achieve this task. The model is connected to Amazon Rekognition API, which uses a pre-trained deep learning model to label and classify images in real time. Images are sent to an S3 bucket where they are analyzed and return a response with detected objects and their associated confidence values. To learn more about the model [refer to Amazon Rekognition's documentation.](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detect-labels-image.html)
 
 ### Word Similarity Search
 
