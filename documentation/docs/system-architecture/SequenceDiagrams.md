@@ -13,7 +13,7 @@ sequenceDiagram
     participant C as Canvas
     participant T as Tiles
     participant RH as RecognizeHandler
-    participant AR as Amazon Rekognition
+    participant AR as Drawing Recognition Model
 
     activate C
     activate T
