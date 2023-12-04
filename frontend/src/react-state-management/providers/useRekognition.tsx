@@ -21,7 +21,7 @@ const RekognitionContext = createContext<RekognitionState>({
 });
 
 export const MIME_TYPE = "image/png";
-export const INCREMENT_INTERVAL = 4000;
+export const INCREMENT_INTERVAL = 1000;
 
 export const useRekognition = () => useContext(RekognitionContext);
 
