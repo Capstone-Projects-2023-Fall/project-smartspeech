@@ -6,7 +6,6 @@ import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";
 import RecentlyClickedTiles from "@/components/AAC/RecentlyClickedTiles";
 import CaretakerPopup from "@/components/AAC/CaretakerPopup";
-import Login from "@/components/Login";
 
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
 import TileProvider from "@/react-state-management/providers/tileProvider";
@@ -22,6 +21,7 @@ import CaretakerPopupProvider from "@/react-state-management/providers/Caretaker
 import LoginPopupProvider  from "@/react-state-management/providers/LoginPopupProvider";
 
 import useDisableZoom from "@/react-helpers/hooks/useDisableZoom";
+import CaretakerScreen from "@/components/AAC/CaretakerScreen";
 /**
  *
  * @returns the homepage for this app
@@ -54,8 +54,10 @@ export default function Home() {
                                                 </div>
                                                 <div className="flex gap-2 m-3 mt-1 justify-between items-center">
                                                     <SuggestedTiles />
-                                                    <ManualModeButton />
-                                                    <Login />
+                                                    <div className="flex gap-2 m-3 mt-1 justify-right items-center">
+                                                        <ManualModeButton />
+                                                        <CaretakerScreen />
+                                                    </div>
                                                 </div>
                                             </LoginPopupProvider>
                                         </ModalProvider>
