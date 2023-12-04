@@ -6,6 +6,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
 
 export const WHITE = "#FFFFFF";
 export const BLACK = "#000000";
+export const PRED_INTERVAL = 2000;
 
 interface CanvasAndContext {
     canvas: HTMLCanvasElement | null;
@@ -28,7 +29,7 @@ export const useDraw = (setItems: (items: string[]) => void) => {
     const prevPoint = useRef<null | Point>(null);
     const [currentStroke, dispatchPointAction] = useReducer(stackReducer<Point>, []);
 
-    const { points, addStoke, clear: clearStroke, removeLastStroke, getFlatPointArray } = useStrokeRecorderContext();
+    const { points, addStoke, clear: clearStroke, removeLastStroke } = useStrokeRecorderContext();
 
     const onMouseDown = () => setMouseDown(true);
 
