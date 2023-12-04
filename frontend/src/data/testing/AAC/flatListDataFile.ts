@@ -877,6 +877,24 @@ const flatList: FlatTileAssets = {
         sound: "Chair",
         tileColor: "blue",
     },
+    church: {
+        image: "/AAC_assets/img/locations/church.png",
+        text: "Church",
+        sound: "Church",
+        tileColor: "blue",
+    },
+    lightning: {
+        image: "/AAC_assets/img/sky/lightning.png",
+        text: "Lightning",
+        sound: "Lightning",
+        tileColor: "yellow",
+    },
+    finger: {
+        image: "/AAC_assets/img/body/finger.png",
+        text: "Finger",
+        sound: "Finger",
+        tileColor: "blue",
+    },
 };
 
 export function getTileFlatList() {
