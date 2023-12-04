@@ -1,10 +1,11 @@
 import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
-import { useDraw } from "../../react-helpers/hooks/useDraw";
+import { PRED_INTERVAL, useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
 import { useInferenceContext } from "@/react-state-management/providers/InferenceProvider";
 import useSize from "@/react-helpers/hooks/useSize";
 import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
+import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
 
 interface ParentDivDims {
     width?: number;
@@ -30,6 +31,21 @@ export default function Canvas() {
     // Need to use similarity provider here then pass to hook
     const { setItems: setItems } = useSimilarity();
     const { canvasRef, onMouseDown, clear: clearCanvas, undoStroke } = useDraw(setItems);
+
+    const { points } = useStrokeRecorderContext();
+
+    useEffect(() => {
+        if (points.length == 0) return;
+
+        const predTimerId = setTimeout(() => {
+            console.log("Timer pred");
+
+            if (!canvasRef.current) return;
+            predict(canvasRef.current);
+        }, PRED_INTERVAL);
+
+        return () => clearTimeout(predTimerId);
+    }, [points]);
 
     useEffect(() => {
         if (!containerSize) return;
