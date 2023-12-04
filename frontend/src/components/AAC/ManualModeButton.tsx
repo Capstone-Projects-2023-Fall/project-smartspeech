@@ -9,6 +9,7 @@ export const ManualBtnTestIds = {
 
 export default function ManualModeButton() {
     const [isOpen, toggleModal] = useManualModeModelContext();
+
     const toggleModelHandler = () => {
         console.log("Onclick triggered");
         toggleModal();
@@ -28,7 +29,6 @@ export default function ManualModeButton() {
     captureEvent: true, // Event won't get cleared after React finish processing it
     cancelOnMovement: false, // Square side size (in pixels) inside which movement won't cancel long press
     cancelOutsideElement: true, // Cancel long press when moved mouse / pointer outside element while pressing
-    detect: LongPressEventType.Mouse && LongPressEventType.Pointer && LongPressEventType.Touch
     });
 
     return (

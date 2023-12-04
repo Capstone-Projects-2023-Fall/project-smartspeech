@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 
+import userEvent from "@testing-library/user-event";
 import ModalProvider from "@/react-state-management/providers/ManualModalProvider";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
 import { fireEvent, render, screen } from "@testing-library/react";
@@ -42,7 +43,9 @@ export const tests = describe("Manual Mode: [ManualTilesPopup, ManualModeButton]
         );
     });
 
-    it("should render <ManualTilesPopup/> when <ManualModeButton /> is clicked", () => {
+    it("should render <ManualTilesPopup/> when <ManualModeButton /> is clicked", async () => {
+        const user = userEvent.setup();
+
         render(
             <TileProvider>
                 <ModalProvider>
@@ -55,7 +58,7 @@ export const tests = describe("Manual Mode: [ManualTilesPopup, ManualModeButton]
         const openModalFromHomeBtn = screen.getByTestId(ManualBtnTestIds.toggleManualBtn);
         expect(openModalFromHomeBtn).toBeInTheDocument();
 
-        fireEvent.click(openModalFromHomeBtn);
+        await user.click(openModalFromHomeBtn);
 
         // model should open with tile selector!
         const tilesContainer = screen.getByTestId(TilesTestIds.mainContainer);
