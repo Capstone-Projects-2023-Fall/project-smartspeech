@@ -127,7 +127,7 @@ Here is our bucket policy that allows for a public read yet private write:
                 "AWS": "arn:aws:iam::{YOUR_AWS_ID_HERE}:root"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::smart-speech-media/*"
+            "Resource": "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*"
         },
         {
             "Sid": "AllowPublicRead",
@@ -140,8 +140,8 @@ Here is our bucket policy that allows for a public read yet private write:
                 "s3:GetObjectVersionAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::smart-speech-media/*",
-                "arn:aws:s3:::smart-speech-media"
+                "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*",
+                "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}"
             ]
         }
     ]
