@@ -124,7 +124,7 @@ Here is our bucket policy that allows for a public read yet private write:
             "Sid": "AllowMyAccountToUpload",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::373319509873:root"
+                "AWS": "arn:aws:iam::{YOUR_AWS_ID_HERE}:root"
             },
             "Action": "s3:PutObject",
             "Resource": "arn:aws:s3:::smart-speech-media/*"
