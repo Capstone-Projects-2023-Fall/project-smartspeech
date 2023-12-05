@@ -10,6 +10,10 @@ terraform {
     }
   }
 
+  # backend "local" {
+
+  # }
+
   backend "s3" {
     bucket         = "perma-terraform-state-bucket"
     dynamodb_table = "state-lock-smartspeech"

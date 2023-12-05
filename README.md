@@ -36,19 +36,123 @@ This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and Ass
 
 + Machine Powerful enough for Image Related ML Tasks
 + NEXT.js (React.js)
-+ Some backend framework that can interface with ML Models
 + Terraform (Infrastructure as Code Tool)
-+ AWS Suite -- Services that will be used but are not limited to:
++ AWS Suite -- Services that are used:
 	+ AWS S3 (Object Storage)
-	+ AWS Polly (TTS Service)
-	+ AWS EC2 (Virtual Machines)
+	+ AWS Rekognition
+	+ AWS RDS (Relational Database Service)
 	+ AWS Networking Resources (VPC)
-	+ Possible use of AWS Lambda (Serverless Functions) and AWS DynamoDB (NoSQL DB)
-	+ Possible use of AWS Fargate or AWS EKS in place of EC2 VMs
+	+ AWS Fargate (Containerization)
 
  
-### Software Requirements
+## How to Run the Full Application
+### Frontend
 
+The frontend contains minimal configuration and can be run via:
+
+```shell
+cd ./frontend
+npm run dev
+```
+
+If the project is still being supported it will be hosted via [Vercel](https://project-smartspeech.vercel.app/). Remember to take a look at `frontend/.env` to ensure a correct configuration. If you are going to run the backend (see below) yourself, make sure to set the `NEXT_PUBLIC_PROG_MODE` to `DEV` instead of `PROD`.
+### Backend
+
+Steps:
+
+1. Step into the Python-based backend folder:
+
+```shell
+cd ./backend
+```
+
+2. Create a virtual environment called 'env' (repeat only ONCE). Ensure you have `python3.10`.
+
+```shell
+python3 -m venv ./env
+```
+
+3. Activate this environment and install all packages
+
+```shell
+source env/bin/activate
+pip install -r requirements.txt
+```
+
+4. Fill out the secrets file (you will need to create a file at `backend/src/.env.local`). It looks like:
+```
+# TTS Params
+TTS_API_KEY=""
+TTS_API_URL=""
+
+# S3 Params
+BUCKET_NAME=""
+ACCESS_KEY=""
+SECRET_KEY=""
+OBJECT_URL=""
+AWS_REGION=""
+
+# RDS Params
+CT_DB_URL=""
+CT_DB_PORT=""
+CT_DB_USERNAME=""
+CT_DB_PASSWORD=""
+```
+
+For the S3 params notice the AWS Key fields. You will want to create an IAM user with minimal privileges to ensure the principle of least privilege for access. You want this user to have nearly full access to your created S3 bucket (see Infrastructure below) and a `delectLabel` permission on AWS Rekognition. 
+
+5. Run the backend!
+
+```shell
+uvicorn src.main:app --reload --env-file ./src/.env.local
+```
+
+### Infrastructure Deployment 
+
+### S3
+The app above needs a `s3` bucket to run as implied by the backend secrets and frontend `.env` files. You need to simply create an AWS bucket with a public read and private write via an S3 Bucket policy.
+
+Here is our bucket policy that allows for a public read yet private write: 
+
+> The first statement is not required. 
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowMyAccountToUpload",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::373319509873:root"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::smart-speech-media/*"
+        },
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:GetObjectAcl",
+                "s3:GetObjectVersionAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::smart-speech-media/*",
+                "arn:aws:s3:::smart-speech-media"
+            ]
+        }
+    ]
+}
+```
+
+#### Terraform
+
+This one is complicated as it deals with the creation of cloud resources on the public cloud. There is a file called `variables.tf` and this file is the only one that needs to change for deployment. Since you do not own the same domain names I do and you do not want to name each item the way I name it you will need to change name strings in this file. 
+
+The rest of the deployment directions are located in `terraform/readme.md` which details how to keep Terraform secrets which are used to hide the user/password to the RDS database deployed by terraform. 
 
 
 ### Collaborators
