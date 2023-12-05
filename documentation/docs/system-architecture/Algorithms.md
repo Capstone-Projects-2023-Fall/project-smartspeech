@@ -8,7 +8,8 @@ Below are the algorithms that will be utilized in this project.
 ### Sketch Recognition
 
 To classify drawings we have implemented a Convolutional Neural Network (CNN) with around 100,000 parameters. This neural network was constructed with the help of the TensorFlow Keras library, exported for use in TensorFlowJS. This architecture consists of three convolutional layers followed by max-pooling layers to learn hierarchical features from the input image. Then, it flattens the output and passes it through two fully connected layers, with the final layer using softmax activation for class probabilities. The training data used was from the [Google Quick, Draw! dataset](https://quickdraw.withgoogle.com/data). The model currently recognizes 38 different drawings which are all directly mapped to tiles in our dictionary. The model is lightweight enough to be run on mobile devices with a quick inference time. See the model architecture below. 
-![CNN Architecture Diagram](../../static/img/CNN_diagram.png)
+
+![CNN Architecture Diagram](/img/cnn_diagram.png)
 
 ### Image Recognition
 
