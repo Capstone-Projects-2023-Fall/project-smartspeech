@@ -59,17 +59,19 @@ export const tests = describe("SelectedTilesActionBar", () => {
             </TileProvider>
         );
 
-        const { container, wordBox, speakBtn, clearBtn } = actionBarDataTestIds;
+        const { container, wordBox, speakBtn, clearBtn, toggleCamBtn } = actionBarDataTestIds;
 
         const containerElement = screen.getByTestId(container);
         const wordBoxElement = screen.getByTestId(wordBox);
         const speakBtnElement = screen.getByTestId(speakBtn);
         const clearBtnElement = screen.getByTestId(clearBtn);
+        const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
 
         expect(containerElement).toBeInTheDocument();
         expect(wordBoxElement).toBeInTheDocument();
         expect(speakBtnElement).toBeInTheDocument();
         expect(clearBtnElement).toBeInTheDocument();
+        expect(toggleCamBtnElement).toBeInTheDocument();
     });
 
     it("should add tiles correctly when tiles are pressed", () => {
@@ -213,4 +215,37 @@ export const tests = describe("SelectedTilesActionBar", () => {
         expect(actionBarTileVisualAAfterClear).not.toBeInTheDocument();
         expect(actionBarTileVisualBAfterClear).not.toBeInTheDocument();
     });
+
+    it("should toggle the camera feature off, then on", () => {
+        render(
+            <TileProvider>
+                <UtteredTilesProvider>
+                    <SelectedTilesActionBar />
+                    <Tiles />
+                </UtteredTilesProvider>
+            </TileProvider>
+        );
+
+        const { toggleCamBtn, cameraIconOn, cameraIconOff } = actionBarDataTestIds;
+
+        const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
+        let cameraOnElement = screen.getByTestId(cameraIconOn);
+
+        expect(toggleCamBtnElement).toBeInTheDocument();
+        expect(cameraOnElement).toBeInTheDocument();
+
+        fireEvent.click(toggleCamBtnElement);
+        
+        const cameraOffElement = screen.getByTestId(cameraIconOff);
+
+        expect(cameraOffElement).toBeInTheDocument();
+        expect(cameraOnElement).not.toBeInTheDocument();
+
+        fireEvent.click(toggleCamBtnElement);
+        
+        cameraOnElement = screen.getByTestId(cameraIconOn);
+
+        expect(cameraOnElement).toBeInTheDocument();
+        expect(cameraOffElement).not.toBeInTheDocument();
+    })
 });

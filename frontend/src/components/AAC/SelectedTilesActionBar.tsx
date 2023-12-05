@@ -1,7 +1,7 @@
 import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MiniTile from "./MiniTile";
-import { RiSpeakLine } from "react-icons/ri";
+import { RiSpeakLine, RiCameraOffFill, RiCameraFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { speak } from "@/util/AAC/Speech";
 
@@ -10,6 +10,9 @@ export const actionBarDataTestIds = {
     wordBox: "actionbar-words-box",
     speakBtn: "actionbar-speak-btn",
     clearBtn: "actionbar-clear-btn",
+    toggleCamBtn: "actionbar-toggle-camera",
+    cameraIconOn: "actionbar-camera-on-icon",
+    cameraIconOff: "actionbar-camera-off-icon"
 };
 
 /**
@@ -25,6 +28,12 @@ export default function SelectedTilesActionBar() {
 
         speak(sentence);
     };
+
+    const [cameraToggle, setCameraToggle] = useState(true);
+
+    const handleCameraToggle = () => {
+        setCameraToggle((prev) => !prev);
+    }
 
     return (
         <div className="z-50 w-full flex gap-2 p-3" data-testid={actionBarDataTestIds.container}>
@@ -42,6 +51,13 @@ export default function SelectedTilesActionBar() {
             </button>
             <button className="bg-red-400 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.clearBtn} onClick={clear}>
                 <RxCross2 className="w-12 h-12" />
+            </button>
+            <button className="bg-gray-400 p-2 rounded hover:shadow-xl" onClick={handleCameraToggle} data-testid={actionBarDataTestIds.toggleCamBtn}>
+            {
+            cameraToggle 
+            ? <RiCameraFill data-testid={actionBarDataTestIds.cameraIconOn} className="w-12 h-12" />
+            : <RiCameraOffFill data-testid={actionBarDataTestIds.cameraIconOff} className="w-12 h-12" />
+            }
             </button>
         </div>
     );
