@@ -43,6 +43,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // switching cameras
   const [cameraNum, setCameraNum] = useState(0);
 
+  // whether the user has disabled recognition
+  const [recogEnabled, setRecogEnabled] = useState(true);
+
   // create a capture function
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
@@ -51,10 +54,12 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   }, [webcamRef]);
 
   useEffect(() => {
-    capture();
+    if (recogEnabled) {
+      capture();
 
-    setCameraNum((prevNum) => prevNum + 1);
-  }, [refresh]);
+      setCameraNum((prevNum) => prevNum + 1);
+    }
+  }, [refresh, recogEnabled]);
 
   useEffect(() => {
     if (!imgSrc) return;
@@ -88,6 +93,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
         cameraNum={cameraNum}
         width={768}
         height={1024}
+        setRecogEnabled={setRecogEnabled}
       />
       {props.children}
       <p>{debug}</p>

@@ -10,6 +10,7 @@ type CameraFeedProps = {
   cameraNum: number;
   width: number;
   height: number;
+  setRecogEnabled: (b: boolean) => void;
 };
 
 export type GetScreenshotHandle = {
@@ -28,16 +29,28 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
    * Sets the active device and starts playing the feed
    */
   const setDevice = async (device: MediaDeviceInfo) => {
-    if (!videoPlayer.current) return;
+    if (!videoPlayer.current) return false;
 
     const { deviceId } = device;
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { deviceId },
-    });
 
-    videoPlayer.current.srcObject = stream;
-    videoPlayer.current.play().catch(e => console.log("Could not start video player"));
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { deviceId },
+      });
+  
+      videoPlayer.current.srcObject = stream;
+      videoPlayer.current.play().catch(e => console.log("Could not start video player"));
+      return true;
+    } catch (e: any) {
+      if (e instanceof DOMException && e.message === "NotAllowedError") {
+        console.log("Not given permission to use camera. Stopping video recognition.");
+        return false;
+      } else {
+        console.log("There was some error trying to use image recognition. Trying again next loop...");
+        return true;
+      }
+    }
   };
 
   // On component mounting, we want to select a camera to take pictures from
@@ -46,9 +59,11 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
       const cameras = await navigator.mediaDevices.enumerateDevices();
 
       const videoDevices = cameras.filter((info) => info.kind == "videoinput");
-      setDevice(videoDevices[props.cameraNum % videoDevices.length]);
+      setDevice(videoDevices[props.cameraNum % videoDevices.length]).then(b => {
+        if (b) props.setRecogEnabled(false);
+      });
     })();
-  }, [props.cameraNum]);
+  }, [props.cameraNum, props.setRecogEnabled]);
 
   /**
    * Handles taking a still image from the video feed on the camera
