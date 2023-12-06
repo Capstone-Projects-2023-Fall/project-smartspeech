@@ -18,6 +18,8 @@ import CameraFeed, { GetScreenshotHandle } from "./CameraFeed";
 
 const RekognitionContext = createContext<RekognitionState>({
   items: [],
+  toggle: true,
+  toggleCamera() {}
 });
 
 export const MIME_TYPE = "image/png";
@@ -32,6 +34,8 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // provider state
   const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
   const refresh = useTimedIncrement(INCREMENT_INTERVAL);
+  const [toggle, setCameraToggle] = useState(true);
+  const toggleCamera = () => setCameraToggle((prev) => !prev);
 
   //! debug
   const [debug, setDebug] = useState<string>("");
@@ -43,9 +47,6 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // switching cameras
   const [cameraNum, setCameraNum] = useState(0);
 
-  // whether the user has disabled recognition
-  const [recogEnabled, setRecogEnabled] = useState(true);
-
   // create a capture function
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
@@ -54,11 +55,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   }, [webcamRef]);
 
   useEffect(() => {
-    if (recogEnabled) {
-      capture();
-
-      setCameraNum((prevNum) => prevNum + 1);
-    }
+    if(!toggle) return;
+    capture();
+    setCameraNum((prevNum) => prevNum + 1);
   }, [refresh, recogEnabled]);
 
   useEffect(() => {
@@ -84,6 +83,8 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   const value = {
     items,
+    toggle,
+    toggleCamera
   };
 
   return (

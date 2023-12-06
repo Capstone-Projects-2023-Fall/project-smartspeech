@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import * as SpeechModuleMock from "../../util/AAC/Speech";
 import UtteredTilesProvider from "../../react-state-management/providers/useUtteredTiles";
 import SelectedTilesActionBar, { actionBarDataTestIds } from "./SelectedTilesActionBar";
@@ -8,6 +8,10 @@ import { getAACAssets } from "@/util/AAC/getAACAssets";
 import sampleData from "@/data/testing/AAC/Tiles";
 import { computeTileContainerName } from "./Tile";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
+import RekognitionProvider from "@/react-state-management/providers/useRekognition";
+
+jest.mock("../../react-state-management/providers/CameraFeed");
+
 
 jest.mock("../../util/AAC/Speech", () => {
     return {
@@ -59,17 +63,19 @@ export const tests = describe("SelectedTilesActionBar", () => {
             </TileProvider>
         );
 
-        const { container, wordBox, speakBtn, clearBtn } = actionBarDataTestIds;
+        const { container, wordBox, speakBtn, clearBtn, toggleCamBtn } = actionBarDataTestIds;
 
         const containerElement = screen.getByTestId(container);
         const wordBoxElement = screen.getByTestId(wordBox);
         const speakBtnElement = screen.getByTestId(speakBtn);
         const clearBtnElement = screen.getByTestId(clearBtn);
+        const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
 
         expect(containerElement).toBeInTheDocument();
         expect(wordBoxElement).toBeInTheDocument();
         expect(speakBtnElement).toBeInTheDocument();
         expect(clearBtnElement).toBeInTheDocument();
+        expect(toggleCamBtnElement).toBeInTheDocument();
     });
 
     it("should add tiles correctly when tiles are pressed", () => {
@@ -213,4 +219,39 @@ export const tests = describe("SelectedTilesActionBar", () => {
         expect(actionBarTileVisualAAfterClear).not.toBeInTheDocument();
         expect(actionBarTileVisualBAfterClear).not.toBeInTheDocument();
     });
+
+    it("should toggle the camera feature off, then on", () => {
+        render(
+            <TileProvider>
+                <RekognitionProvider>
+                    <UtteredTilesProvider>
+                        <SelectedTilesActionBar />
+                        <Tiles />
+                    </UtteredTilesProvider>
+                </RekognitionProvider>
+            </TileProvider>
+        );
+
+        const { toggleCamBtn, cameraIconOn, cameraIconOff } = actionBarDataTestIds;
+
+        const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
+        let cameraOnElement = screen.getByTestId(cameraIconOn);
+
+        expect(toggleCamBtnElement).toBeInTheDocument();
+        expect(cameraOnElement).toBeInTheDocument();
+
+        act(() => fireEvent.click(toggleCamBtnElement));
+        
+        const cameraOffElement = screen.getByTestId(cameraIconOff);
+
+        expect(cameraOffElement).toBeInTheDocument();
+        expect(cameraOnElement).not.toBeInTheDocument();
+
+        fireEvent.click(toggleCamBtnElement);
+        
+        cameraOnElement = screen.getByTestId(cameraIconOn);
+
+        expect(cameraOnElement).toBeInTheDocument();
+        expect(cameraOffElement).not.toBeInTheDocument();
+    })
 });
