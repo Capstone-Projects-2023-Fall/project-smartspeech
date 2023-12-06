@@ -38,12 +38,13 @@ const CustomTileForm: React.FC = () => {
   postData.append('tileColor', formData.tileColor);
   postData.append('email', formData.email);
 
+  console.log(postData);
+
  // extract the image filename for the extension
  const extension= path.extname(formData.image); 
  formData.imageExt = extension;
 
-
-// make api call
+// make api call to the custom tile backend with a POST request
 fetch(url + '/custom-tile', {
     method: 'POST',
     body: postData,
@@ -71,7 +72,7 @@ fetch(url + '/custom-tile', {
         <div className='text-m font-bold'>
         Upload Image File:&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <input className='border-black rounded-md shadow-lg' type="file" name="image" value={formData.image} onChange={handleInputChange} />
+        <input className='border-black rounded-md shadow-lg' type="file" name="image" value={formData.image} required onChange={handleInputChange} />
       </label>
       <br/>
       <br/>
@@ -79,7 +80,7 @@ fetch(url + '/custom-tile', {
         <div className='text-m font-bold'>
         Enter Tile Text Sound Associate:&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <input className='border-black rounded-md shadow-lg' type="sound" name="sound" value={formData.sound} onChange={handleInputChange} />
+        <input className='border-black rounded-md shadow-lg' type="sound" name="sound" value={formData.sound} required onChange={handleInputChange} />
       </label>
       <br/>
       <br/>
@@ -87,7 +88,7 @@ fetch(url + '/custom-tile', {
       <div className='text-m font-bold'>
         Enter Tile Name:&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <input className='border-black rounded-md shadow-lg' type="text" name="text" value={formData.text} onChange={handleInputChange} />
+        <input className='border-black rounded-md shadow-lg' type="text" name="text" value={formData.text} required onChange={handleInputChange} />
       </label>  
       <br/>
       <br/>
@@ -95,7 +96,7 @@ fetch(url + '/custom-tile', {
       <div className='text-m font-bold'>
         Enter Tile Color (red, orange, yellow, green, blue, & purple):&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <input className=' border-black rounded-md shadow-lg' type="text" name="tileColor" value={formData.tileColor} onChange={handleInputChange} />
+        <input className=' border-black rounded-md shadow-lg' type="text" name="tileColor" value={formData.tileColor} required onChange={handleInputChange} />
       </label>
       <br/>
       <br/>
@@ -103,7 +104,7 @@ fetch(url + '/custom-tile', {
       <div className='text-m font-bold'>
         Enter Email: &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <input className='border-black rounded-md shadow-lg' type="email" name="email" value={formData.email} onChange={handleInputChange} />
+        <input className='border-black rounded-md shadow-lg' type="email" name="email" value={formData.email} required onChange={handleInputChange} />
       </label>
       <br/>
       <br/>
