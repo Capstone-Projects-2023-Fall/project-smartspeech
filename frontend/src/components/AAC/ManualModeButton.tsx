@@ -4,6 +4,7 @@ import { useManualModeModelContext } from "@/react-state-management/providers/Ma
 import { useLoginProviderContext } from "@/react-state-management/providers/LoginPopupProvider";
 
 import { LongPressEventType, useLongPress } from "use-long-press";
+import { useRouter } from "next/router";
 
 export const ManualBtnTestIds = {
     toggleManualBtn: "mbt-return-button",
@@ -13,10 +14,9 @@ export default function ManualModeButton() {
     const [isOpen, toggleModal] = useManualModeModelContext();
     const [isLoginOpen, toggleLoginOpen] = useLoginProviderContext();
 
-
     const toggleModelHandler = () => {
         toggleModal();
-    }
+    };
 
     const bind = useLongPress(() => {}, {
         onFinish: () => {
