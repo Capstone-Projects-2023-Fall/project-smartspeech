@@ -38,6 +38,11 @@ const CustomTileForm: React.FC = () => {
   postData.append('tileColor', formData.tileColor);
   postData.append('email', formData.email);
 
+ // extract the image filename for the extension
+ const extension= path.extname(formData.image); 
+ formData.imageExt = extension;
+
+
  
 
   return (
