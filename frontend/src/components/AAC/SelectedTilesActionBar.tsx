@@ -4,6 +4,7 @@ import MiniTile from "./MiniTile";
 import { RiSpeakLine, RiCameraOffFill, RiCameraFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { speak } from "@/util/AAC/Speech";
+import { useRekognition } from "@/react-state-management/providers/useRekognition";
 
 export const actionBarDataTestIds = {
     container: "actionbar-container",
@@ -29,11 +30,7 @@ export default function SelectedTilesActionBar() {
         speak(sentence);
     };
 
-    const [cameraToggle, setCameraToggle] = useState(true);
-
-    const handleCameraToggle = () => {
-        setCameraToggle((prev) => !prev);
-    }
+    const {toggle, toggleCamera} = useRekognition();
 
     return (
         <div className="z-50 w-full flex gap-2 p-3" data-testid={actionBarDataTestIds.container}>
@@ -52,9 +49,9 @@ export default function SelectedTilesActionBar() {
             <button className="bg-red-400 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.clearBtn} onClick={clear}>
                 <RxCross2 className="w-12 h-12" />
             </button>
-            <button className="bg-gray-400 p-2 rounded hover:shadow-xl" onClick={handleCameraToggle} data-testid={actionBarDataTestIds.toggleCamBtn}>
+            <button className="bg-gray-400 p-2 rounded hover:shadow-xl" onClick={toggleCamera} data-testid={actionBarDataTestIds.toggleCamBtn}>
             {
-            cameraToggle 
+            toggle 
             ? <RiCameraFill data-testid={actionBarDataTestIds.cameraIconOn} className="w-12 h-12" />
             : <RiCameraOffFill data-testid={actionBarDataTestIds.cameraIconOff} className="w-12 h-12" />
             }

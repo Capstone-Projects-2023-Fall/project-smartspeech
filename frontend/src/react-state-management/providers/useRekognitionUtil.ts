@@ -16,6 +16,8 @@ export type BackendRekognitionResponse = RekognitionDetectLabelSingleResponse[] 
 
 export interface RekognitionState {
     items: TileProps[];
+    toggle: boolean;
+    toggleCamera: () => void
 }
 
 export interface RekognitionProviderProps {
