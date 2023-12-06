@@ -12,6 +12,23 @@ const CustomTileForm: React.FC = () => {
     email: '', 
   });
 
+  // Define the url for the backend
+  const url = process.env.NEXT_PUBLIC_PROG_MODE === 'PROD' ? process.env.NEXT_PUBLIC_BACKEND_URL_PROD : process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
+  
+  // changes input data as a file or text
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+// activate the submit button
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+  }
+
   return (
     <div>
     <div className='text-xl font-bold text-center justify-center'> 
