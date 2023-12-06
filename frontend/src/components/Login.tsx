@@ -4,10 +4,12 @@ import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
 import Canvas from "@/components/AAC/Canvas";
 
+import CustomTileForm from "./AAC/CustomTileInput";
 import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import SuggestedTiles from "./AAC/SuggestedTile";
 import { useLoginProviderContext } from "@/react-state-management/providers/LoginPopupProvider";
+
 
 export default function Login() {
     const { data: session, status } = useSession();
@@ -19,6 +21,7 @@ export default function Login() {
             <>
                 <div className="bg-white flex flex-col justify-center items-center">
                     <p>Signed in as {session?.user?.email}</p>
+                    
                 </div>
 
                 <div>
