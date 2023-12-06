@@ -13,7 +13,7 @@ export default function Navbar() {
     const { status } = useSession();
 
     return (
-        <nav className="bg-white dark:bg-gray-900 border-black border-b-2" data-testid={NavbarTestIds.container}>
+        <nav className="bg-white dark:bg-gray-900 border-black border-b-2 shadow-xl" data-testid={NavbarTestIds.container}>
             <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
                 <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse" data-testid={NavbarTestIds.linkToHome}>
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SmartSpeech Custom-Tiles</span>

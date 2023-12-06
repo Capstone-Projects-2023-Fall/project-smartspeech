@@ -1,6 +1,7 @@
 import Navbar from "@/components/CustomTiles/Navbar";
 import DangerAlert from "@/components/util/DangerAlert";
 import { CustomTilesLoadingSpinner } from "@/components/util/LoadingSpinner";
+import TileProvider from "@/react-state-management/providers/tileProvider";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -26,6 +27,7 @@ export default function CustomTiles() {
         toRender = (
             <>
                 <Navbar />
+                
             </>
         );
 
@@ -46,5 +48,9 @@ export default function CustomTiles() {
         );
     }
 
-    return <div className="font-inter">{toRender}</div>;
+    return (
+        <div className="font-inter">
+            <TileProvider>{toRender}</TileProvider>
+        </div>
+    );
 }
