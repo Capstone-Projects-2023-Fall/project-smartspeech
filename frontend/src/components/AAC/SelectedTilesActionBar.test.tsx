@@ -63,18 +63,21 @@ export const tests = describe("SelectedTilesActionBar", () => {
             </TileProvider>
         );
 
-        const { container, wordBox, speakBtn, clearBtn, toggleCamBtn } = actionBarDataTestIds;
+        const { container, wordBox, speakBtn, clearBtn, toggleCamBtn, backspaceBtn } = actionBarDataTestIds;
 
         const containerElement = screen.getByTestId(container);
         const wordBoxElement = screen.getByTestId(wordBox);
         const speakBtnElement = screen.getByTestId(speakBtn);
         const clearBtnElement = screen.getByTestId(clearBtn);
         const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
+        const backspaceBtnElement = screen.getByTestId(backspaceBtn);
+
 
         expect(containerElement).toBeInTheDocument();
         expect(wordBoxElement).toBeInTheDocument();
         expect(speakBtnElement).toBeInTheDocument();
         expect(clearBtnElement).toBeInTheDocument();
+        expect(backspaceBtnElement).toBeInTheDocument();
         expect(toggleCamBtnElement).toBeInTheDocument();
     });
 
@@ -167,6 +170,66 @@ export const tests = describe("SelectedTilesActionBar", () => {
         fireEvent.click(speakBtnElement);
 
         expect(SpeechModuleMock.speak).toBeCalledWith(textToBeSpoken);
+    });
+
+    it("should remove the last element on the click of the backspace button", () => {
+        // we need tiles to help add buttons into action bar
+        render(
+            <TileProvider>
+                <UtteredTilesProvider>
+                    <SelectedTilesActionBar />
+                    <Tiles />
+                </UtteredTilesProvider>
+            </TileProvider>
+        );
+
+        const { container, wordBox, speakBtn, backspaceBtn } = actionBarDataTestIds;
+
+        const containerElement = screen.getByTestId(container);
+        const wordBoxElement = screen.getByTestId(wordBox);
+        const speakBtnElement = screen.getByTestId(speakBtn);
+        const backspaceBtnElement = screen.getByTestId(backspaceBtn);
+
+        expect(containerElement).toBeInTheDocument();
+        expect(wordBoxElement).toBeInTheDocument();
+        expect(speakBtnElement).toBeInTheDocument();
+        expect(backspaceBtnElement).toBeInTheDocument();
+
+        // find random tile to click
+        const sampleTileA = screen.getByTestId(computeTileContainerName(sampleData.good.text));
+        const sampleTileB = screen.getByTestId(computeTileContainerName(sampleData.ai.text));
+
+        expect(sampleTileA).toBeInTheDocument();
+        expect(sampleTileB).toBeInTheDocument();
+
+        // click it!
+        fireEvent.click(sampleTileA);
+        fireEvent.click(sampleTileB);
+
+        // see if those same tiles were found in the action bar
+        const actionBarTileVisualA = screen.getByTestId(`mini-tile-container-${sampleData.good.text}`);
+        const actionBarTileVisualB = screen.getByTestId(`mini-tile-container-${sampleData.ai.text}`);
+
+        expect(actionBarTileVisualA).toBeInTheDocument();
+        expect(actionBarTileVisualB).toBeInTheDocument();
+
+        // fire backspace event
+        fireEvent.click(backspaceBtnElement);
+
+        const actionBarTileVisualAAfterBackspace = screen.queryByTestId(`mini-tile-container-${sampleData.good.text}`);
+        const actionBarTileVisualBAfterBackspace = screen.queryByTestId(`mini-tile-container-${sampleData.ai.text}`);
+
+        expect(actionBarTileVisualAAfterBackspace).toBeInTheDocument();
+        expect(actionBarTileVisualBAfterBackspace).not.toBeInTheDocument();
+
+        // One more backspace event
+        fireEvent.click(backspaceBtnElement);
+
+        const actionBarTileVisualAAfter2Backspace = screen.queryByTestId(`mini-tile-container-${sampleData.good.text}`);
+        const actionBarTileVisualBAfter2Backspace = screen.queryByTestId(`mini-tile-container-${sampleData.ai.text}`);
+
+        expect(actionBarTileVisualAAfter2Backspace).not.toBeInTheDocument();
+        expect(actionBarTileVisualBAfter2Backspace).not.toBeInTheDocument();
     });
 
     it("should clear elements on the click of the clear button", () => {
