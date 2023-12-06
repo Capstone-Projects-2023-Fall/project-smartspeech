@@ -43,7 +43,21 @@ const CustomTileForm: React.FC = () => {
  formData.imageExt = extension;
 
 
- 
+// make api call
+fetch(url + '/custom-tile', {
+    method: 'POST',
+    body: postData,
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      // Handle the response data
+      console.log("response", response);
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.log("error", error);
+    });
+
 
   return (
     <div>
