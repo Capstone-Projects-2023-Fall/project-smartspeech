@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import * as SpeechModuleMock from "../../util/AAC/Speech";
 import UtteredTilesProvider from "../../react-state-management/providers/useUtteredTiles";
 import SelectedTilesActionBar, { actionBarDataTestIds } from "./SelectedTilesActionBar";
@@ -8,6 +8,10 @@ import { getAACAssets } from "@/util/AAC/getAACAssets";
 import sampleData from "@/data/testing/AAC/Tiles";
 import { computeTileContainerName } from "./Tile";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
+import RekognitionProvider from "@/react-state-management/providers/useRekognition";
+
+jest.mock("../../react-state-management/providers/CameraFeed");
+
 
 jest.mock("../../util/AAC/Speech", () => {
     return {
@@ -219,10 +223,12 @@ export const tests = describe("SelectedTilesActionBar", () => {
     it("should toggle the camera feature off, then on", () => {
         render(
             <TileProvider>
-                <UtteredTilesProvider>
-                    <SelectedTilesActionBar />
-                    <Tiles />
-                </UtteredTilesProvider>
+                <RekognitionProvider>
+                    <UtteredTilesProvider>
+                        <SelectedTilesActionBar />
+                        <Tiles />
+                    </UtteredTilesProvider>
+                </RekognitionProvider>
             </TileProvider>
         );
 
@@ -234,7 +240,7 @@ export const tests = describe("SelectedTilesActionBar", () => {
         expect(toggleCamBtnElement).toBeInTheDocument();
         expect(cameraOnElement).toBeInTheDocument();
 
-        fireEvent.click(toggleCamBtnElement);
+        act(() => fireEvent.click(toggleCamBtnElement));
         
         const cameraOffElement = screen.getByTestId(cameraIconOff);
 
