@@ -29,6 +29,17 @@ const CustomTileForm: React.FC = () => {
     event.preventDefault();
   }
 
+//collects the input data as list to use later
+  const postData = new FormData();
+  postData.append('image', formData.image);
+  postData.append('imageExt', formData.imageExt);
+  postData.append('sound', formData.sound);
+  postData.append('text', formData.text);
+  postData.append('tileColor', formData.tileColor);
+  postData.append('email', formData.email);
+
+ 
+
   return (
     <div>
     <div className='text-xl font-bold text-center justify-center'> 
