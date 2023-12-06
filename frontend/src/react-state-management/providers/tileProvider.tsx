@@ -1,6 +1,8 @@
 import { FlatTileAssets, TileAssets } from "@/components/AAC/TileTypes";
 import { getTileFlatList } from "@/data/testing/AAC/flatListDataFile";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
+import getTilesByEmail, { GetTileData } from "@/util/CustomTile/getTilesByEmail";
+import { useSession } from "next-auth/react";
 import React, { useState, useContext, createContext, useEffect } from "react";
 
 interface TilesContext {
@@ -28,6 +30,9 @@ export interface TileProviderProps {
 export default function TileProvider({ children }: TileProviderProps) {
     const [tiles, setTiles] = useState<TileAssets>({});
     const [flatList, setFlatList] = useState<FlatTileAssets>({});
+    const [customTiles, setCustomTiles] = useState<GetTileData[]>([]);
+
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         // replace with actual tile getter
@@ -40,6 +45,18 @@ export default function TileProvider({ children }: TileProviderProps) {
         const flatTileRes = getTileFlatList();
         setFlatList(flatTileRes);
     }, []);
+
+    useEffect(() => {
+        const email = session?.user?.email;
+        if (!email || status !== "authenticated") return;
+
+        const customTileDataPromise = getTilesByEmail(email).then((tiles) => {
+            if (!tiles) return;
+            setCustomTiles(tiles);
+        });
+
+        customTileDataPromise.catch((error) => console.log(error));
+    }, [session?.user?.email, status]);
 
     const value: TilesContext = {
         tiles,
