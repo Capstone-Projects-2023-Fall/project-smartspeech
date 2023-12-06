@@ -23,5 +23,5 @@ export default function useProtectedPageRoute(props: useProtectedPageRouteProps)
     useEffect(() => {
         if (status !== "unauthenticated") return;
         router.push(props.rerouteAddr);
-    }, []);
+    }, [router]);
 }

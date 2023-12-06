@@ -1,13 +1,50 @@
-import useProtectedPageRoute from "@/react-helpers/hooks/useProtectedPageRoute";
-import { useSession } from "next-auth/react";
+import Navbar from "@/components/CustomTiles/Navbar";
+import DangerAlert from "@/components/util/DangerAlert";
+import { CustomTilesLoadingSpinner } from "@/components/util/LoadingSpinner";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 export default function CustomTiles() {
-    const { data: session } = useSession();
-    
-	useProtectedPageRoute({
-        rerouteAddr: "/",
-    });
+    const { data: session, status } = useSession();
 
-    return <div></div>;
+    let toRender: React.ReactNode = null;
+
+    if (status === "loading") {
+        toRender = (
+            <>
+                <Navbar />
+                <div className="my-6 w-full flex flex-col items-center gap-4">
+                    <CustomTilesLoadingSpinner />
+                    <p className="font-semibold text-xl mt-4">Loading Your Information.</p>
+                </div>
+            </>
+        );
+    }
+
+    if (status === "authenticated")
+        toRender = (
+            <>
+                <Navbar />
+            </>
+        );
+
+    if (status === "unauthenticated") {
+        toRender = (
+            <>
+                <Navbar />
+                <section className="p-4 font-semi">
+                    <DangerAlert>
+                        You are currently not signed in. Please{" "}
+                        <Link href="#" onClick={() => signIn()} className="font-semibold hover:text-blue-600 underline">
+                            Sign in
+                        </Link>{" "}
+                        to access the Custom Tiles feature.
+                    </DangerAlert>
+                </section>
+            </>
+        );
+    }
+
+    return <div className="font-inter">{toRender}</div>;
 }
