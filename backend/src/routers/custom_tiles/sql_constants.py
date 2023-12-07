@@ -19,7 +19,7 @@ INSERT_CUSTOM_TILE_QUERY = (
 )
 
 GET_CUSTOM_TILE_QUERY = (
-    "SELECT ImageURL, UserEmail, TextAssociated, SoundAssociated, TileColor "
+    "SELECT CustomTileID, ImageURL, UserEmail, TextAssociated, SoundAssociated, TileColor "
     "FROM SmartSpeechCustomTiles.CustomTiles "
     "WHERE UserEmail = %s"
 )

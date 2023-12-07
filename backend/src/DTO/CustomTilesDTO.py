@@ -10,9 +10,10 @@ def mapCustomTileEntryToJson(entry: Tuple[str]):
 		dict with those mappings for JSON Transfer 
 	"""
 
-	(ImageURL, UserEmail, TextAssociated, SoundAssociated, TileColor) = entry
+	(CustomTileID, ImageURL, UserEmail, TextAssociated, SoundAssociated, TileColor) = entry
 
 	return {
+		'id': CustomTileID,
 		'url': ImageURL,
 		'email': UserEmail,
 		'text': TextAssociated,

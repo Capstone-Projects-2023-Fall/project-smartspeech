@@ -65,6 +65,8 @@ def getTilesByEmail(connection: MySQLConnection, email: str):
 	cursor.execute(GET_CUSTOM_TILE_QUERY, (email,))
 
 	rows = cursor.fetchall()
+
+	print(rows)
 	JSONrows = list(map(mapCustomTileEntryToJson, rows))
 
 	cursor.close()
