@@ -47,6 +47,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // switching cameras
   const [cameraNum, setCameraNum] = useState(0);
 
+  // Disabling camera when user blocks permissions
+  const [hasPermissions, setHasPermissions] = useState(true);
+
   // create a capture function
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
@@ -55,11 +58,10 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   }, [webcamRef]);
 
   useEffect(() => {
-    if(!toggle) return;
+    if(!toggle || !hasPermissions) return;
     capture();
-
     setCameraNum((prevNum) => prevNum + 1);
-  }, [refresh]);
+  }, [refresh, toggle, hasPermissions]);
 
   useEffect(() => {
     if (!imgSrc) return;
@@ -90,12 +92,14 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed
-        ref={webcamRef}
-        cameraNum={cameraNum}
-        width={768}
-        height={1024}
-      />
+      {(hasPermissions && toggle) && 
+        <CameraFeed
+          ref={webcamRef}
+          cameraNum={cameraNum}
+          width={768}
+          height={1024}
+          setHasPermissions={setHasPermissions}
+        />}
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
