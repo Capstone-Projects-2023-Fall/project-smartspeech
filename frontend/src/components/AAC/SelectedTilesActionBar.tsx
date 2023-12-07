@@ -1,7 +1,7 @@
 import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
 import React, { useEffect, useState } from "react";
 import MiniTile from "./MiniTile";
-import { RiSpeakLine, RiCameraOffFill, RiCameraFill } from "react-icons/ri";
+import { RiSpeakLine, RiCameraOffFill, RiCameraFill, RiDeleteBack2Fill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { speak } from "@/util/AAC/Speech";
 import { useRekognition } from "@/react-state-management/providers/useRekognition";
@@ -11,6 +11,7 @@ export const actionBarDataTestIds = {
     wordBox: "actionbar-words-box",
     speakBtn: "actionbar-speak-btn",
     clearBtn: "actionbar-clear-btn",
+    backspaceBtn: "actionbar-backspace-btn",
     toggleCamBtn: "actionbar-toggle-camera",
     cameraIconOn: "actionbar-camera-on-icon",
     cameraIconOff: "actionbar-camera-off-icon"
@@ -21,7 +22,7 @@ export const actionBarDataTestIds = {
  * and a button the clear the list of tiles.
  */
 export default function SelectedTilesActionBar() {
-    const { tiles, clear } = useUtteredTiles();
+    const { tiles, clear, removeLastTile } = useUtteredTiles();
 
     const handleSpeak = () => {
         const validTilesSounds = tiles.filter((tile) => Boolean(tile.sound)).map((tile) => tile.sound);
@@ -46,10 +47,13 @@ export default function SelectedTilesActionBar() {
             <button className="bg-green-400 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.speakBtn} onClick={handleSpeak}>
                 <RiSpeakLine className="w-12 h-12" />
             </button>
+            <button className="bg-yellow-300 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.backspaceBtn} onClick={removeLastTile}>
+                <RiDeleteBack2Fill className="w-12 h-12" />
+            </button>
             <button className="bg-red-400 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.clearBtn} onClick={clear}>
                 <RxCross2 className="w-12 h-12" />
             </button>
-            <button className="bg-gray-400 p-2 rounded hover:shadow-xl" onClick={toggleCamera} data-testid={actionBarDataTestIds.toggleCamBtn}>
+            <button className={`${toggle ? "bg-gray-400" : "bg-gray-600"} p-2 rounded hover:shadow-xl`} onClick={toggleCamera} data-testid={actionBarDataTestIds.toggleCamBtn}>
             {
             toggle 
             ? <RiCameraFill data-testid={actionBarDataTestIds.cameraIconOn} className="w-12 h-12" />
