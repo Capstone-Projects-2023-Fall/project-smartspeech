@@ -66,6 +66,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
                 width={176}
                 height={176}
                 className="w-auto h-32 object-cover 2xl-max:h-24 lg-max:h-20 xs-max:h-12"
+                draggable="false"
                 data-testid="tile-image"
             />
         </div>
