@@ -6,6 +6,8 @@ import { useInferenceContext } from "@/react-state-management/providers/Inferenc
 import useSize from "@/react-helpers/hooks/useSize";
 import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
+import { Ri24HoursFill, RiArrowGoBackFill, RiDeleteBack2Fill } from "react-icons/ri";
+
 
 interface ParentDivDims {
     width?: number;
@@ -94,23 +96,21 @@ export default function Canvas() {
                         className="z-10 p-2 rounded-md border-black border-2 shadow-lg clear-button"
                         data-testid="clearImage"
                         onClick={() => clearCanvas()}
+                        draggable="false"
+                        
                     />
-                    <button
-                        type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
-                        data-testid="checkImage"
-                        onClick={handlePred}
-                    >
-                        Check Image
-                    </button>
-                    <button
-                        type="button"
-                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg  text-bold"
+
+                    <img
+                        src="/AAC_assets/img/standard/undostroke.png"
+                        alt="undo-stroke"
+                        className="z-10 p-2 rounded-md border-black border-2 shadow-lg clear-button"
                         data-testid="undo-stroke"
                         onClick={undoStroke}
-                    >
-                        Undo
-                    </button>
+                        draggable="false"
+                  
+                    />
+        
+                   
                 </div>
 
                 {

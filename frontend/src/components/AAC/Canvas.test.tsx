@@ -18,8 +18,8 @@ describe("Renders Canvas", () => {
         //checking for all three elements on page
         const clearButton = screen.getByTestId("clearImage");
         expect(clearButton).toBeInTheDocument;
-        const checkButton = screen.getByText("Check Image");
-        expect(checkButton).toBeInTheDocument;
+        const undoButton = screen.getByTestId("undo-stroke");
+        expect(undoButton).toBeInTheDocument;
         const canvasElement = screen.getByTestId("my-canvas");
         expect(canvasElement).toBeInTheDocument;
     });
