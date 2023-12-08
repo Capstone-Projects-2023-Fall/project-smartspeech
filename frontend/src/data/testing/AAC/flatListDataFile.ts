@@ -43,12 +43,6 @@ const flatList: FlatTileAssets = {
         sound: "Red",
         tileColor: "orange",
     },
-    gray: {
-        image: "/AAC_assets/img/colors/gray.png",
-        text: "Gray",
-        sound: "Gray",
-        tileColor: "orange",
-    },
     ai: {
         image: "/AAC_assets/img/ai/ChatGPT.png",
         text: "ChatGPT",
@@ -271,7 +265,7 @@ const flatList: FlatTileAssets = {
         sound: "Hat",
         tileColor: "purple",
     },
-    shoes: {
+    shoe: {
         image: "/AAC_assets/img/clothes/shoes.png",
         text: "Shoes",
         sound: "Shoes",
@@ -983,6 +977,48 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/tools/camera.png",
         text: "Camera",
         sound: "Camera",
+        tileColor: "blue",
+    },
+    computer: {
+        image: "/AAC_assets/img/tools/computer.png",
+        text: "Computer",
+        sound: "Computer",
+        tileColor: "blue",
+    },
+    mobile: {
+        image: "/AAC_assets/img/tools/mobile.png",
+        text: "Mobile",
+        sound: "Mobile",
+        tileColor: "blue",
+    },
+    sweets: {
+        image: "/AAC_assets/img/food/sweets.png",
+        text: "Sweets",
+        sound: "Sweets",
+        tileColor: "blue",
+    },
+    lighting: {
+        image: "/AAC_assets/img/house/lighting.png",
+        text: "Lighting",
+        sound: "Lighting",
+        tileColor: "blue",
+    },
+    biscuit: {
+        image: "/AAC_assets/img/food/biscuit.png",
+        text: "Biscuit",
+        sound: "Biscuit",
+        tileColor: "blue",
+    },
+    wall: {
+        image: "/AAC_assets/img/house/wall.png",
+        text: "Wall",
+        sound: "Wall",
+        tileColor: "blue",
+    },
+    plane: {
+        image: "/AAC_assets/img/things/plane.png",
+        text: "Plane",
+        sound: "Plane",
         tileColor: "blue",
     },
 };

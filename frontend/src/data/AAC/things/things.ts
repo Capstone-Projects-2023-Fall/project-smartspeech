@@ -35,6 +35,12 @@ const things: TileAssets = {
         sound: "Car",
         tileColor: THINGS_TILES_COLOR,
     },
+    plane: {
+        image: "/AAC_assets/img/things/plane.png",
+        text: "Plane",
+        sound: "Plane",
+        tileColor: THINGS_TILES_COLOR,
+    },
     flower: {
         image: "/AAC_assets/img/things/flower.png",
         text: "Flower",
@@ -101,6 +107,18 @@ const things: TileAssets = {
         image: "/AAC_assets/img/things/tv.png",
         text: "TV",
         sound: "TV",
+        tileColor: THINGS_TILES_COLOR,
+    },
+    computer: {
+        image: "/AAC_assets/img/things/computer.png",
+        text: "Computer",
+        sound: "Computer",
+        tileColor: THINGS_TILES_COLOR,
+    },
+    mobile: {
+        image: "/AAC_assets/img/things/mobile.png",
+        text: "Mobile",
+        sound: "Mobile",
         tileColor: THINGS_TILES_COLOR,
     },
 };

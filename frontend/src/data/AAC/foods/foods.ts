@@ -99,6 +99,18 @@ const foods: TileAssets = {
         sound: "Hotdog",
         tileColor: FOODS_TILES_COLOR,
     },
+    sweets: {
+        image: "/AAC_assets/img/food/sweets.png",
+        text: "Sweets",
+        sound: "Sweets",
+        tileColor: FOODS_TILES_COLOR,
+    },
+    biscuit: {
+        image: "/AAC_assets/img/food/biscuit.png",
+        text: "Biscuit",
+        sound: "Biscuit",
+        tileColor: FOODS_TILES_COLOR,
+    },
     vegetable: {
         image: "/AAC_assets/img/food/vegetable.png",
         text: "Vegetable",

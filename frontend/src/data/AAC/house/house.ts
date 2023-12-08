@@ -56,6 +56,18 @@ const house: TileAssets ={
         text: "Chair",
         sound: "Chair",
         tileColor: HOUSE_TILES_COLOR,
+    },
+    lighting: {
+        image: "/AAC_assets/img/house/lighting.png",
+        text: "Lighting",
+        sound: "Lighting",
+        tileColor: HOUSE_TILES_COLOR,
+    },
+    wall: {
+        image: "/AAC_assets/img/house/wall.png",
+        text: "Wall",
+        sound: "Wall",
+        tileColor: HOUSE_TILES_COLOR,
     }
 }
 export default house;
