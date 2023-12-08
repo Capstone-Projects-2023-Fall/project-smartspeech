@@ -6,6 +6,15 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = withPWA({
     reactStrictMode: false,
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "smart-speech-media.s3.amazonaws.com",
+                port: "",
+            },
+        ],
+    },
 });
 
 module.exports = nextConfig;

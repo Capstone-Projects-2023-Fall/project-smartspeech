@@ -2,12 +2,13 @@ import axios from "axios";
 import { getBackendUrl } from "../backend-url";
 
 export type GetTileData = {
+    id: number;
     url: string;
     email: string;
     text: string;
     sound: string;
     tileColor: string;
-}
+};
 
 export default async function getTilesByEmail(email: string) {
     const url = getBackendUrl();

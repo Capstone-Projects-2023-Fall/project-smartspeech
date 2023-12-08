@@ -1,3 +1,4 @@
+import CurrentTiles from "@/components/CustomTiles/CurrentTiles";
 import Navbar from "@/components/CustomTiles/Navbar";
 import DangerAlert from "@/components/util/DangerAlert";
 import { CustomTilesLoadingSpinner } from "@/components/util/LoadingSpinner";
@@ -27,7 +28,7 @@ export default function CustomTiles() {
         toRender = (
             <>
                 <Navbar />
-                
+                <CurrentTiles />
             </>
         );
 
