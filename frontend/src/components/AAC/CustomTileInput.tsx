@@ -2,63 +2,66 @@ import { image } from '@tensorflow/tfjs';
 import path from 'path';
 import React, { useState } from 'react';
 
-const CustomTileForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    image:'',
-    imageExt:'',
-    sound:'',
-    text: '',
-    tileColor: '',
-    email: '', 
-  });
-
-  // Define the url for the backend
-  const url = process.env.NEXT_PUBLIC_PROG_MODE === 'PROD' ? process.env.NEXT_PUBLIC_BACKEND_URL_PROD : process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
-  
-  // changes input data as a file or text
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-// activate the submit button
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  }
-
-//collects the input data as list to use later
-  const postData = new FormData();
-  postData.append('image', formData.image);
-  postData.append('imageExt', formData.imageExt);
-  postData.append('sound', formData.sound);
-  postData.append('text', formData.text);
-  postData.append('tileColor', formData.tileColor);
-  postData.append('email', formData.email);
-
-  console.log(postData);
-
- // extract the image filename for the extension
- const extension= path.extname(formData.image); 
- formData.imageExt = extension;
-
-// make api call to the custom tile backend with a POST request
-fetch(url + '/custom-tile', {
-    method: 'POST',
-    body: postData,
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      // Handle the response data
-      console.log("response", response);
-    })
-    .catch((error) => {
-      // Handle any errors
-      console.log("error", error);
+const CustomTileInput: React.FC = () => {
+    const [formData, setFormData] = useState({
+        image:'',
+        imageExt:'',
+        sound:'',
+        text: '',
+        tileColor: '',
+        email: '', 
     });
 
+    // Define the url for the backend
+    const url = process.env.NEXT_PUBLIC_PROG_MODE === 'PROD' ? process.env.NEXT_PUBLIC_BACKEND_URL_PROD : process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
+  
+    // changes input data as a file or text
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    };
+
+    // activate the submit button
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+  
+
+        //collects the input data as list to use later
+        const postData = new FormData();
+            postData.append('image', formData.image);
+            postData.append('imageExt', formData.imageExt);
+            postData.append('sound', formData.sound);
+            postData.append('text', formData.text);
+            postData.append('tileColor', formData.tileColor);
+            postData.append('email', formData.email);
+
+        console.log(postData);
+
+        // extract the image filename for the extension
+        const extension= path.extname(formData.image); 
+        formData.imageExt = extension;
+
+        // make api call to the custom tile backend with a POST request
+        fetch(url + '/custom-tile', {
+            method: 'POST',
+            body: postData,
+        })
+        .then((response) => response.json())
+        .then((response) => {
+        // Handle the response data
+        console.log("response", response);
+        })
+        .catch((error) => {
+        // Handle any errors
+        console.log("error", error);
+        });
+
+        // displayed the inputs
+        alert(`image:'${formData.image}', imageExt:'${formData.imageExt}', sound:'${formData.sound}', text:'${formData.text}', tileColor:'${formData.tileColor}', email:'${formData.email}'`);
+    };
 
   return (
     <div>
@@ -119,4 +122,4 @@ fetch(url + '/custom-tile', {
   );
 };
 
-export default CustomTileForm;
+export default CustomTileInput;
