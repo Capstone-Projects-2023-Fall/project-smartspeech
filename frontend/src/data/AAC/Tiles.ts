@@ -13,6 +13,7 @@ import they from "./they/they";
 import touch from "./touch/touch";
 import { TileProps } from "@/components/AAC/Tile";
 import is from "./is/is";
+import animals from "./animals/animals";
 
 /**
  * Maps words to tile data for each tile in our AAC board
@@ -102,6 +103,13 @@ const data: TileAssets = {
     sound: "Things",
     tileColor: "red",
     subTiles: things,
+  },
+  animals: {
+    image: "/AAC_assets/img/animals/animal.png",
+    text: "Animals",
+    sound: "Animals",
+    tileColor: "green",
+    subTiles: animals,
   },
   tell: {
     image: "/AAC_assets/img/tell/tell.png",

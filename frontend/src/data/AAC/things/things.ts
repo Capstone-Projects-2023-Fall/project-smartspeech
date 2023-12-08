@@ -11,12 +11,6 @@ const things: TileAssets = {
         sound: "Things",
         tileColor: THINGS_TILES_COLOR,
     },
-    animal: {
-        image: "/AAC_assets/img/things/animal.png",
-        text: "Animal",
-        sound: "Animal",
-        tileColor: THINGS_TILES_COLOR,
-    },
     boat: {
         image: "/AAC_assets/img/things/boat.png",
         text: "Boat",
@@ -29,12 +23,6 @@ const things: TileAssets = {
         sound: "Bridge",
         tileColor: THINGS_TILES_COLOR,
     },
-    bug: {
-        image: "/AAC_assets/img/things/bug.png",
-        text: "Bug",
-        sound: "Bug",
-        tileColor: THINGS_TILES_COLOR,
-    },
     bus: {
         image: "/AAC_assets/img/things/bus.png",
         text: "Bus",
@@ -45,18 +33,6 @@ const things: TileAssets = {
         image: "/AAC_assets/img/things/car.png",
         text: "Car",
         sound: "Car",
-        tileColor: THINGS_TILES_COLOR,
-    },
-    cat: {
-        image: "/AAC_assets/img/things/cat.png",
-        text: "Cat",
-        sound: "Cat",
-        tileColor: THINGS_TILES_COLOR,
-    },
-    dog: {
-        image: "/AAC_assets/img/things/dog.png",
-        text: "Dog",
-        sound: "Dog",
         tileColor: THINGS_TILES_COLOR,
     },
     flower: {
@@ -100,12 +76,6 @@ const things: TileAssets = {
         image: "/AAC_assets/img/things/ocean.png",
         text: "Ocean",
         sound: "Ocean",
-        tileColor: THINGS_TILES_COLOR,
-    },
-    pet: {
-        image: "/AAC_assets/img/things/pet.png",
-        text: "Pet",
-        sound: "Pet",
         tileColor: THINGS_TILES_COLOR,
     },
     road: {

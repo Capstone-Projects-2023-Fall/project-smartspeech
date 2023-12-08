@@ -68,6 +68,12 @@ const game: TileAssets ={
         text: "My Toys",
         sound: "My Toys",
         tileColor: "red",
-    }
+    },
+    bicycle: {
+        image: "/AAC_assets/img/games/bicycle.png",
+        text: "Bicycle",
+        sound: "Bicycle",
+        tileColor: GAME_TILES_COLOR,
+    },
 }
 export default game;

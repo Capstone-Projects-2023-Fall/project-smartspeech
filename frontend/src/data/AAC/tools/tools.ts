@@ -75,6 +75,36 @@ const tools: TileAssets = {
     sound: "Hammer",
     tileColor: TOOL_TILES_COLOR,
   },
+  camera: {
+    image: "/AAC_assets/img/tools/camera.png",
+    text: "Camera",
+    sound: "Camera",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  clock: {
+    image: "/AAC_assets/img/tools/clock.png",
+    text: "Clock",
+    sound: "Clock",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  ladder: {
+    image: "/AAC_assets/img/tools/ladder.png",
+    text: "Ladder",
+    sound: "Ladder",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  paperclip: {
+    image: "/AAC_assets/img/tools/paperclip.png",
+    text: "Paperclip",
+    sound: "Paperclip",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  umbrella: {
+    image: "/AAC_assets/img/tools/umbrella.png",
+    text: "Umbrella",
+    sound: "Umbrella",
+    tileColor: TOOL_TILES_COLOR,
+  },
 };
 
 export default tools;

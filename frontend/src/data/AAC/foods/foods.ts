@@ -93,6 +93,12 @@ const foods: TileAssets = {
         sound: "Taco",
         tileColor: FOODS_TILES_COLOR,
     },
+    hotdog: {
+        image: "/AAC_assets/img/food/hotdog.png",
+        text: "Hotdog",
+        sound: "Hotdog",
+        tileColor: FOODS_TILES_COLOR,
+    },
     vegetable: {
         image: "/AAC_assets/img/food/vegetable.png",
         text: "Vegetable",

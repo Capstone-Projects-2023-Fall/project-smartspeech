@@ -48,6 +48,12 @@ const clothes: TileAssets = {
     sound: "Coat",
     tileColor: CLOTHES_NOUN_TILES_COLOR,
   },
+  glasses: {
+    image: "/AAC_assets/img/clothes/glasses.png",
+    text: "Glasses",
+    sound: "Glasses",
+    tileColor: CLOTHES_NOUN_TILES_COLOR,
+  },
   dress: {
     image: "/AAC_assets/img/clothes/dress.png",
     text: "Dress",
