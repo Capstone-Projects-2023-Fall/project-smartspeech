@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from mysql.connector import MySQLConnection
 
-from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES, S3_IMAGE_UPLOAD_FAILURE_MSG
+from ..aws_constants import CUSTOM_TILE_ROUTE, S3_IMAGE_UPLOAD_FAILURE_MSG
 
 from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY, DELETE_CUSTOM_TILE_QUERY
 from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV_VAR, DB_URL_ENV_VAR
@@ -87,7 +87,7 @@ def delete_tile_by_id(connection: MySQLConnection, email: str, tileId: int):
 	return deleted_count
 
 
-@router.post(UPLOAD_CUSTOM_TILE)
+@router.post(CUSTOM_TILE_ROUTE)
 def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)], s3: Annotated[any, Depends(getS3Instance)]):
 	"""
 	Args:
@@ -168,7 +168,7 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 	}
 
 	
-@router.get(GET_CUSTOM_TILES)
+@router.get(CUSTOM_TILE_ROUTE)
 def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
 	"""Gets all uploaded tile data based on the `email` they are saved under.
 
@@ -213,7 +213,7 @@ def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(
 	return tiles
 
 
-@router.delete(GET_CUSTOM_TILES)
+@router.delete(CUSTOM_TILE_ROUTE)
 def delete_custom_tiles_by_id(email: str, id: int,connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
 	"""deletes uploaded tile data based on the `email` they are saved under.
 
