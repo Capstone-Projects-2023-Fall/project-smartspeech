@@ -10,13 +10,17 @@ type CameraFeedProps = {
   cameraNum: number;
   width: number;
   height: number;
+  setHasPermissions: (b: boolean) => void;
 };
 
 export type GetScreenshotHandle = {
   getScreenshot: () => string;
 };
 
-/** Courtesy of https://codesandbox.io/p/sandbox/74pzm9lkq6?file=%2Fsrc%2Fcomponents%2Fcamera-feed.jsx%3A60%2C23 */
+/** Courtesy of https://codesandbox.io/p/sandbox/74pzm9lkq6?file=%2Fsrc%2Fcomponents%2Fcamera-feed.jsx%3A60%2C23 
+ * The CameraFeed sets up a video player and canvas, and provides a method for capturing a picture from the
+ * video player ref.current.getScreenshot().
+*/
 const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   props,
   ref
@@ -25,19 +29,34 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
   const canvas = useRef<HTMLCanvasElement>(null);
 
   /**
-   * Sets the active device and starts playing the feed
+   * Sets the active device and starts playing the feed.
+   * Returns 'false' if the user has disabled permissions,
+   * and 'true' otherwise.
    */
   const setDevice = async (device: MediaDeviceInfo) => {
-    if (!videoPlayer.current) return;
+    if (!videoPlayer.current) return true;
 
     const { deviceId } = device;
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { deviceId },
-    });
 
-    videoPlayer.current.srcObject = stream;
-    videoPlayer.current.play().catch(e => console.log("Could not start video player"));
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { deviceId },
+      });
+  
+      videoPlayer.current.srcObject = stream;
+      videoPlayer.current.play().catch(e => console.log("Could not start video player"));
+      return true;
+    } catch (e: any) {
+      console.log(e.message);
+      if (e instanceof DOMException && e.name === "NotAllowedError") {
+        console.log("Not given permission to use camera. Stopping video recognition.");
+        return false;
+      } else {
+        console.log("There was some error trying to use image recognition. Trying again next loop...");
+        return true;
+      }
+    }
   };
 
   // On component mounting, we want to select a camera to take pictures from
@@ -46,12 +65,16 @@ const CameraFeed = forwardRef<GetScreenshotHandle, CameraFeedProps>(function (
       const cameras = await navigator.mediaDevices.enumerateDevices();
 
       const videoDevices = cameras.filter((info) => info.kind == "videoinput");
-      setDevice(videoDevices[props.cameraNum % videoDevices.length]);
+      setDevice(videoDevices[props.cameraNum % videoDevices.length]).then(b => {
+        if (!b) props.setHasPermissions(false);
+      });
     })();
-  }, [props.cameraNum]);
+  }, [props.cameraNum, props.setHasPermissions]);
 
   /**
-   * Handles taking a still image from the video feed on the camera
+   * Handles taking a still image from the video feed on the camera.
+   * Returns a string if the image is captured successfully; otherwise,
+   * it returns 'undefined'
    */
   const getScreenshot = () => {
     if (!canvas.current) return;

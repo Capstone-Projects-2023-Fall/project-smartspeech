@@ -10,6 +10,7 @@ export interface UtteredTilesState {
     tileHistory: TileHistoryTileProps[];
     clear: () => void;
     addTile: (item: TileData) => void;
+    removeLastTile: () => void;
 }
 
 const UtteredTiles = createContext<UtteredTilesState>({
@@ -17,6 +18,7 @@ const UtteredTiles = createContext<UtteredTilesState>({
     tileHistory: [],
     clear: EMPTY_FUNCTION,
     addTile: EMPTY_FUNCTION,
+    removeLastTile: EMPTY_FUNCTION,
 });
 
 export const useUtteredTiles = () => {
@@ -54,11 +56,20 @@ export default function UtteredTilesProvider({ children }: UtteredTilesProviderP
         });
     };
 
+    const removeLastTile = () => {
+        dispatchTileState({
+            type: "remove"
+        });
+
+        // Don't remove from recent tile history
+    }
+
     const value = {
         tiles,
         tileHistory,
         clear,
         addTile,
+        removeLastTile
     };
 
     return <UtteredTiles.Provider value={value}>{children}</UtteredTiles.Provider>;

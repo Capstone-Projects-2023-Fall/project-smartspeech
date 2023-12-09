@@ -1,7 +1,7 @@
 import base64
 from functools import cache
 import time
-from typing import Annotated
+from typing import Annotated, Any
 import urllib.parse
 
 from dotenv import load_dotenv
@@ -11,7 +11,7 @@ from fastapi import APIRouter, Depends, Response, HTTPException
 import requests
 
 from .aws_constants import GET_FROM_S3_ROUTE
-from .s3 import get_file_from_s3_logic, upload_file_to_s3_logic
+from .s3 import get_file_from_s3_logic, upload_file_to_s3_logic, getS3Instance
 
 TTS_ROUTE = "/tts"
 
@@ -55,7 +55,8 @@ def phrase_to_s3_name(phrase: str) -> str:
 
 
 @router.get(TTS_ROUTE)
-async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)]):
+async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session: Annotated[requests.Session, Depends(get_session)],
+              s3: Annotated[Any, Depends(getS3Instance)]):
     """
     Checks if the audio of **phrase** is cached on S3, and returns. If it is
     not on S3, then it converts **phrase** to audio using elevenlab's test to
@@ -70,7 +71,7 @@ async def tts(phrase: str, config: Annotated[dict, Depends(get_config)], session
         # Try to fetch from cache
         print('Trying to get phrase from S3...')
         (object_content, _) = get_file_from_s3_logic(
-            phrase_to_s3_name(phrase), get_url=False)
+            s3, phrase_to_s3_name(phrase), get_url=False)
         print('Object found on S3!')
         audio = b"".join(object_content)
     except HTTPException:

@@ -18,6 +18,8 @@ import CameraFeed, { GetScreenshotHandle } from "./CameraFeed";
 
 const RekognitionContext = createContext<RekognitionState>({
   items: [],
+  toggle: true,
+  toggleCamera() {}
 });
 
 export const MIME_TYPE = "image/png";
@@ -32,6 +34,8 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // provider state
   const [items, setItems] = useState<TileProps[]>([]); // items reterived from image detection
   const refresh = useTimedIncrement(INCREMENT_INTERVAL);
+  const [toggle, setCameraToggle] = useState(true);
+  const toggleCamera = () => setCameraToggle((prev) => !prev);
 
   //! debug
   const [debug, setDebug] = useState<string>("");
@@ -43,6 +47,9 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   // switching cameras
   const [cameraNum, setCameraNum] = useState(0);
 
+  // Disabling camera when user blocks permissions
+  const [hasPermissions, setHasPermissions] = useState(true);
+
   // create a capture function
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
@@ -51,10 +58,10 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
   }, [webcamRef]);
 
   useEffect(() => {
+    if(!toggle || !hasPermissions) return;
     capture();
-
     setCameraNum((prevNum) => prevNum + 1);
-  }, [refresh]);
+  }, [refresh, toggle, hasPermissions]);
 
   useEffect(() => {
     if (!imgSrc) return;
@@ -79,16 +86,20 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
   const value = {
     items,
+    toggle,
+    toggleCamera
   };
 
   return (
     <RekognitionContext.Provider value={value}>
-      <CameraFeed
-        ref={webcamRef}
-        cameraNum={cameraNum}
-        width={768}
-        height={1024}
-      />
+      {(hasPermissions && toggle) && 
+        <CameraFeed
+          ref={webcamRef}
+          cameraNum={cameraNum}
+          width={768}
+          height={1024}
+          setHasPermissions={setHasPermissions}
+        />}
       {props.children}
       <p>{debug}</p>
     </RekognitionContext.Provider>
