@@ -75,6 +75,24 @@ const tools: TileAssets = {
     sound: "Hammer",
     tileColor: TOOL_TILES_COLOR,
   },
+  ladder: {
+    image: "/AAC_assets/img/tools/ladder.png",
+    text: "Ladder",
+    sound: "Ladder",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  paperclip: {
+    image: "/AAC_assets/img/tools/paperclip.png",
+    text: "Paperclip",
+    sound: "Paperclip",
+    tileColor: TOOL_TILES_COLOR,
+  },
+  umbrella: {
+    image: "/AAC_assets/img/tools/umbrella.png",
+    text: "Umbrella",
+    sound: "Umbrella",
+    tileColor: TOOL_TILES_COLOR,
+  },
 };
 
 export default tools;
