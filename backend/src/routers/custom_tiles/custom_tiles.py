@@ -66,7 +66,6 @@ def get_tiles_by_email(connection: MySQLConnection, email: str):
 
 	rows = cursor.fetchall()
 
-	print(rows)
 	JSONrows = list(map(mapCustomTileEntryToJson, rows))
 
 	cursor.close()
@@ -238,11 +237,15 @@ def delete_custom_tiles_by_id(email: str, tileId: int,connection: Annotated[MySQ
 	deleted_count = 0
 
 	try:
-		deleted_count = delete_tile_by_id(connection, email, id)
+		deleted_count = delete_tile_by_id(connection, email, tileId)
 	except Exception as e:
 		print(e)
-		raise HTTPException(status_code=500, detail=DB_GET_TILES_FAILURE_MSG)
+		raise HTTPException(status_code=500, detail=DB_DELETE_TILES_FAILURE_MSG)
 
 	connection.close()
 
 	if not deleted_count: raise HTTPException(status_code=400, detail=DB_DELETE_TILES_FAILURE_MSG)
+
+	return {
+		'rowsDeleted': deleted_count
+	}
