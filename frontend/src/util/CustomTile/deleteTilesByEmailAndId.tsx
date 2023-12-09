@@ -12,10 +12,8 @@ type DeleteDataSuccess = {
 export type DeleteTileData = DeleteDataFailure | DeleteDataSuccess;
 
 export default async function deleteTilesByEmail(email: string, id: number) {
-    const getCustomTilesUrl = `${getBackendUrl()}/custom-tile`;
+    const deleteCustomTilesUrl = `${getBackendUrl()}/custom-tile`;
 
     // let errors through
-    const validateStatusFunction = (status: number) => true;
-
-    return axios.get<DeleteTileData>(getCustomTilesUrl, { params: { email, tileId: id }, validateStatus: validateStatusFunction });
+    return axios.delete<DeleteTileData>(deleteCustomTilesUrl, { params: { email, tileId: id }, validateStatus: (status) => true });
 }

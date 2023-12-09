@@ -1,3 +1,4 @@
+import AddCustomTile from "@/components/CustomTiles/AddCustomTile";
 import CurrentTiles from "@/components/CustomTiles/CurrentTiles";
 import Navbar from "@/components/CustomTiles/Navbar";
 import DangerAlert from "@/components/util/DangerAlert";
@@ -29,6 +30,8 @@ export default function CustomTiles() {
             <>
                 <Navbar />
                 <CurrentTiles />
+                <hr className="my-8"/>
+                <AddCustomTile/>
             </>
         );
 

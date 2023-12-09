@@ -1,14 +1,36 @@
+import deleteTilesByEmail from "@/util/CustomTile/deleteTilesByEmailAndId";
 import { GetTileData } from "@/util/CustomTile/getTilesByEmail";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import { CustomTilesCardLoadingSpinner } from "../util/LoadingSpinner";
+import { speak } from "@/util/AAC/Speech";
 
 export interface CustomTileCardProps {
     tileInfo: GetTileData;
+    triggerRefreshCustomTiles: Function;
 }
 
-export default function Card({ tileInfo }: CustomTileCardProps) {
+export default function Card({ tileInfo, triggerRefreshCustomTiles }: CustomTileCardProps) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const onClickRemove = async () => {
-        const { id } = tileInfo;
+        setIsLoading(true);
+
+        const { email, id } = tileInfo;
+        const { data } = await deleteTilesByEmail(email, id);
+
+        setIsLoading(false);
+        triggerRefreshCustomTiles();
+
+        if ("detail" in data) {
+            return false;
+        }
+
+        return data.rowsDeleted;
+    };
+
+    const handleSpeak = () => {
+        speak(tileInfo.sound);
     };
 
     return (
@@ -27,11 +49,12 @@ export default function Card({ tileInfo }: CustomTileCardProps) {
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                         onClick={onClickRemove}
                     >
-                        Remove
+                        {isLoading ? <CustomTilesCardLoadingSpinner /> : "Remove Tile"}
                     </button>
                     <button
                         type="button"
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
+                        onClick={handleSpeak}
                     >
                         Play Sound
                     </button>
