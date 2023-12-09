@@ -14,6 +14,7 @@ import touch from "./touch/touch";
 import { TileProps } from "@/components/AAC/Tile";
 import is from "./is/is";
 import animals from "./animals/animals";
+import electronics from "./electronics/electronics";
 
 /**
  * Maps words to tile data for each tile in our AAC board
@@ -51,7 +52,7 @@ const data: TileAssets = {
     tileColor: "red",
   },
   shapes: {
-    image: "/AAC_assets/img/shapes/shape.png",
+    image: "/AAC_assets/img/shapes/shapes.png",
     text: "Shape",
     sound: "Shape",
     tileColor: "yellow",
@@ -152,6 +153,13 @@ const data: TileAssets = {
     sound: "is",
     tileColor: "blue",
     subTiles: is,
+  },
+  technology: {
+    image: "/AAC_assets/img/electronics/technology.png",
+    text: "Technology",
+    sound: "Technology",
+    tileColor: "blue",
+    subTiles: electronics,
   },
 };
 

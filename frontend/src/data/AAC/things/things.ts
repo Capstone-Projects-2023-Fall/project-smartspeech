@@ -103,22 +103,22 @@ const things: TileAssets = {
         sound: "Tree",
         tileColor: THINGS_TILES_COLOR,
     },
-    tv: {
-        image: "/AAC_assets/img/things/tv.png",
-        text: "TV",
-        sound: "TV",
+    accessory: {
+        image: "/AAC_assets/img/things/accessory.png",
+        text: "Accessory",
+        sound: "Accessory",
         tileColor: THINGS_TILES_COLOR,
     },
-    computer: {
-        image: "/AAC_assets/img/things/computer.png",
-        text: "Computer",
-        sound: "Computer",
+    wallet: {
+        image: "/AAC_assets/img/things/wallet.png",
+        text: "Wallet",
+        sound: "Wallet",
         tileColor: THINGS_TILES_COLOR,
     },
-    mobile: {
-        image: "/AAC_assets/img/things/mobile.png",
-        text: "Mobile",
-        sound: "Mobile",
+    rifle: {
+        image: "/AAC_assets/img/things/rifle.png",
+        text: "Rifle",
+        sound: "Rifle",
         tileColor: THINGS_TILES_COLOR,
     },
 };

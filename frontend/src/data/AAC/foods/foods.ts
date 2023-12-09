@@ -117,6 +117,12 @@ const foods: TileAssets = {
         sound: "Vegetable",
         tileColor: FOODS_TILES_COLOR,
     },
+    bottle: {
+        image: "/AAC_assets/img/food/bottle.png",
+        text: "Bottle",
+        sound: "Bottle",
+        tileColor: FOODS_TILES_COLOR,
+    },
 };
 
 export default foods;
