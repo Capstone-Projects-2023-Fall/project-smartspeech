@@ -1,6 +1,6 @@
 from typing import Tuple
 
-def mapCustomTileEntryToJson(entry: Tuple[str]):
+def mapCustomTileEntryToJson(entry: Tuple[str | int]):
 	"""Maps DB entry to a dict for JSON transfer
 
 	Args:
