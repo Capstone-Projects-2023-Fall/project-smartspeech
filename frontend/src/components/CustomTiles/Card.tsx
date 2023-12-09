@@ -19,8 +19,8 @@ export default function Card({ tileInfo, triggerRefreshCustomTiles }: CustomTile
         const { email, id } = tileInfo;
         const { data } = await deleteTilesByEmail(email, id);
 
-        setIsLoading(false);
         triggerRefreshCustomTiles();
+        setIsLoading(false);
 
         if ("detail" in data) {
             return false;
