@@ -66,7 +66,7 @@ def client_valid_SQL_Connection_sql_query_error():
 	return TestClient(app)
 
 def test_get_custom_tile_success(client_valid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}?email={VALID_EMAIL}'
 	resp = client_valid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 200
@@ -77,21 +77,21 @@ def test_get_custom_tile_success(client_valid_SQL_Connection):
 	]
 
 def test_get_custom_tile_invalid_email(client_valid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={INVALID_EMAIL}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}?email={INVALID_EMAIL}'
 	resp = client_valid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 400
 	assert resp.json()['detail'] == sql_constants.EMAIL_INVALID_MSG
 
 def test_get_custom_tile_internal_query_error(client_valid_SQL_Connection_sql_query_error):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}?email={VALID_EMAIL}'
 	resp = client_valid_SQL_Connection_sql_query_error.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 500
 	assert resp.json()['detail'] == sql_constants.DB_GET_TILES_FAILURE_MSG
 
 def test_get_custom_tile_failure(client_invalid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.GET_CUSTOM_TILES}?email={VALID_EMAIL}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}?email={VALID_EMAIL}'
 	resp = client_invalid_SQL_Connection.get(URL_WITH_EMAIL_QUERY)
 
 	assert resp.status_code == 500

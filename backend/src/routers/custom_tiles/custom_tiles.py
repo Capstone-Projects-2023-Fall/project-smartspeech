@@ -214,11 +214,12 @@ def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(
 
 
 @router.delete(CUSTOM_TILE_ROUTE)
-def delete_custom_tiles_by_id(email: str, id: int,connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
-	"""deletes uploaded tile data based on the `email` they are saved under.
+def delete_custom_tiles_by_id(email: str, tileId: int,connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
+	"""deletes uploaded tile data based on the `email` they are saved under and by `tileId`.
 
 	Args:
 		email (str)
+		id (int)
 
 	Raises:
 		HTTPException: If `email` is invalid
