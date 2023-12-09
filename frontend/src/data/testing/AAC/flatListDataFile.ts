@@ -901,12 +901,6 @@ const flatList: FlatTileAssets = {
         sound: "Church",
         tileColor: "blue",
     },
-    lightning: {
-        image: "/AAC_assets/img/sky/lightning.png",
-        text: "Lightning",
-        sound: "Lightning",
-        tileColor: "yellow",
-    },
     finger: {
         image: "/AAC_assets/img/body/finger.png",
         text: "Finger",
@@ -1009,12 +1003,6 @@ const flatList: FlatTileAssets = {
         sound: "Sweets",
         tileColor: "blue",
     },
-    lighting: {
-        image: "/AAC_assets/img/house/lighting.png",
-        text: "Lighting",
-        sound: "Lighting",
-        tileColor: "blue",
-    },
     biscuit: {
         image: "/AAC_assets/img/food/biscuit.png",
         text: "Biscuit",
@@ -1055,12 +1043,6 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/things/wallet.png",
         text: "Wallet",
         sound: "Wallet",
-        tileColor: "blue",
-    },
-    rifle: {
-        image: "/AAC_assets/img/things/rifle.png",
-        text: "Rifle",
-        sound: "Rifle",
         tileColor: "blue",
     },
     brush: {
