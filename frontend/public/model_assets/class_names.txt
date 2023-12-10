@@ -2,7 +2,7 @@ sun
 crown
 chair
 bowtie
-shoe
+shoes
 butterfly
 hotdog
 scissors
@@ -21,8 +21,8 @@ car
 hand
 eye
 bee
-paper_clip
-airplane
+paperclip
+plane
 blueberry
 moon
 circle
@@ -43,11 +43,11 @@ camera
 triangle
 spoon
 fish
-eyeglasses
-smiley_face
-sock
+glasses
+happy
+socks
 pencil
-t-shirt
+shirt
 hamburger
 door
 tree
