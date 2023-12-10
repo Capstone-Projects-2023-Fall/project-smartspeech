@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 export const tileColors = ["red", "purple", "orange", "yellow", "green", "blue"];
+export type TileColor = "red" | "purple" | "orange" | "yellow" | "green" | "blue";
 
 export interface TileProps {
     /**
@@ -21,7 +22,7 @@ export interface TileProps {
     /**
      * color of the tile background
      */
-    tileColor: "red" | "purple" | "orange" | "yellow" | "green" | "blue";
+    tileColor: TileColor;
 }
 
 /**
@@ -58,7 +59,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
             id="tileResize"
             data-testid={computeTileContainerName(text)}
         >
-            <h2 className="font-bold text-2xl lg-max:text-xl md-max:text-sm" data-testid="tile-text">
+            <h2 className="font-bold text-2xl lg-max:text-xl md-max:text-sm break-words" data-testid="tile-text">
                 {text}
             </h2>
             <Image
@@ -66,7 +67,7 @@ export default function Tile({ image, sound, text, tileColor }: TileProps) {
                 alt={text}
                 width={176}
                 height={176}
-                className="w-auto h-32 object-cover 2xl-max:h-24 lg-max:h-20 xs-max:h-12"
+                className="w-auto h-32 object-cover 2xl-max:h-24 xl-max:h-20 lg-max:h-16 xs-max:h-12"
                 draggable="false"
                 data-testid="tile-image"
             />
