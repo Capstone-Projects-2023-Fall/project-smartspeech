@@ -997,6 +997,12 @@ const flatList: FlatTileAssets = {
         sound: "Mobile",
         tileColor: "blue",
     },
+    phone: {
+        image: "/AAC_assets/img/electronics/mobile.png",
+        text: "Phone",
+        sound: "Phone",
+        tileColor: "blue",
+    },
     sweets: {
         image: "/AAC_assets/img/food/sweets.png",
         text: "Sweets",
