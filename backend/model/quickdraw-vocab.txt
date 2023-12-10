@@ -1,12 +1,24 @@
+airplane
+bandage
+bee
+bicycle
 blueberry
+bowtie
+butterfly
+camera
 car
 carrot
 chair
-church
 circle
+clock
+crown
 diamond
 door
+envelope
+eye
+eyeglasses
 finger
+fish
 flower
 foot
 fork
@@ -15,12 +27,14 @@ hammer
 hand
 hat
 hospital
-knife
-lightning
+hot dog
+house
+ice cream
+ladder
 moon
 mountain
-paintbrush
 pants
+paper clip
 pencil
 pizza
 scissors
@@ -30,11 +44,11 @@ smiley face
 sock
 spoon
 square
-stop sign
+star
 strawberry
 sun
-television
 tree
 triangle
 t-shirt
+umbrella
 underwear

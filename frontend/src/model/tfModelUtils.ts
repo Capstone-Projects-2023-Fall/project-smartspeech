@@ -26,7 +26,6 @@ function getBoundingBox(coords: Point[]): BoundingBox {
         x: Math.max(...coorX),
         y: Math.max(...coorY),
     };
-    //console.log(min_coords, max_coords);
     // Return as struct
     return {
         min: min_coords,
@@ -34,19 +33,22 @@ function getBoundingBox(coords: Point[]): BoundingBox {
     };
 }
 
-function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
-    const dpi = window.devicePixelRatio;
+function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData | null {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
         throw new Error("CanvasRenderingContext2D is not available");
     }
     // Calculate the coordinates and size respecting the DPI
-    const x = bb.min.x; //* dpi;
-    const y = bb.min.y; //* dpi;
-    const width = (bb.max.x - bb.min.x); //* dpi;
-    const height = (bb.max.y - bb.min.y); //* dpi;
-    //console.log(x, y, width, height);
+    const x = bb.min.x; 
+    const y = bb.min.y; 
+    const width = (bb.max.x - bb.min.x); 
+    const height = (bb.max.y - bb.min.y); 
+    
+    if (width == 0 || height == 0) {
+        return null;
+    }
+
     if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
         console.error("Invalid canvas dimensions", { x, y, width, height });
     }
@@ -73,8 +75,6 @@ function preprocess(imgData: ImageData) {
 
         // We add a dimension to get a batch shape
         const batched = normalized.expandDims(0);
-        console.log("Shape:", batched.shape);
-        console.log("Data:", batched.dataSync());
 
         return batched;
     });
@@ -82,7 +82,6 @@ function preprocess(imgData: ImageData) {
 
 function performInference(model: LayersModel, processedData: Tensor) {
     const pred = model.predict(processedData);
-    //console.log("Raw prediction output:", pred.dataSync());
     return pred;
 }
 
@@ -95,7 +94,6 @@ function getInferenceData(wordDict: string[], inferenceResult: Tensor<Rank>): In
         name: wordDict[index],
         prob: prob,
     }));
-    //console.log(inferenceDataWithProb);
     // Sort the array by probability in descending order
     const sortedInferenceData = inferenceDataWithProb.sort((a, b) => b.prob - a.prob);
 
@@ -134,6 +132,10 @@ export async function processDrawing(model: LayersModel, wordDict: string[], coo
     const bb = getBoundingBox(flat_coords);
     // Get image data from minimum bounding box and canvas element.
     const imgData = getImageData(bb, canvas);
+
+    if (!imgData) {
+        return Promise.resolve([]);
+    }
     // Preprocess data for model inference.
     const processedData = preprocess(imgData);
     // Rest of the function remains the same...
@@ -143,6 +145,6 @@ export async function processDrawing(model: LayersModel, wordDict: string[], coo
 
     // Return inference data
     const infData = getInferenceData(wordDict, inferenceResult as Tensor<Rank>);
-    //console.log(infData);
+
     return infData;
 }
