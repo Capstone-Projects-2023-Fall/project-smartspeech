@@ -11,12 +11,6 @@ const things: TileAssets = {
         sound: "Things",
         tileColor: THINGS_TILES_COLOR,
     },
-    animal: {
-        image: "/AAC_assets/img/things/animal.png",
-        text: "Animal",
-        sound: "Animal",
-        tileColor: THINGS_TILES_COLOR,
-    },
     boat: {
         image: "/AAC_assets/img/things/boat.png",
         text: "Boat",
@@ -27,12 +21,6 @@ const things: TileAssets = {
         image: "/AAC_assets/img/things/bridge.png",
         text: "Bridge",
         sound: "Bridge",
-        tileColor: THINGS_TILES_COLOR,
-    },
-    bug: {
-        image: "/AAC_assets/img/things/bug.png",
-        text: "Bug",
-        sound: "Bug",
         tileColor: THINGS_TILES_COLOR,
     },
     bus: {
@@ -47,16 +35,10 @@ const things: TileAssets = {
         sound: "Car",
         tileColor: THINGS_TILES_COLOR,
     },
-    cat: {
-        image: "/AAC_assets/img/things/cat.png",
-        text: "Cat",
-        sound: "Cat",
-        tileColor: THINGS_TILES_COLOR,
-    },
-    dog: {
-        image: "/AAC_assets/img/things/dog.png",
-        text: "Dog",
-        sound: "Dog",
+    plane: {
+        image: "/AAC_assets/img/things/plane.png",
+        text: "Plane",
+        sound: "Plane",
         tileColor: THINGS_TILES_COLOR,
     },
     flower: {
@@ -102,12 +84,6 @@ const things: TileAssets = {
         sound: "Ocean",
         tileColor: THINGS_TILES_COLOR,
     },
-    pet: {
-        image: "/AAC_assets/img/things/pet.png",
-        text: "Pet",
-        sound: "Pet",
-        tileColor: THINGS_TILES_COLOR,
-    },
     road: {
         image: "/AAC_assets/img/things/road.png",
         text: "Road",
@@ -127,10 +103,22 @@ const things: TileAssets = {
         sound: "Tree",
         tileColor: THINGS_TILES_COLOR,
     },
-    tv: {
-        image: "/AAC_assets/img/things/tv.png",
-        text: "TV",
-        sound: "TV",
+    accessory: {
+        image: "/AAC_assets/img/things/accessory.png",
+        text: "Accessory",
+        sound: "Accessory",
+        tileColor: THINGS_TILES_COLOR,
+    },
+    wallet: {
+        image: "/AAC_assets/img/things/wallet.png",
+        text: "Wallet",
+        sound: "Wallet",
+        tileColor: THINGS_TILES_COLOR,
+    },
+    rifle: {
+        image: "/AAC_assets/img/things/rifle.png",
+        text: "Rifle",
+        sound: "Rifle",
         tileColor: THINGS_TILES_COLOR,
     },
 };

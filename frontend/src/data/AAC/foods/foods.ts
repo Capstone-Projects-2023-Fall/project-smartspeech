@@ -93,10 +93,34 @@ const foods: TileAssets = {
         sound: "Taco",
         tileColor: FOODS_TILES_COLOR,
     },
+    hotdog: {
+        image: "/AAC_assets/img/food/hotdog.png",
+        text: "Hotdog",
+        sound: "Hotdog",
+        tileColor: FOODS_TILES_COLOR,
+    },
+    sweets: {
+        image: "/AAC_assets/img/food/sweets.png",
+        text: "Sweets",
+        sound: "Sweets",
+        tileColor: FOODS_TILES_COLOR,
+    },
+    biscuit: {
+        image: "/AAC_assets/img/food/biscuit.png",
+        text: "Biscuit",
+        sound: "Biscuit",
+        tileColor: FOODS_TILES_COLOR,
+    },
     vegetable: {
         image: "/AAC_assets/img/food/vegetable.png",
         text: "Vegetable",
         sound: "Vegetable",
+        tileColor: FOODS_TILES_COLOR,
+    },
+    bottle: {
+        image: "/AAC_assets/img/food/bottle.png",
+        text: "Bottle",
+        sound: "Bottle",
         tileColor: FOODS_TILES_COLOR,
     },
 };

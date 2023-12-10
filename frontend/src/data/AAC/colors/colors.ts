@@ -45,6 +45,12 @@ const colors: TileAssets = {
         sound: "Red",
         tileColor: COLOR_TILES_COLOR,
     },
+    gray: {
+        image: "/AAC_assets/img/colors/gray.png",
+        text: "Gray",
+        sound: "Gray",
+        tileColor: COLOR_TILES_COLOR,
+    },
 };
 
 export default colors;

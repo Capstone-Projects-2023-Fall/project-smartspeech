@@ -105,6 +105,18 @@ const body: TileAssets = {
     sound: "tongue",
     tileColor: BODY_TILES_COLOR,
   },
+  bandage: {
+    image: "/AAC_assets/img/body/bandage.png",
+    text: "Bandage",
+    sound: "Bandage",
+    tileColor: BODY_TILES_COLOR,
+  },
+  eye: {
+    image: "/AAC_assets/img/body/eye.png",
+    text: "Eye",
+    sound: "Eye",
+    tileColor: BODY_TILES_COLOR,
+  },
 };
 
 export default body;
