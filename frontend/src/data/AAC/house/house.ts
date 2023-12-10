@@ -46,7 +46,7 @@ const house: TileAssets ={
         tileColor: HOUSE_TILES_COLOR,
     },
     table: {
-        image: "/AAC_assets/img/house/Table.png",
+        image: "/AAC_assets/img/house/table.png",
         text: "Table",
         sound: "Table",
         tileColor: HOUSE_TILES_COLOR,
