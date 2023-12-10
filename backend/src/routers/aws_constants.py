@@ -11,8 +11,7 @@ GET_FROM_S3_ROUTE  = "/s3"
 
 UPLOAD_DELECT_LABELS = "/rekognition"
 
-UPLOAD_CUSTOM_TILE = '/custom-tile'
-GET_CUSTOM_TILES = '/custom-tile'
+CUSTOM_TILE_ROUTE = '/custom-tile'
 
 # error
 S3_IMAGE_UPLOAD_FAILURE_MSG = "Image could not be uploaded to storage"

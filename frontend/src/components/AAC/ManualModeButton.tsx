@@ -4,6 +4,7 @@ import { useManualModeModelContext } from "@/react-state-management/providers/Ma
 import { useLoginProviderContext } from "@/react-state-management/providers/LoginPopupProvider";
 
 import { LongPressEventType, useLongPress } from "use-long-press";
+import { useRouter } from "next/router";
 
 export const ManualBtnTestIds = {
     toggleManualBtn: "mbt-return-button",
@@ -12,9 +13,16 @@ export const ManualBtnTestIds = {
 export default function ManualModeButton() {
     const [isOpen, toggleModal] = useManualModeModelContext();
     const [isLoginOpen, toggleLoginOpen] = useLoginProviderContext();
-    
-    const bind = useLongPress(toggleLoginOpen, {
-        onCancel: toggleModal,
+
+    const toggleModelHandler = () => {
+        toggleModal();
+    };
+
+    const bind = useLongPress(() => {}, {
+        onFinish: () => {
+            toggleLoginOpen();
+        },
+        onCancel: toggleModelHandler,
         filterEvents: () => true, // All events can potentially trigger long press (same as 'undefined')
         threshold: 700, // In milliseconds
         captureEvent: true, // Event won't get cleared after React finish processing it

@@ -2,7 +2,8 @@ import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTi
 import { speak } from "@/util/AAC/Speech";
 import Image from "next/image";
 import React from "react";
-import { AudioContext } from "standardized-audio-context";
+
+export const tileColors = ["red", "purple", "orange", "yellow", "green", "blue"];
 
 export interface TileProps {
     /**

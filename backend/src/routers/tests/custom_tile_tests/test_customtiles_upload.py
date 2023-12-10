@@ -80,7 +80,7 @@ def client_valid_SQL_Connection_with_insert_error():
 
 # green
 def test_upload_custom_tile_success(client_valid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}'
 	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
 
 	resp = client_valid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
@@ -93,7 +93,7 @@ def test_upload_custom_tile_success(client_valid_SQL_Connection):
 
 # red
 def test_upload_custom_tile_failure_invalid_DB_conn(client_invalid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}'
 	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
 
 	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
@@ -103,7 +103,7 @@ def test_upload_custom_tile_failure_invalid_DB_conn(client_invalid_SQL_Connectio
 
 # red
 def test_upload_custom_tile_failure_invalid_email(client_invalid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}'
 	FAKE_REQ = gen_FAKE_REQ(INVALID_EMAIL)
 
 	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
@@ -113,7 +113,7 @@ def test_upload_custom_tile_failure_invalid_email(client_invalid_SQL_Connection)
 
 # red
 def test_upload_custom_tile_failure_invalid_img_format(client_invalid_SQL_Connection):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}'
 	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL, 'svg')
 
 	resp = client_invalid_SQL_Connection.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)
@@ -124,7 +124,7 @@ def test_upload_custom_tile_failure_invalid_img_format(client_invalid_SQL_Connec
 
 # red
 def test_upload_custom_tile_failure_insert_db_error(client_valid_SQL_Connection_with_insert_error):
-	URL_WITH_EMAIL_QUERY = f'{aws_constants.UPLOAD_CUSTOM_TILE}'
+	URL_WITH_EMAIL_QUERY = f'{aws_constants.CUSTOM_TILE_ROUTE}'
 	FAKE_REQ = gen_FAKE_REQ(VALID_EMAIL)
 
 	resp = client_valid_SQL_Connection_with_insert_error.post(URL_WITH_EMAIL_QUERY, json=FAKE_REQ)

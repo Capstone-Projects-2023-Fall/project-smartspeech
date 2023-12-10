@@ -7,11 +7,11 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from mysql.connector import MySQLConnection
 
-from ..aws_constants import UPLOAD_CUSTOM_TILE, GET_CUSTOM_TILES, S3_IMAGE_UPLOAD_FAILURE_MSG
+from ..aws_constants import CUSTOM_TILE_ROUTE, S3_IMAGE_UPLOAD_FAILURE_MSG
 
-from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY
+from .sql_constants import INSERT_CUSTOM_TILE_QUERY, GET_CUSTOM_TILE_QUERY, DELETE_CUSTOM_TILE_QUERY
 from .sql_constants import DB_USERNAME_ENV_VAR, DB_PASSWORD_ENV_VAR, DB_PORT_ENV_VAR, DB_URL_ENV_VAR
-from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG, INVALID_IMAGE_FORMAT_MSG, DB_TILE_INSERT_ERROR
+from .sql_constants import DB_CONNECT_FAILURE_MSG, EMAIL_INVALID_MSG, DB_GET_TILES_FAILURE_MSG, INVALID_IMAGE_FORMAT_MSG, DB_TILE_INSERT_ERROR, DB_DELETE_TILES_FAILURE_MSG
 
 from .types import InsertDataType, InsertCustomTileModel
 from ..s3 import upload_file_to_s3_logic, getS3Instance
@@ -48,7 +48,7 @@ def getNewMySQLConnection():
 	return None
 
 
-def insertCustomTilesIntoDB(connection: MySQLConnection, dataToInsert: InsertDataType):
+def insert_custom_tiles_into_db(connection: MySQLConnection, dataToInsert: InsertDataType):
 	cursor = connection.cursor()
 	cursor.execute(INSERT_CUSTOM_TILE_QUERY, dataToInsert)
 
@@ -60,20 +60,33 @@ def insertCustomTilesIntoDB(connection: MySQLConnection, dataToInsert: InsertDat
 
 	return tile_no
 
-def getTilesByEmail(connection: MySQLConnection, email: str):
+def get_tiles_by_email(connection: MySQLConnection, email: str):
 	cursor = connection.cursor()
 	cursor.execute(GET_CUSTOM_TILE_QUERY, (email,))
 
 	rows = cursor.fetchall()
+
 	JSONrows = list(map(mapCustomTileEntryToJson, rows))
 
 	cursor.close()
 
 	return JSONrows
 
+def delete_tile_by_id(connection: MySQLConnection, email: str, tileId: int):
+	cursor = connection.cursor()
+	cursor.execute(DELETE_CUSTOM_TILE_QUERY, {
+		'UserEmail': email,
+		'tileId': tileId
+	})
+
+	deleted_count = cursor.rowcount
+	connection.commit()
+	cursor.close()
+
+	return deleted_count
 
 
-@router.post(UPLOAD_CUSTOM_TILE)
+@router.post(CUSTOM_TILE_ROUTE)
 def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)], s3: Annotated[any, Depends(getS3Instance)]):
 	"""
 	Args:
@@ -133,7 +146,7 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 	tile_no = None
 
 	try:
-		tile_no = insertCustomTilesIntoDB(connection, {
+		tile_no = insert_custom_tiles_into_db(connection, {
 			"ImageURL": URL,
 			"UserEmail": insertData.email,
 			"TextAssociated": insertData.text,
@@ -154,7 +167,7 @@ def upload_custom_tile(insertData: InsertCustomTileModel, connection: Annotated[
 	}
 
 	
-@router.get(GET_CUSTOM_TILES)
+@router.get(CUSTOM_TILE_ROUTE)
 def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
 	"""Gets all uploaded tile data based on the `email` they are saved under.
 
@@ -170,6 +183,7 @@ def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(
 		List (`[]`) of the following dict (json): 
 		```
 		{
+			'id': CustomTileID,
 			'url': ImageURL,
 			'email': UserEmail,
 			'text': TextAssociated,
@@ -188,7 +202,7 @@ def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(
 	tiles = None
 
 	try:
-		tiles = getTilesByEmail(connection, email)
+		tiles = get_tiles_by_email(connection, email)
 	except Exception as e:
 		print(e)
 		raise HTTPException(status_code=500, detail=DB_GET_TILES_FAILURE_MSG)
@@ -198,3 +212,40 @@ def get_custom_tiles(email: str, connection: Annotated[MySQLConnection, Depends(
 	return tiles
 
 
+@router.delete(CUSTOM_TILE_ROUTE)
+def delete_custom_tiles_by_id(email: str, tileId: int,connection: Annotated[MySQLConnection, Depends(getNewMySQLConnection)]):
+	"""deletes uploaded tile data based on the `email` they are saved under and by `tileId`.
+
+	Args:
+		email (str)
+		id (int)
+
+	Raises:
+		HTTPException: If `email` is invalid
+		HTTPException: If the Database fails to respond to connection reqeusts
+		HTTPException: If entries are not able to be read / deleted
+
+	Returns: Nothing, only an HTTP code
+	"""
+
+	# no need to query db if email is false
+	if not is_valid_email(email): raise HTTPException(status_code=400, detail=EMAIL_INVALID_MSG)
+
+	# check SQL connection
+	if connection is None: raise HTTPException(status_code=500, detail=DB_CONNECT_FAILURE_MSG)
+
+	deleted_count = 0
+
+	try:
+		deleted_count = delete_tile_by_id(connection, email, tileId)
+	except Exception as e:
+		print(e)
+		raise HTTPException(status_code=500, detail=DB_DELETE_TILES_FAILURE_MSG)
+
+	connection.close()
+
+	if not deleted_count: raise HTTPException(status_code=400, detail=DB_DELETE_TILES_FAILURE_MSG)
+
+	return {
+		'rowsDeleted': deleted_count
+	}
