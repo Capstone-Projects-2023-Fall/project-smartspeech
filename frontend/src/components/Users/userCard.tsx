@@ -1,4 +1,4 @@
-import {DefaultSession} from "next-auth";
+import { DefaultSession } from "next-auth";
 
 //Default session TYPE
 

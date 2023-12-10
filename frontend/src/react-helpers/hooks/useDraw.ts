@@ -1,7 +1,7 @@
 import { getSimilarWords } from "@/components/AAC/SuggestedTile";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
-import { Draw, Point, Points } from "@/util/types/typing";
+import { Draw, Point } from "@/util/types/typing";
 import { useEffect, useReducer, useRef, useState } from "react";
 
 export const WHITE = "#FFFFFF";

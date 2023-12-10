@@ -29,28 +29,6 @@ export async function getSimilarWords(wordsArray: string[]): Promise<string[]> {
  */
 export default function SuggestedTiles() {
   const { tiles } = useSuggestedTilesContext();
-  const [inputWords, setInputWords] = useState<string>('');
-  const [suggestedTiles, setSuggestedTiles] = useState<string[]>([]);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputWords(event.target.value);
-  };
-
-  const handleButtonClick = async () => {
-    try {
-      // Split the input string into an array of words
-      const wordsArray = inputWords.split(/\s+/).filter(Boolean);
-
-      const topFiveSuggestions = await getSimilarWords(wordsArray);
-
-      // Update the state with the suggested tiles
-      setSuggestedTiles(topFiveSuggestions);
-    } catch (error) {
-      // Handle errors during the API request
-      console.error('Error:', error);
-      setSuggestedTiles(['Error fetching suggestions.']);
-    }
-  };
 
   return (
     <section className="">

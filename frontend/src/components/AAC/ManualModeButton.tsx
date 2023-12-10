@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import Tile from "./Tile";
 import { useManualModeModelContext } from "@/react-state-management/providers/ManualModalProvider";
 import { useLoginProviderContext } from "@/react-state-management/providers/LoginPopupProvider";
 
-import { LongPressEventType, useLongPress } from "use-long-press";
-import { useRouter } from "next/router";
+import { useLongPress } from "use-long-press";
 
 export const ManualBtnTestIds = {
     toggleManualBtn: "mbt-return-button",

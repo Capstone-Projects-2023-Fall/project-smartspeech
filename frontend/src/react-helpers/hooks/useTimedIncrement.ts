@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useTimedIncrement(incrementTime: number = 5000, start: number = 0) {
     const [number, setNumber] = useState(start);

@@ -1,5 +1,4 @@
 import { TileProps } from "@/components/AAC/Tile";
-import { TileAssets } from "@/components/AAC/TileTypes";
 import { getBackendUrl } from "@/util/backend-url";
 import axios, { AxiosResponse } from "axios";
 

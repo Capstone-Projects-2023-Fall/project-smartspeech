@@ -1,4 +1,3 @@
-import useModal from "@/react-helpers/hooks/useModal";
 import React from "react";
 import Tiles from "./Tiles";
 import Tile from "./Tile";

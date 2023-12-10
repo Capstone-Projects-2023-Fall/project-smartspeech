@@ -1,5 +1,4 @@
 import { useCaretakerProviderContext } from "@/react-state-management/providers/CaretakerPopupProvider";
-import { useState } from "react";
 
 export const CaretakerPopupBodyTestIds = {
     bodyContainer: "body-component",
