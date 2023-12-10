@@ -2353,10 +2353,10 @@ const flatList: FlatTileAssets = {
         sound: "Computer",
         tileColor: "blue",
     },
-    mobile: {
+    phone: {
         image: "/AAC_assets/img/electronics/mobile.png",
-        text: "Mobile",
-        sound: "Mobile",
+        text: "Phone",
+        sound: "Phone",
         tileColor: "blue",
     },
     sweets: {
