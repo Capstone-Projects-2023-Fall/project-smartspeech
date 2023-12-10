@@ -51,7 +51,7 @@ export const useDraw = (setItems: (items: string[]) => void) => {
     function onDraw({ prevPoint, currentPoint, ctx }: Draw) {
         const { x: currX, y: currY } = currentPoint;
         const lineColor = BLACK; // black
-        const lineWidth = 5;
+        const lineWidth = 10;
 
         let startPoint = prevPoint ?? currentPoint;
         ctx.beginPath();
