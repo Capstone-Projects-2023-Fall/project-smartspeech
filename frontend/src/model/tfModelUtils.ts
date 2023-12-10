@@ -1,5 +1,5 @@
 import { Point, Points } from "@/util/types/typing";
-import { loadLayersModel, zeros, browser, image, scalar, tidy, Rank } from "@tensorflow/tfjs";
+import { browser, image, scalar, tidy, Rank } from "@tensorflow/tfjs";
 
 //tests
 import { LayersModel, Tensor } from "@tensorflow/tfjs";

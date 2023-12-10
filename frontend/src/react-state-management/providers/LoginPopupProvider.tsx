@@ -1,5 +1,5 @@
 import { EMPTY_FUNCTION } from "@/util/constants";
-import React, { createContext, useContext, useState, Dispatch, SetStateAction } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 type LoginPopupType = [boolean, () => void];
 

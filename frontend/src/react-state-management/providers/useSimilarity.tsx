@@ -1,5 +1,5 @@
 import { TileProps } from "@/components/AAC/Tile";
-import { Dispatch, createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import React from "react";
 import { useTilesProvider } from "./tileProvider";
 

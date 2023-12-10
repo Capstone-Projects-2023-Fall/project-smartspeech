@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import SelectedTilesActionBar from "@/components/AAC/SelectedTilesActionBar";
-import Tiles from "@/components/AAC/Tiles";
 import UtteredTilesProvider from "@/react-state-management/providers/useUtteredTiles";
 import Canvas from "@/components/AAC/Canvas";
 import SuggestedTiles from "@/components/AAC/SuggestedTile";

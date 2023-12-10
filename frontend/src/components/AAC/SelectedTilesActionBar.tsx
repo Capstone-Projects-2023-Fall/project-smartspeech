@@ -1,5 +1,5 @@
 import { useUtteredTiles } from "@/react-state-management/providers/useUtteredTiles";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MiniTile from "./MiniTile";
 import { RiSpeakLine, RiCameraOffFill, RiCameraFill, RiDeleteBack2Fill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";

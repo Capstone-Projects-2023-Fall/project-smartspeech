@@ -27,12 +27,6 @@ const data: TileAssets = {
     tileColor: COLOR_TILES_COLOR,
     subTiles: colors,
   },
-  ai: {
-    image: "/AAC_assets/img/ai/ChatGPT.png",
-    text: "ChatGPT",
-    sound: "Chat G P T",
-    tileColor: "red",
-  },
   good: {
     image: "/AAC_assets/img/standard/good.png",
     text: "Good",

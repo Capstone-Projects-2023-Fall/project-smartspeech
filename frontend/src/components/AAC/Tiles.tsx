@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
 import Tile from "./Tile";
-import { getAACAssets } from "../../util/AAC/getAACAssets";
 import { stackReducer } from "@/react-state-management/reducers/stackReducer";
 import { TileAssets } from "./TileTypes";
 import { useTilesProvider } from "@/react-state-management/providers/tileProvider";

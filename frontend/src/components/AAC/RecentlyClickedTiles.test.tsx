@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
-import * as SpeechModuleMock from "../../util/AAC/Speech";
 import UtteredTilesProvider, { UtteredTilesProviderProps } from "../../react-state-management/providers/useUtteredTiles";
 import RecentlyClickedTiles, { recentlyClickedTilesIds } from "./RecentlyClickedTiles";
 import { TileHistoryTileProps } from "@/react-state-management/reducers/tileHistoryReducer";

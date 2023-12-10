@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import ModalProvider from "@/react-state-management/providers/ManualModalProvider";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ManualTilesPopup, { ManualPopupTestIds } from "./ManualTilesPopup";
 import ManualModeButton, { ManualBtnTestIds } from "./ManualModeButton";
 import data from "@/data/AAC/Tiles";

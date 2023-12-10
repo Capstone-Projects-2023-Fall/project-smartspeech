@@ -1,10 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { TileAssets } from "./TileTypes";
 import Tiles, { BACK_BTN_TEXT } from "./Tiles";
-import { getAACAssets } from "@/util/AAC/getAACAssets";
 import { computeTileContainerName } from "./Tile";
-import * as SpeechModuleMock from "../../util/AAC/Speech";
 import sampleData from "@/data/testing/AAC/Tiles";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
 import data from "@/data/AAC/Tiles";

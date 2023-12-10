@@ -70,7 +70,6 @@ export default function InferenceProvider(props: InferenceProviderProps) {
     }, []);
 
     const predict = async (canvas: HTMLCanvasElement) => {
-        const len = points.length;
         //console.log({ model, wordDict, len });
         // return no preds if model is not yet loaded
         if (!model || !wordDict || (points.length === 0)) return [];

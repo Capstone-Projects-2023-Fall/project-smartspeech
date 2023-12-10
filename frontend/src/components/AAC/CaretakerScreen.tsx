@@ -3,7 +3,6 @@ import React from "react";
 import Tile from "./Tile";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { options } from "@/pages/api/auth/[...nextauth]";
 
 export default function CaretakerScreen(props: {}) {
     const { status } = useSession();

@@ -1,4 +1,4 @@
-import React, { RefObject, useState, useEffect } from "react";
+import { RefObject, useState, useEffect } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 
 const useSize = (target: RefObject<HTMLElement>) => {

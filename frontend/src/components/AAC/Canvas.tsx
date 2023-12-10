@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef, RefObject, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PRED_INTERVAL, useDraw } from "../../react-helpers/hooks/useDraw";
 import useClientRender from "@/react-helpers/hooks/useClientRender";
 import { useSimilarity } from "@/react-state-management/providers/useSimilarity";
@@ -6,7 +6,6 @@ import { useInferenceContext } from "@/react-state-management/providers/Inferenc
 import useSize from "@/react-helpers/hooks/useSize";
 import LoadingScreenBlocker from "../util/LoadingScreenBlocker";
 import { useStrokeRecorderContext } from "@/react-state-management/providers/StrokeProvider";
-import { Ri24HoursFill, RiArrowGoBackFill, RiDeleteBack2Fill } from "react-icons/ri";
 
 
 interface ParentDivDims {
@@ -21,8 +20,6 @@ export default function Canvas() {
     // used to calc canvas size for diff screens
     const containerElement = useRef<HTMLDivElement>(null);
     const [parentDim, setParentDims] = useState<ParentDivDims>({});
-
-    const renderPage = useClientRender();
 
     const containerSize = useSize(containerElement);
     const [isContainerShifting, setIsContainerShifting] = useState(false);
@@ -79,12 +76,6 @@ export default function Canvas() {
     useEffect(() => {
         if (!isContainerShifting) clearCanvas(); //when container done moving
     }, [isContainerShifting]);
-
-    const handlePred = () => {
-        if (!canvasRef.current) return;
-        console.log("Tried to predict");
-        predict(canvasRef.current);
-    };
 
     return (
         <div className="ml-3 w-full" ref={containerElement}>

@@ -80,27 +80,4 @@ img.clear-button {
     .h-calc-vh {
         height: calc(100vh - 384px);
     }
-    /*
-    h-calc-vh-2xl-max {
-      height: calc(100vh - 352px);
-    }
-    .h-calc-vh-xl-max {
-        height: calc(100vh - 336px);
-    }
-    .h-calc-vh-lg-max {
-        height: calc(100vh - 320px);
-    }
-    .h-calc-vh-mid-max {
-        height: calc(100vh - 304px);
-    }
-    .h-calc-vh-md-max {
-        height: calc(100vh - 298px);
-    }
-    .h-calc-vh-sm-max {
-        height: calc(100vh - 282px);
-    }
-    .h-calc-vh-xs-max {
-        height: calc(100vh - 266px);
-    }    
-    */
 }
