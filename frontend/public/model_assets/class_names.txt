@@ -2,7 +2,7 @@ sun
 crown
 chair
 bowtie
-shoes
+shoe
 butterfly
 hotdog
 scissors
