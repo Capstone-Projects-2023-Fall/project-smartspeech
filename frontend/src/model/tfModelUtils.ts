@@ -33,7 +33,7 @@ function getBoundingBox(coords: Point[]): BoundingBox {
     };
 }
 
-function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
+function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData | null {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
@@ -45,6 +45,10 @@ function getImageData(bb: BoundingBox, canvas: HTMLCanvasElement): ImageData {
     const width = (bb.max.x - bb.min.x); 
     const height = (bb.max.y - bb.min.y); 
     
+    if (width == 0 || height == 0) {
+        return null;
+    }
+
     if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(width) || !Number.isFinite(height)) {
         console.error("Invalid canvas dimensions", { x, y, width, height });
     }
@@ -128,6 +132,10 @@ export async function processDrawing(model: LayersModel, wordDict: string[], coo
     const bb = getBoundingBox(flat_coords);
     // Get image data from minimum bounding box and canvas element.
     const imgData = getImageData(bb, canvas);
+
+    if (!imgData) {
+        return Promise.resolve([]);
+    }
     // Preprocess data for model inference.
     const processedData = preprocess(imgData);
     // Rest of the function remains the same...
