@@ -74,8 +74,8 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
     labelDetectionAction.then((detectionResponse) => {
       if (!detectionResponse) return;
 
-      console.log("server detection resp:", detectionResponse);
-      setDebug(JSON.stringify(detectionResponse, null, 2));
+      // console.log("server detection resp:", detectionResponse);
+      // setDebug(JSON.stringify(detectionResponse, null, 2));
       const detectedTiles = detectionResponse
         .map((item) => flatList[item.name])
         .filter((item) => item);
