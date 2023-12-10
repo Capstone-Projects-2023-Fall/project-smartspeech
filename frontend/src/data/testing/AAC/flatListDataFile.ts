@@ -667,7 +667,7 @@ const flatList: FlatTileAssets = {
         sound: "Hat",
         tileColor: "orange",
     },
-    shoes: {
+    shoe: {
         image: "/AAC_assets/img/clothes/shoes.png",
         text: "Shoes",
         sound: "Shoes",
@@ -1705,12 +1705,6 @@ const flatList: FlatTileAssets = {
         sound: "Moon",
         tileColor: "orange",
     },
-    sun: {
-        image: "/AAC_assets/img/sky/sun.png",
-        text: "Sun",
-        sound: "Sun",
-        tileColor: "orange",
-    },
     lightning: {
         image: "/AAC_assets/img/sky/lightning.png",
         text: "Lightning",
@@ -1872,6 +1866,23 @@ const flatList: FlatTileAssets = {
         text: "My Toys",
         sound: "My Toys",
         tileColor: "red",
+    tv: {
+        image: "/AAC_assets/img/electronics/tv.png",
+        text: "TV",
+        sound: "TV",
+        tileColor: "blue",
+    },
+    tablet: {
+        image: "/AAC_assets/img/electronics/tablet.png",
+        text: "Tablet",
+        sound: "Tablet",
+        tileColor: "blue",
+    },
+    headphones: {
+        image: "/AAC_assets/img/electronics/headphones.png",
+        text: "Headphones",
+        sound: "Headphones",
+        tileColor: "blue",
     },
     bicycle: {
         image: "/AAC_assets/img/games/bicycle.png",
@@ -2095,12 +2106,6 @@ const flatList: FlatTileAssets = {
         sound: "face",
         tileColor: "orange",
     },
-    finger: {
-        image: "/AAC_assets/img/body/finger.png",
-        text: "Finger",
-        sound: "finger",
-        tileColor: "orange",
-    },
     foot: {
         image: "/AAC_assets/img/body/foot.png",
         text: "Foot",
@@ -2117,12 +2122,6 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/body/hand.png",
         text: "Hand",
         sound: "hand",
-        tileColor: "orange",
-    },
-    head: {
-        image: "/AAC_assets/img/body/head.png",
-        text: "Head",
-        sound: "head",
         tileColor: "orange",
     },
     leg: {
@@ -2207,6 +2206,16 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/touch/dirty.png",
         text: "Dirty",
         sound: "dirty",
+    head: {
+        image: "/AAC_assets/img/body/head.png",
+        text: "Head",
+        sound: "Head",
+        tileColor: "blue",
+    },
+    sun: {
+        image: "/AAC_assets/img/sky/sun.png",
+        text: "Sun",
+        sound: "Sun",
         tileColor: "blue",
     },
     dull: {
@@ -2359,12 +2368,6 @@ const flatList: FlatTileAssets = {
         sound: "Technology",
         tileColor: "blue",
     },
-    tv: {
-        image: "/AAC_assets/img/electronics/tv.png",
-        text: "Tv",
-        sound: "Tv",
-        tileColor: "blue",
-    },
     computer: {
         image: "/AAC_assets/img/electronics/computer.png",
         text: "Computer",
@@ -2389,10 +2392,154 @@ const flatList: FlatTileAssets = {
         sound: "Camera",
         tileColor: "blue",
     },
-    tablet: {
-        image: "/AAC_assets/img/electronics/tablet.png",
-        text: "Tablet",
-        sound: "Tablet",
+    finger: {
+        image: "/AAC_assets/img/body/finger.png",
+        text: "Finger",
+        sound: "Finger",
+        tileColor: "blue",
+    },
+    glasses: {
+        image: "/AAC_assets/img/clothes/glasses.png",
+        text: "Glasses",
+        sound: "Glasses",
+        tileColor: "blue",
+    },
+    eye: {
+        image: "/AAC_assets/img/body/eye.png",
+        text: "Eye",
+        sound: "Eye",
+        tileColor: "blue",
+    },
+    paperclip: {
+        image: "/AAC_assets/img/tools/paperclip.png",
+        text: "Paperclip",
+        sound: "Paperclip",
+        tileColor: "blue",
+    },
+    key: {
+        image: "/AAC_assets/img/tools/key.png",
+        text: "Key",
+        sound: "Key",
+        tileColor: "blue",
+    },
+    ladder: {
+        image: "/AAC_assets/img/tools/ladder.png",
+        text: "Ladder",
+        sound: "Ladder",
+        tileColor: "blue",
+    },
+    fish: {
+        image: "/AAC_assets/img/animals/fish.png",
+        text: "Fish",
+        sound: "Fish",
+        tileColor: "blue",
+    },
+    hotdog: {
+        image: "/AAC_assets/img/food/hotdog.png",
+        text: "Hotdog",
+        sound: "Hotdog",
+        tileColor: "blue",
+    },
+    bandage: {
+        image: "/AAC_assets/img/body/bandage.png",
+        text: "Bandage",
+        sound: "Bandage",
+        tileColor: "blue",
+    },
+    bicycle: {
+        image: "/AAC_assets/img/games/bicycle.png",
+        text: "Bicycle",
+        sound: "Bicycle",
+        tileColor: "blue",
+    },
+    umbrella: {
+        image: "/AAC_assets/img/tools/umbrella.png",
+        text: "Umbrella",
+        sound: "Umbrella",
+        tileColor: "blue",
+    },
+    clock: {
+        image: "/AAC_assets/img/electronics/clock.png",
+        text: "Clock",
+        sound: "Clock",
+        tileColor: "blue",
+    },
+    butterfly: {
+        image: "/AAC_assets/img/animals/butterfly.png",
+        text: "Butterfly",
+        sound: "Butterfly",
+        tileColor: "blue",
+    },
+    camera: {
+        image: "/AAC_assets/img/electronics/camera.png",
+        text: "Camera",
+        sound: "Camera",
+        tileColor: "blue",
+    },
+    computer: {
+        image: "/AAC_assets/img/electronics/computer.png",
+        text: "Computer",
+        sound: "Computer",
+        tileColor: "blue",
+    },
+    mobile: {
+        image: "/AAC_assets/img/electronics/mobile.png",
+        text: "Mobile",
+        sound: "Mobile",
+        tileColor: "blue",
+    },
+    sweets: {
+        image: "/AAC_assets/img/food/sweets.png",
+        text: "Sweets",
+        sound: "Sweets",
+        tileColor: "blue",
+    },
+    biscuit: {
+        image: "/AAC_assets/img/food/biscuit.png",
+        text: "Biscuit",
+        sound: "Biscuit",
+        tileColor: "blue",
+    },
+    wall: {
+        image: "/AAC_assets/img/house/wall.png",
+        text: "Wall",
+        sound: "Wall",
+        tileColor: "blue",
+    },
+    plane: {
+        image: "/AAC_assets/img/things/plane.png",
+        text: "Plane",
+        sound: "Plane",
+        tileColor: "blue",
+    },
+    accessory: {
+        image: "/AAC_assets/img/things/accessory.png",
+        text: "Accessory",
+        sound: "Accessory",
+        tileColor: "blue",
+    },
+    bed: {
+        image: "/AAC_assets/img/house/bed.png",
+        text: "Bed",
+        sound: "Bed",
+        tileColor: "blue",
+    },
+    bottle: {
+        image: "/AAC_assets/img/food/bottle.png",
+        text: "Bottle",
+        sound: "Bottle",
+        tileColor: "blue",
+    },
+    wallet: {
+        image: "/AAC_assets/img/things/wallet.png",
+        text: "Wallet",
+        sound: "Wallet",
+        tileColor: "blue",
+    },
+    brush: {
+        image: "/AAC_assets/img/house/brush.png",
+        text: "Brush",
+        sound: "Brush",
         tileColor: "blue",
     },
 };
