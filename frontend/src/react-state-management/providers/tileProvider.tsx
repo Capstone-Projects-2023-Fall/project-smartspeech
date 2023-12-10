@@ -46,6 +46,7 @@ export default function TileProvider({ children }: TileProviderProps) {
         // replace with actual tile getter
         const tilesResp = getAACAssets();
         setTiles(tilesResp);
+        console.log("tile", tilesResp);
     }, []);
 
     useEffect(() => {
