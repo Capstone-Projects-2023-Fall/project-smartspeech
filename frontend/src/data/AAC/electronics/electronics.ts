@@ -28,7 +28,7 @@ const electronics: TileAssets = {
         sound: "Clock",
         tileColor: ELECTRONICS_TILE_COLOR,
     },
-    mobile: {
+    phone: {
         image: "/AAC_assets/img/electronics/mobile.png",
         text: "Phone",
         sound: "Phone",
