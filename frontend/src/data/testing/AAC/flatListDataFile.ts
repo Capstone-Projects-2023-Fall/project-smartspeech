@@ -199,34 +199,10 @@ const flatList: FlatTileAssets = {
         sound: "Taco",
         tileColor: "green",
     },
-    hotdog: {
-        image: "/AAC_assets/img/food/hotdog.png",
-        text: "Hotdog",
-        sound: "Hotdog",
-        tileColor: "green",
-    },
-    sweets: {
-        image: "/AAC_assets/img/food/sweets.png",
-        text: "Sweets",
-        sound: "Sweets",
-        tileColor: "green",
-    },
-    biscuit: {
-        image: "/AAC_assets/img/food/biscuit.png",
-        text: "Biscuit",
-        sound: "Biscuit",
-        tileColor: "green",
-    },
     vegetable: {
         image: "/AAC_assets/img/food/vegetable.png",
         text: "Vegetable",
         sound: "Vegetable",
-        tileColor: "green",
-    },
-    bottle: {
-        image: "/AAC_assets/img/food/bottle.png",
-        text: "Bottle",
-        sound: "Bottle",
         tileColor: "green",
     },
     go: {
@@ -499,18 +475,6 @@ const flatList: FlatTileAssets = {
         sound: "Lighting",
         tileColor: "blue",
     },
-    wall: {
-        image: "/AAC_assets/img/house/wall.png",
-        text: "Wall",
-        sound: "Wall",
-        tileColor: "blue",
-    },
-    bed: {
-        image: "/AAC_assets/img/house/bed.png",
-        text: "Bed",
-        sound: "Bed",
-        tileColor: "blue",
-    },
     toothbrush: {
         image: "/AAC_assets/img/house/brush.png",
         text: "Tooth Brush",
@@ -677,12 +641,6 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/clothes/coat.png",
         text: "Coat",
         sound: "Coat",
-        tileColor: "orange",
-    },
-    glasses: {
-        image: "/AAC_assets/img/clothes/glasses.png",
-        text: "Glasses",
-        sound: "Glasses",
         tileColor: "orange",
     },
     dress: {
@@ -883,12 +841,6 @@ const flatList: FlatTileAssets = {
         sound: "Car",
         tileColor: "red",
     },
-    plane: {
-        image: "/AAC_assets/img/things/plane.png",
-        text: "Plane",
-        sound: "Plane",
-        tileColor: "red",
-    },
     flower: {
         image: "/AAC_assets/img/things/flower.png",
         text: "Flower",
@@ -1087,40 +1039,10 @@ const flatList: FlatTileAssets = {
         sound: "Hammer",
         tileColor: "red",
     },
-    ladder: {
-        image: "/AAC_assets/img/tools/ladder.png",
-        text: "Ladder",
-        sound: "Ladder",
-        tileColor: "red",
-    },
-    paperclip: {
-        image: "/AAC_assets/img/tools/paperclip.png",
-        text: "Paperclip",
-        sound: "Paperclip",
-        tileColor: "red",
-    },
-    umbrella: {
-        image: "/AAC_assets/img/tools/umbrella.png",
-        text: "Umbrella",
-        sound: "Umbrella",
-        tileColor: "red",
-    },
     tree: {
         image: "/AAC_assets/img/things/tree.png",
         text: "Tree",
         sound: "Tree",
-        tileColor: "red",
-    },
-    accessory: {
-        image: "/AAC_assets/img/things/accessory.png",
-        text: "Accessory",
-        sound: "Accessory",
-        tileColor: "red",
-    },
-    wallet: {
-        image: "/AAC_assets/img/things/wallet.png",
-        text: "Wallet",
-        sound: "Wallet",
         tileColor: "red",
     },
     rifle: {
@@ -1157,18 +1079,6 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/animals/pet.png",
         text: "Pet",
         sound: "Pet",
-        tileColor: "green",
-    },
-    fish: {
-        image: "/AAC_assets/img/animals/fish.png",
-        text: "Fish",
-        sound: "Fish",
-        tileColor: "green",
-    },
-    butterfly: {
-        image: "/AAC_assets/img/animals/butterfly.png",
-        text: "Butterfly",
-        sound: "Butterfly",
         tileColor: "green",
     },
     tell: {
@@ -1866,6 +1776,7 @@ const flatList: FlatTileAssets = {
         text: "My Toys",
         sound: "My Toys",
         tileColor: "red",
+    },
     tv: {
         image: "/AAC_assets/img/electronics/tv.png",
         text: "TV",
@@ -1883,12 +1794,6 @@ const flatList: FlatTileAssets = {
         text: "Headphones",
         sound: "Headphones",
         tileColor: "blue",
-    },
-    bicycle: {
-        image: "/AAC_assets/img/games/bicycle.png",
-        text: "Bicycle",
-        sound: "Bicycle",
-        tileColor: "yellow",
     },
     he: {
         image: "/AAC_assets/img/they/he.png",
@@ -2160,18 +2065,6 @@ const flatList: FlatTileAssets = {
         sound: "tongue",
         tileColor: "orange",
     },
-    bandage: {
-        image: "/AAC_assets/img/body/bandage.png",
-        text: "Bandage",
-        sound: "Bandage",
-        tileColor: "orange",
-    },
-    eye: {
-        image: "/AAC_assets/img/body/eye.png",
-        text: "Eye",
-        sound: "Eye",
-        tileColor: "orange",
-    },
     break: {
         image: "/AAC_assets/img/touch/break.png",
         text: "Break",
@@ -2206,6 +2099,8 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/touch/dirty.png",
         text: "Dirty",
         sound: "dirty",
+        tileColor: "blue",
+    },
     head: {
         image: "/AAC_assets/img/body/head.png",
         text: "Head",
@@ -2366,30 +2261,6 @@ const flatList: FlatTileAssets = {
         image: "/AAC_assets/img/electronics/technology.png",
         text: "Technology",
         sound: "Technology",
-        tileColor: "blue",
-    },
-    computer: {
-        image: "/AAC_assets/img/electronics/computer.png",
-        text: "Computer",
-        sound: "Computer",
-        tileColor: "blue",
-    },
-    clock: {
-        image: "/AAC_assets/img/electronics/clock.png",
-        text: "Clock",
-        sound: "Clock",
-        tileColor: "blue",
-    },
-    mobile: {
-        image: "/AAC_assets/img/electronics/mobile.png",
-        text: "Phone",
-        sound: "Phone",
-        tileColor: "blue",
-    },
-    camera: {
-        image: "/AAC_assets/img/electronics/camera.png",
-        text: "Camera",
-        sound: "Camera",
         tileColor: "blue",
     },
     finger: {
