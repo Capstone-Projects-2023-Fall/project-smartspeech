@@ -1045,12 +1045,6 @@ const flatList: FlatTileAssets = {
         sound: "Tree",
         tileColor: "red",
     },
-    rifle: {
-        image: "/AAC_assets/img/things/rifle.png",
-        text: "Rifle",
-        sound: "Rifle",
-        tileColor: "red",
-    },
     animal: {
         image: "/AAC_assets/img/animals/animal.png",
         text: "Animal",
