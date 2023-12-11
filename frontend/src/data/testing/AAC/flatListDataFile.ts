@@ -458,7 +458,7 @@ const flatList: FlatTileAssets = {
         tileColor: "blue",
     },
     table: {
-        image: "/AAC_assets/img/house/Table.png",
+        image: "/AAC_assets/img/house/table.png",
         text: "Table",
         sound: "Table",
         tileColor: "blue",
