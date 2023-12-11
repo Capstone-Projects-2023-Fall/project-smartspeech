@@ -42,7 +42,7 @@ pet: {
         sound: "Fish",
         tileColor: THINGS_TILES_COLOR,
       },
-      butterfly: {
+    butterfly: {
         image: "/AAC_assets/img/animals/butterfly.png",
         text: "Butterfly",
         sound: "Butterfly",
