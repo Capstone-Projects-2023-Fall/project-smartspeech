@@ -1,4 +1,5 @@
-import { FlatTileAssets, TileAssets } from "@/components/AAC/TileTypes";
+import { TileColor } from "@/components/AAC/Tile";
+import { FlatTileAssets, TileAssets, TileData } from "@/components/AAC/TileTypes";
 import { getTileFlatList } from "@/data/testing/AAC/flatListDataFile";
 import { getAACAssets } from "@/util/AAC/getAACAssets";
 import getTilesByEmail, { GetTileData } from "@/util/CustomTile/getTilesByEmail";
@@ -46,7 +47,6 @@ export default function TileProvider({ children }: TileProviderProps) {
         // replace with actual tile getter
         const tilesResp = getAACAssets();
         setTiles(tilesResp);
-        console.log("tile", tilesResp);
     }, []);
 
     useEffect(() => {
@@ -66,6 +66,34 @@ export default function TileProvider({ children }: TileProviderProps) {
 
         customTileDataPromise.catch((error) => console.log(error));
     }, [session?.user?.email, status, refreshCustomTiles]);
+
+    useEffect(() => {
+        if (!session?.user?.email) return;
+        if (customTiles.length === 0) return;
+
+        const customTilesView: TileData = {
+            image: "/AAC_assets/img/standard/custom.png",
+            text: "Custom Tiles",
+            tileColor: "purple",
+        };
+
+        const customTilesViewSubtiles: TileAssets = {};
+
+        customTiles.forEach((tile) => {
+            const { text, sound, url, tileColor } = tile;
+
+            customTilesViewSubtiles[tile.text] = {
+                text,
+                sound,
+                image: url,
+                tileColor: tileColor as TileColor,
+            };
+        });
+
+        customTilesView.subTiles = customTilesViewSubtiles;
+
+        setTiles({ ...tiles, "Custom Tiles": customTilesView });
+    }, [customTiles, session?.user?.email]);
 
     const value: TilesContext = {
         tiles,
