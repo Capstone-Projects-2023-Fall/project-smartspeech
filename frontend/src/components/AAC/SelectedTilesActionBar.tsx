@@ -5,6 +5,7 @@ import { RiSpeakLine, RiCameraOffFill, RiCameraFill, RiDeleteBack2Fill } from "r
 import { RxCross2 } from "react-icons/rx";
 import { speak } from "@/util/AAC/Speech";
 import { useRekognition } from "@/react-state-management/providers/useRekognition";
+import { useHealthCheckContext } from "@/react-state-management/providers/HealthCheckProvider";
 
 export const actionBarDataTestIds = {
     container: "actionbar-container",
@@ -14,7 +15,7 @@ export const actionBarDataTestIds = {
     backspaceBtn: "actionbar-backspace-btn",
     toggleCamBtn: "actionbar-toggle-camera",
     cameraIconOn: "actionbar-camera-on-icon",
-    cameraIconOff: "actionbar-camera-off-icon"
+    cameraIconOff: "actionbar-camera-off-icon",
 };
 
 /**
@@ -23,15 +24,16 @@ export const actionBarDataTestIds = {
  */
 export default function SelectedTilesActionBar() {
     const { tiles, clear, removeLastTile } = useUtteredTiles();
+    const { backendActive } = useHealthCheckContext();
 
     const handleSpeak = () => {
         const validTilesSounds = tiles.filter((tile) => Boolean(tile.sound)).map((tile) => tile.sound);
         const sentence = validTilesSounds.join(" ");
 
-        speak(sentence);
+        speak(sentence, backendActive);
     };
 
-    const {toggle, toggleCamera} = useRekognition();
+    const { toggle, toggleCamera } = useRekognition();
 
     return (
         <div className="z-50 w-full flex gap-2 p-3" data-testid={actionBarDataTestIds.container}>
@@ -53,13 +55,22 @@ export default function SelectedTilesActionBar() {
             <button className="bg-red-400 p-2 rounded hover:shadow-xl" data-testid={actionBarDataTestIds.clearBtn} onClick={clear}>
                 <RxCross2 className="w-12 h-12" />
             </button>
-            <button className={`${toggle ? "bg-gray-400" : "bg-gray-600"} p-2 rounded hover:shadow-xl`} onClick={toggleCamera} data-testid={actionBarDataTestIds.toggleCamBtn}>
             {
-            toggle 
-            ? <RiCameraFill data-testid={actionBarDataTestIds.cameraIconOn} className="w-12 h-12" />
-            : <RiCameraOffFill data-testid={actionBarDataTestIds.cameraIconOff} className="w-12 h-12" />
+                // show toggle button IF backend is even working at the moment
+                backendActive && (
+                    <button
+                        className={`${toggle ? "bg-gray-400" : "bg-gray-600"} p-2 rounded hover:shadow-xl`}
+                        onClick={toggleCamera}
+                        data-testid={actionBarDataTestIds.toggleCamBtn}
+                    >
+                        {toggle ? (
+                            <RiCameraFill data-testid={actionBarDataTestIds.cameraIconOn} className="w-12 h-12" />
+                        ) : (
+                            <RiCameraOffFill data-testid={actionBarDataTestIds.cameraIconOff} className="w-12 h-12" />
+                        )}
+                    </button>
+                )
             }
-            </button>
         </div>
     );
 }
