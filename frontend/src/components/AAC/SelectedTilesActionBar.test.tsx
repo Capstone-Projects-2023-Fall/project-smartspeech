@@ -9,9 +9,9 @@ import sampleData from "@/data/testing/AAC/Tiles";
 import { computeTileContainerName } from "./Tile";
 import TileProvider, { TileProviderProps } from "../../react-state-management/providers/tileProvider";
 import RekognitionProvider from "@/react-state-management/providers/useRekognition";
+import HealthCheckProvider, { HealthCheckProviderProps } from "@/react-state-management/providers/HealthCheckProvider";
 
 jest.mock("../../react-state-management/providers/CameraFeed");
-
 
 jest.mock("../../util/AAC/Speech", () => {
     return {
@@ -27,6 +27,16 @@ jest.mock("../../react-state-management/providers/tileProvider", () => ({
         return {
             tiles: sampleData,
             flatList: {},
+        };
+    },
+}));
+
+jest.mock("../../react-state-management/providers/HealthCheckProvider", () => ({
+    __esModule: true,
+    default: ({ children }: HealthCheckProviderProps) => <div>{children}</div>,
+    useHealthCheckContext: () => {
+        return {
+            backendActive: true,
         };
     },
 }));
@@ -69,16 +79,11 @@ export const tests = describe("SelectedTilesActionBar", () => {
         const wordBoxElement = screen.getByTestId(wordBox);
         const speakBtnElement = screen.getByTestId(speakBtn);
         const clearBtnElement = screen.getByTestId(clearBtn);
-        const toggleCamBtnElement = screen.getByTestId(toggleCamBtn);
-        const backspaceBtnElement = screen.getByTestId(backspaceBtn);
-
 
         expect(containerElement).toBeInTheDocument();
         expect(wordBoxElement).toBeInTheDocument();
         expect(speakBtnElement).toBeInTheDocument();
         expect(clearBtnElement).toBeInTheDocument();
-        expect(backspaceBtnElement).toBeInTheDocument();
-        expect(toggleCamBtnElement).toBeInTheDocument();
     });
 
     it("should add tiles correctly when tiles are pressed", () => {
@@ -126,12 +131,14 @@ export const tests = describe("SelectedTilesActionBar", () => {
     it("should add elements correctly and send them to webspeech API", () => {
         // we need tiles to help add buttons into action bar
         render(
-            <TileProvider>
-                <UtteredTilesProvider>
-                    <SelectedTilesActionBar />
-                    <Tiles />
-                </UtteredTilesProvider>
-            </TileProvider>
+            <HealthCheckProvider>
+                <TileProvider>
+                    <UtteredTilesProvider>
+                        <SelectedTilesActionBar />
+                        <Tiles />
+                    </UtteredTilesProvider>
+                </TileProvider>
+            </HealthCheckProvider>
         );
 
         const { container, wordBox, speakBtn, clearBtn } = actionBarDataTestIds;
@@ -169,7 +176,7 @@ export const tests = describe("SelectedTilesActionBar", () => {
         // fire speak event
         fireEvent.click(speakBtnElement);
 
-        expect(SpeechModuleMock.speak).toBeCalledWith(textToBeSpoken);
+        expect(SpeechModuleMock.speak).toBeCalledWith(textToBeSpoken, true);
     });
 
     it("should remove the last element on the click of the backspace button", () => {
@@ -285,14 +292,16 @@ export const tests = describe("SelectedTilesActionBar", () => {
 
     it("should toggle the camera feature off, then on", () => {
         render(
-            <TileProvider>
-                <RekognitionProvider>
-                    <UtteredTilesProvider>
-                        <SelectedTilesActionBar />
-                        <Tiles />
-                    </UtteredTilesProvider>
-                </RekognitionProvider>
-            </TileProvider>
+            <HealthCheckProvider>
+                <TileProvider>
+                    <RekognitionProvider>
+                        <UtteredTilesProvider>
+                            <SelectedTilesActionBar />
+                            <Tiles />
+                        </UtteredTilesProvider>
+                    </RekognitionProvider>
+                </TileProvider>
+            </HealthCheckProvider>
         );
 
         const { toggleCamBtn, cameraIconOn, cameraIconOff } = actionBarDataTestIds;
@@ -304,17 +313,17 @@ export const tests = describe("SelectedTilesActionBar", () => {
         expect(cameraOnElement).toBeInTheDocument();
 
         act(() => fireEvent.click(toggleCamBtnElement));
-        
+
         const cameraOffElement = screen.getByTestId(cameraIconOff);
 
         expect(cameraOffElement).toBeInTheDocument();
         expect(cameraOnElement).not.toBeInTheDocument();
 
         fireEvent.click(toggleCamBtnElement);
-        
+
         cameraOnElement = screen.getByTestId(cameraIconOn);
 
         expect(cameraOnElement).toBeInTheDocument();
         expect(cameraOffElement).not.toBeInTheDocument();
-    })
+    });
 });
