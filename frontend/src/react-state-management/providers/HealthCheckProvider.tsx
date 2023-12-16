@@ -24,7 +24,7 @@ export default function HealthCheckProvider({ children }: HealthCheckProviderPro
         isBackendActive()
             .then((backendStatus) => {
                 setBackendActive(backendStatus);
-                console.log(backendStatus);
+                console.log("[INFO] Backend Status:", backendStatus);
             })
             .catch((err) => console.error());
     }, [refresh]);
