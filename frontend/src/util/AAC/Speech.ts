@@ -92,7 +92,7 @@ async function requestTTS(phrase: string): Promise<Response | undefined> {
  *
  * @returns true if the sound is played, and false otherwise
  */
-export async function speak(sound: string) {
+export async function speak(sound: string, __isBackendActive: boolean = true) {
   /* It is essential the context is declared first.
    * Safari will only play audio if it is the result of direct user
    * interaction. If the AudioContext is initialized after any
@@ -100,7 +100,8 @@ export async function speak(sound: string) {
    * so it blocks the context.
    * https://stackoverflow.com/a/31777081
    * https://stackoverflow.com/a/58354682 */
-  if ((process.env.NEXT_PUBLIC_PROG_MODE as string) === "DEV") {
+
+  if ((process.env.NEXT_PUBLIC_PROG_MODE as string) === "DEV" || !__isBackendActive) {
     speakViaWebSpeechAPI(sound);
     console.log(sound);
     return true;

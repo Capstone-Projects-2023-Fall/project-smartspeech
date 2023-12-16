@@ -4,6 +4,7 @@ import useTimedIncrement from "@/react-helpers/hooks/useTimedIncrement";
 import { useTilesProvider } from "./tileProvider";
 import { TileProps } from "@/components/AAC/Tile";
 import CameraFeed, { GetScreenshotHandle } from "./CameraFeed";
+import { useHealthCheckContext } from "./HealthCheckProvider";
 
 const RekognitionContext = createContext<RekognitionState>({
     items: [],
@@ -25,6 +26,8 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
     const refresh = useTimedIncrement(INCREMENT_INTERVAL);
     const [toggle, setCameraToggle] = useState(true);
     const toggleCamera = () => setCameraToggle((prev) => !prev);
+
+    const { backendActive } = useHealthCheckContext();
 
     //! debug
     const [debug, setDebug] = useState<string>("");
@@ -76,7 +79,7 @@ export default function RekognitionProvider(props: RekognitionProviderProps) {
 
     return (
         <RekognitionContext.Provider value={value}>
-            {hasPermissions && toggle && (
+            {backendActive && hasPermissions && toggle && (
                 <CameraFeed ref={webcamRef} cameraNum={cameraNum} width={768} height={1024} setHasPermissions={setHasPermissions} />
             )}
             {props.children}
