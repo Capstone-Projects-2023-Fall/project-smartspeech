@@ -1,21 +1,22 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=11814773)
+
 <div align="center">
 
 # Project Name
+
 [![Report Issue on Jira](https://img.shields.io/badge/Report%20Issues-Jira-0052CC?style=flat&logo=jira-software)](https://temple-cis-projects-in-cs.atlassian.net/jira/software/c/projects/DT/issues)
 [![Deploy Docs](https://github.com/ApplebaumIan/tu-cis-4398-docs-template/actions/workflows/deploy.yml/badge.svg)](https://github.com/ApplebaumIan/tu-cis-4398-docs-template/actions/workflows/deploy.yml)
 [![Documentation Website Link](https://img.shields.io/badge/-Documentation%20Website-brightgreen)](https://capstone-projects-2023-fall.github.io/project-smartspeech/)
 
-
 </div>
-
 
 ## Keywords
 
-AI / ML, Web Development, AAC,  Accessible technology, Cloud Computing
+AI / ML, Web Development, AAC, Accessible technology, Cloud Computing
 
 ## Project Abstract
-AAC (augmentative and alternative communication) apps are alternative communication interfaces that allow non-verbal individuals to express themselves via TTS (text-to-speech).  Many of these tools are hard to use and it takes significant training to do so including having a Speech-Language Pathologist (SLP) on-site. Some tools are so hard to use that SLPs have to model the actions to the AAC tool User[^1]. This proposal presents a revamp of the standard AAC tool which has users navigate through nested menus to find a word. This revamp presents an ML image recognition where users can draw on a web canvas to help them find the word they are looking for in their AAC menu. An optional extension to the app would include the device cameras to suggest words that relate to the objects around them.    
+
+AAC (augmentative and alternative communication) apps are alternative communication interfaces that allow non-verbal individuals to express themselves via TTS (text-to-speech). Many of these tools are hard to use and it takes significant training to do so including having a Speech-Language Pathologist (SLP) on-site. Some tools are so hard to use that SLPs have to model the actions to the AAC tool User[^1]. This proposal presents a revamp of the standard AAC tool which has users navigate through nested menus to find a word. This revamp presents an ML image recognition where users can draw on a web canvas to help them find the word they are looking for in their AAC menu. An optional extension to the app would include the device cameras to suggest words that relate to the objects around them.
 
 ## High-Level Requirement
 
@@ -25,37 +26,95 @@ Since the audience we are targeting may have learning disabilities the image tra
 
 ## Conceptual Design
 
-The frontend will be built on Next.js so there will be no delay on page rendering, unlike standard React.js pages. Next.js will also allow the creation of edge functions to safely contact our backend service without exposing them to the outside world. Given the need for machine learning a Python backend will probably be required. This backend will be hosted likely on AWS or some other cloud provider with other backends on standby in case the server load exceeds computation power or a node goes down. The backends will likely run a pre-trained model so only a low number of computations are required, this way the backend nodes can be lightweight and cost-effective. 
-
+The frontend will be built on Next.js so there will be no delay on page rendering, unlike standard React.js pages. Next.js will also allow the creation of edge functions to safely contact our backend service without exposing them to the outside world. Given the need for machine learning a Python backend will probably be required. This backend will be hosted likely on AWS or some other cloud provider with other backends on standby in case the server load exceeds computation power or a node goes down. The backends will likely run a pre-trained model so only a low number of computations are required, this way the backend nodes can be lightweight and cost-effective.
 
 ## Background
 
-This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and AssistiveWare[^3] are focused on adding more symbols and expressions but do not integrate intelligence into their AAC app like *SpeechSmart*. Something else we would like to improve is the cost of these apps. Most other competitor apps are very expensive with many being nearly three hundred dollars[^4]. 
+This tool is novel in the sense that other AAC tools like Fluent AAC[^2] and AssistiveWare[^3] are focused on adding more symbols and expressions but do not integrate intelligence into their AAC app like _SpeechSmart_. Something else we would like to improve is the cost of these apps. Most other competitor apps are very expensive with many being nearly three hundred dollars[^4].
 
 ## Required Resources
 
-+ Machine Powerful enough for Image Related ML Tasks
-+ NEXT.js (React.js)
-+ Terraform (Infrastructure as Code Tool)
-+ AWS Suite -- Services that are used:
-	+ AWS S3 (Object Storage)
-	+ AWS Rekognition
-	+ AWS RDS (Relational Database Service)
-	+ AWS Networking Resources (VPC)
-	+ AWS Fargate (Containerization)
+- Machine Powerful enough for Image Related ML Tasks
+- NEXT.js (React.js)
+- Terraform (Infrastructure as Code Tool)
+- AWS Suite -- Services that are used:
+  - AWS S3 (Object Storage)
+  - AWS Rekognition
+  - AWS RDS (Relational Database Service)
+  - AWS Networking Resources (VPC)
+  - AWS Fargate (Containerization)
 
- 
+## Summary of Features
+
+- Users are able to log in using a third party providers.
+  - Users are not required to create an account for the drawing, camera, or tile features.
+  - Account data can be accessed across devices.
+  - Users who log in are able to add custom tiles that appear on the manual board.
+- When the user draws an object, the system recognizes the drawing after a short delay and provides tiles of words that resemble the perceived object based on the drawing.
+  - Users are able to select tiles, causing the system to audibly announce the object's name.
+  - Users are able to undo one stroke or erase the entire drawing in the case their drawing is not recongized.
+- If the user permits camera usage, the system alternates between the front and back facing cameras, recognizing objects and provides tiles of words the resemble perceived objects in the camera.
+  - This setting can be turned on and off using a button in the top right-hand corner of the screen.
+- When a tile is pressed, it is added to the tiles bar at the top of the screen.
+  - All tiles in the tile bar can be played as a sentence.
+  - Users can delete the most recent tile or delete all tiles in the tile bar.
+- Audio data is cached to provide faster service to the user.
+- The app is able to be used by a user who cannot read. Further, the app minus caretaker features are all on one page, making the app easy to navigate.
+
 ## How to Run the Full Application
+
 ### Frontend
 
 The frontend contains minimal configuration and can be run via:
 
 ```shell
 cd ./frontend
+npm i
 npm run dev
 ```
 
+You will need to create a secret file at frontend/.env.local containing:
+
+```
+NEXT_PUBLIC_VOICE_SPEED=
+NEXT_PUBLIC_BACKEND_URL=""
+
+NEXTAUTH_SECRET=""
+
+# Facebook
+FACEBOOK_ID=""
+FACEBOOK_SECRET_=""
+
+# Github  (ss-nextauth)
+GITHUB_ID=""
+GITHUB_SECRET=""
+
+# Google Firebase
+GOOGLE_FB_ID=""
+GOOGLE_FB_SECRET=""
+
+NEXTAUTH_URL=""
+
+# TTS Params
+TTS_API_KEY=""
+TTS_API_URL=""
+
+# S3 Params
+BUCKET_NAME=""
+ACCESS_KEY=""
+SECRET_KEY=""
+OBJECT_URL=""
+AWS_REGION=""
+
+# RDS Params
+CT_DB_URL=""
+CT_DB_PORT=""
+CT_DB_USERNAME=""
+CT_DB_PASSWORD=""
+```
+
 If the project is still being supported it will be hosted via [Vercel](https://project-smartspeech.vercel.app/). Remember to take a look at `frontend/.env` to ensure a correct configuration. If you are going to run the backend (see below) yourself, make sure to set the `NEXT_PUBLIC_PROG_MODE` to `DEV` instead of `PROD`.
+
 ### Backend
 
 Steps:
@@ -80,6 +139,7 @@ pip install -r requirements.txt
 ```
 
 4. Fill out the secrets file (you will need to create a file at `backend/src/.env.local`). It looks like:
+
 ```
 # TTS Params
 TTS_API_KEY=""
@@ -99,7 +159,7 @@ CT_DB_USERNAME=""
 CT_DB_PASSWORD=""
 ```
 
-For the S3 params notice the AWS Key fields. You will want to create an IAM user with minimal privileges to ensure the principle of least privilege for access. You want this user to have nearly full access to your created S3 bucket (see Infrastructure below) and a `delectLabel` permission on AWS Rekognition. 
+For the S3 params notice the AWS Key fields. You will want to create an IAM user with minimal privileges to ensure the principle of least privilege for access. You want this user to have nearly full access to your created S3 bucket (see Infrastructure below) and a `delectLabel` permission on AWS Rekognition.
 
 5. Run the backend!
 
@@ -107,57 +167,58 @@ For the S3 params notice the AWS Key fields. You will want to create an IAM user
 uvicorn src.main:app --reload --env-file ./src/.env.local
 ```
 
-### Infrastructure Deployment 
+### Infrastructure Deployment
 
 ### S3
+
 The app above needs a `s3` bucket to run as implied by the backend secrets and frontend `.env` files. You need to simply create an AWS bucket with a public read and private write via an S3 Bucket policy.
 
-Here is our bucket policy that allows for a public read yet private write: 
+Here is our bucket policy that allows for a public read yet private write:
 
-> The first statement is not required. 
+> The first statement is not required.
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowMyAccountToUpload",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::{YOUR_AWS_ID_HERE}:root"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*"
-        },
-        {
-            "Sid": "AllowPublicRead",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:GetObjectAcl",
-                "s3:GetObjectVersionAcl"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*",
-                "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowMyAccountToUpload",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::{YOUR_AWS_ID_HERE}:root"
+      },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*"
+    },
+    {
+      "Sid": "AllowPublicRead",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetObjectAcl",
+        "s3:GetObjectVersionAcl"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}/*",
+        "arn:aws:s3:::{YOUR_SELECTED_BUCKET_NAME_HERE}"
+      ]
+    }
+  ]
 }
 ```
 
 #### Terraform
 
-This one is complicated as it deals with the creation of cloud resources on the public cloud. There is a file called `variables.tf` and this file is the only one that needs to change for deployment. Since you do not own the same domain names I do and you do not want to name each item the way I name it you will need to change name strings in this file. 
+This one is complicated as it deals with the creation of cloud resources on the public cloud. There is a file called `variables.tf` and this file is the only one that needs to change for deployment. Since you do not own the same domain names I do and you do not want to name each item the way I name it you will need to change name strings in this file.
 
-The rest of the deployment directions are located in `terraform/readme.md` which details how to keep Terraform secrets which are used to hide the user/password to the RDS database deployed by terraform. 
-
+The rest of the deployment directions are located in `terraform/readme.md` which details how to keep Terraform secrets which are used to hide the user/password to the RDS database deployed by terraform.
 
 ### Collaborators
 
-[//]: # ( readme: collaborators -start )
+[//]: # " readme: collaborators -start "
+
 <table>
 <tr>
     <td align="center">
@@ -212,7 +273,7 @@ The rest of the deployment directions are located in `terraform/readme.md` which
 </tr>
 </table>
 
-[//]: # ( readme: collaborators -end )
+[//]: # " readme: collaborators -end "
 
 [^1]: What is AAC Modeling? www.assistiveware.com/learn-aac/start-modeling
 [^2]: Competitor - Fluent AAC: https://www.fluentaac.com/
