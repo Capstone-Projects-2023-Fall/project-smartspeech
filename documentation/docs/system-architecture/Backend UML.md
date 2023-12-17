@@ -9,14 +9,14 @@ sidebar_position: 2
 ```mermaid
 classDiagram
   class FastAPI {
-    
+
   }
 
-  class RecognizeHandler {
+  class rekognition_router {
     + handle(request: Request) Response
   }
 
-  class TilesHandler {
+  class custom_tiles_router {
     + handle(request: Request) Response
   }
 
@@ -25,33 +25,29 @@ classDiagram
     detect_labels(**kwargs)
   }
 
-  class Suggestion {
+  class similarity_router {
     nlp: Language
     + similar(words: List[str]) List[str]
     vocab_similarity(word: str) List[float]
   }
 
-  class Tts {
-    router: APIRouter
+  class tts_router {
     tts(phrase: str) Response
   }
 
-  class S3 {
-    router: APIRouter
+  class s3_router {
     upload_file_to_s3(base64File: str, file_name: str, extension: str, force_unique: bool) Response
     get_file_from_s3(filename: str, get_url: bool) Response
   }
 
-  FastAPI --> RecognizeHandler: routes /recognize requests
-  FastAPI --> TilesHandler: routes /tile requests
-  FastAPI --> Suggestion: call in /similarity
-  FastAPI --> Tts: passes /tts to Tts.router
-  FastAPI --> S3: routes /s3 requests
+  FastAPI --> rekognition_router: routes /recognize requests
+  FastAPI --> custom_tiles_router: routes /custom-tile requests
+  FastAPI --> similarity_router: routes /similarity requests
+  FastAPI --> tts_router: passes /tts to Tts.router
+  FastAPI --> s3_router: routes /s3 requests
+  tts_router --> s3_router: uses to cache audio files
 
-  Tts --> S3: uses to cache audio files
-
-  RecognizeHandler o-- Amazon_Rekognition: uses for image recognition 
-  RecognizeHandler o-- S3: uses to store images
+  rekognition_router o-- Amazon_Rekognition: uses for image recognition
 ```
 
-In this Diagram, the FASTAPI application will send routes to python submodules. Some submodules make use of AWS services like Rekognition or S3 (Object Storage).
+In this Diagram, the FASTAPI application will send routes to python submodules. Some submodules make use of AWS services like Rekognition, S3 (Object Storage), or RDS.
